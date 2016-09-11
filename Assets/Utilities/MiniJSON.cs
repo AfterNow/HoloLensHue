@@ -31,6 +31,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using UnityEngine.Networking;
 
 namespace MiniJSON
 {
@@ -448,6 +449,11 @@ namespace MiniJSON
         public static string Serialize(object obj)
         {
             return Serializer.Serialize(obj);
+        }
+
+        internal static T Deserialize<T>(UnityWebRequest lights_json)
+        {
+            throw new NotImplementedException();
         }
 
         sealed class Serializer

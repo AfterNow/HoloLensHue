@@ -105,7 +105,7 @@ public class HueBridgeManager : MonoBehaviour {
                 State smartLightState = new State(on, bri, hue, sat, effect, alert);
                 smartLights.Add(new SmartLight(id, light["name"].ToString(), light["modelid"].ToString(), smartLightState));
             }
-            SendMessage("createLights", smartLights);
+            //SendMessage("createLights", smartLights);
         }
         else
         {

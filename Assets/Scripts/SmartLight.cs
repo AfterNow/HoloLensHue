@@ -69,6 +69,7 @@ public class State
         this.sat = sat;
         this.alert = alert;
         this.effect = effect;
+        EventManager.TriggerEvent("test");
     }
 
     //Accessor Functions

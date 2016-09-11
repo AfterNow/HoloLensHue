@@ -380,6 +380,8 @@ GameObject:
   - 4: {fileID: 1022827888}
   - 114: {fileID: 1022827887}
   - 114: {fileID: 1022827889}
+  - 114: {fileID: 1022827890}
+  - 114: {fileID: 1022827891}
   m_Layer: 0
   m_Name: AppManager
   m_TagString: Untagged
@@ -426,6 +428,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   appState: 
+--- !u!114 &1022827890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1022827886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2c84ed6ba6252a4d99a36e36d98aefd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1022827891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1022827886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d5b622b3baa564ca01a237011bac35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1032399441
 GameObject:
   m_ObjectHideFlags: 0
