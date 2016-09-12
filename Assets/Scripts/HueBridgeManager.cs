@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 
 using MiniJSON;
-
+using System.Linq;
 
 public class HueBridgeManager : MonoBehaviour {
 
@@ -18,12 +18,15 @@ public class HueBridgeManager : MonoBehaviour {
     public UnityWebRequest lights_json;
     public List<SmartLight> smartLights = null;
 
+    private SmartLightManager slm;
+
     // TODO remove mock data
     MockSmartLights mockLights;
 
     void Awake()
     {
         smartLights = new List<SmartLight>();
+        slm = GetComponent<SmartLightManager>();
     }
     void Start()
     {
@@ -38,7 +41,7 @@ public class HueBridgeManager : MonoBehaviour {
             if (StateManager.Instance.CurrentState == StateManager.HueAppState.Start)
             {
                 StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
-                StartCoroutine(DiscoverLights(convertLightData));
+                StartCoroutine(DiscoverLights(lightDataToClass));
             }
             else
             {
@@ -66,22 +69,30 @@ public class HueBridgeManager : MonoBehaviour {
         string jsonValue = lights_json.downloadHandler.text;
         if (jsonValue.Contains("error"))
         {
-            Debug.LogError("A bridge could not be found or could not be accessed at this time.");
-            StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Failed;
+            if (jsonValue.Contains("unauthorized "))
+            {
+                Debug.LogError("Unauthorized user. Please add valid Username to Hue Bridge Manager.");
+            }
+            else
+            {
+                Debug.LogError("A bridge could not be found or could not be accessed at this time.");
+                StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Failed;
+            }
         }
         else
         {
             Debug.Log(lights_json.downloadHandler.text);
-            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+            StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
             nextAction();
         }
     }
 
-    void convertLightData()
+    void lightDataToClass()
     {
-        if (StateManager.Instance.CurrentState == StateManager.HueAppState.Ready && lights_json != null)
+        if (StateManager.Instance.CurrentState == StateManager.HueAppState.ConnectedDevices_Initialized && lights_json != null)
         {
             var lights = (Dictionary<string, object>)Json.Deserialize(lights_json.downloadHandler.text);
+
             foreach (string key in lights.Keys)
             {
                 // init state types
@@ -105,7 +116,15 @@ public class HueBridgeManager : MonoBehaviour {
                 State smartLightState = new State(on, bri, hue, sat, effect, alert);
                 smartLights.Add(new SmartLight(id, light["name"].ToString(), light["modelid"].ToString(), smartLightState));
             }
-            //SendMessage("createLights", smartLights);
+            // sends collection of lights to the SmartLightManager to handle all future changes
+            if (slm != null)
+            {
+                slm.InitSmartLightManager(smartLights);
+            }
+            else
+            {
+                Debug.LogError("No SmartLightManager was found on this GameObject");
+            }
         }
         else
         {

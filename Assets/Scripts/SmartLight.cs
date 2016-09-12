@@ -21,25 +21,52 @@ public class SmartLight
     }
 
     //Accessor Functions
-    public int getID()
+    public int ID
     {
-        return id;
+        get
+        {
+            return id;
+        }
+        set
+        {
+            id = value;
+        }
     }
 
-    public string getName()
+    public string Name
     {
-        return name;
+        get
+        {
+            return name;
+        }
+        set
+        {
+            name = value;
+        }
     }
-    //public string getName { get { return name; } }
 
-    public string getModelid()
+    public string Modelid
     {
-        return modelid;
+        get
+        {
+            return modelid;
+        }
+        set
+        {
+            modelid = value;
+        }
     }
 
-    public State getState()
+    public State State
     {
-        return state;
+        get
+        {
+            return state;
+        }
+        set
+        {
+            state = value;
+        }
     }
 
     private int id;
@@ -69,38 +96,80 @@ public class State
         this.sat = sat;
         this.alert = alert;
         this.effect = effect;
-        EventManager.TriggerEvent("test");
+        //EventManager.TriggerEvent("test");
     }
 
     //Accessor Functions
-    public bool isOn()
+    public bool On
     {
-        return on;
+        get
+        {
+            return on;
+        }
+        set
+        {
+            on = value;
+        }
     }
 
-    public int getBri()
+    public int Bri
     {
-        return bri;
+        get
+        {
+            return bri;
+        }
+        set
+        {
+            bri = value;
+        }
     }
 
-    public int getHue()
+    public int Hue
     {
-        return hue;
+        get
+        {
+            return hue;
+        }
+        set
+        {
+            hue = value;
+        }
     }
 
-    public int getSat()
+    public int Sat
     {
-        return sat;
+        get
+        {
+            return sat;
+        }
+        set
+        {
+            sat = value;
+        }
     }
 
-    public string getAlert()
+    public string Alert
     {
-        return alert;
+        get
+        {
+            return alert;
+        }
+        set
+        {
+            alert = value;
+        }
     }
 
-    public string getEffect()
+    public string Effect
     {
-        return effect;
+        get
+        {
+            return effect;
+        }
+        set
+        {
+            effect = value;
+        }
     }
 
     //Mutator Functions

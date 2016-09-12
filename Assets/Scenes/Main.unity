@@ -378,8 +378,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1022827888}
-  - 114: {fileID: 1022827887}
   - 114: {fileID: 1022827889}
+  - 114: {fileID: 1022827887}
+  - 114: {fileID: 1022827892}
   - 114: {fileID: 1022827890}
   - 114: {fileID: 1022827891}
   m_Layer: 0
@@ -400,9 +401,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050dfe80fffbae14095c1e4db418e550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bridgeip: 192.168.0.16
+  bridgeip: 10.0.3.19
   portNumber: 8000
-  username: htmGDCVxz4K2kldTD0zrQis3IDNm2RKHAPx8YVU0
+  username: ovSIHZ53mckvdsJtqI6-9dN-cwWefSqSNTQimCE-
 --- !u!4 &1022827888
 Transform:
   m_ObjectHideFlags: 0
@@ -450,6 +451,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d5b622b3baa564ca01a237011bac35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bridge: {fileID: 1022827886}
+--- !u!114 &1022827892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1022827886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e329d9ace6fa794eb351792d3eab972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bridgeSL: {fileID: 0}
 --- !u!1 &1032399441
 GameObject:
   m_ObjectHideFlags: 0
