@@ -18,6 +18,8 @@ public class HueBridgeManager : MonoBehaviour {
     public UnityWebRequest lights_json;
     public List<SmartLight> smartLights = null;
 
+    [Tooltip("Drag parent object containing all holograms or GameObject with SmartLightManager script attached")]
+    public GameObject hologramCollection;
     private SmartLightManager slm;
 
     // TODO remove mock data
@@ -26,7 +28,7 @@ public class HueBridgeManager : MonoBehaviour {
     void Awake()
     {
         smartLights = new List<SmartLight>();
-        slm = GetComponent<SmartLightManager>();
+        slm = hologramCollection.GetComponent<SmartLightManager>();
     }
     void Start()
     {
@@ -66,10 +68,16 @@ public class HueBridgeManager : MonoBehaviour {
         }
         yield return lights_json.Send();
 
+        if (lights_json.isError)
+        {
+            Debug.LogError("The request timed out. Please check your Bridge IP and internet connection");
+            yield break;
+        }
+
         string jsonValue = lights_json.downloadHandler.text;
         if (jsonValue.Contains("error"))
         {
-            if (jsonValue.Contains("unauthorized "))
+            if (jsonValue.Contains("unauthorized"))
             {
                 Debug.LogError("Unauthorized user. Please add valid Username to Hue Bridge Manager.");
             }
@@ -123,7 +131,7 @@ public class HueBridgeManager : MonoBehaviour {
             }
             else
             {
-                Debug.LogError("No SmartLightManager was found on this GameObject");
+                Debug.LogError("No SmartLightManager was found. Please check inspector and be sure the correct GameObject is set on the HueBridgeManager");
             }
         }
         else
