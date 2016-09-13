@@ -48,10 +48,11 @@ public class SmartLightManager : MonoBehaviour {
             Vector4 ledColor = ColorService.GetColorByHue(light.State.Hue);
             rend.material.color = ledColor;
 
-            if (StateManager.Instance.CurrentState != StateManager.HueAppState.Editing)
-            {
-                rend.enabled = false;
-            }
+            // TODO commented out while testing. This hides spawned prefabs.
+            //if (!StateManager.Instance.Editing)
+            //{
+            //    rend.enabled = false;
+            //}
 
             // increments x value to space out spawned prefabs
             pos += new Vector3(1, 0, 0);

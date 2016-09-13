@@ -13,7 +13,7 @@ public class StateManager : Singleton<StateManager>
     public enum HueAppState
     {
         // Overall states
-        Start,
+        Starting,
         Ready,
         Editing,
         // IoT Devices values
@@ -22,7 +22,7 @@ public class StateManager : Singleton<StateManager>
         ConnectedDevices_Failed
     }
 
-    HueAppState currentState = HueAppState.Start;
+    HueAppState currentState = HueAppState.Starting;
 
     public HueAppState CurrentState
     {
@@ -42,6 +42,30 @@ public class StateManager : Singleton<StateManager>
         get
         {
             return currentState.ToString();
+        }
+    }
+
+    public bool Editing
+    {
+        get
+        {
+            return currentState == HueAppState.Editing;
+        }
+    }
+
+    public bool Starting
+    {
+        get
+        {
+            return currentState == HueAppState.Starting;
+        }
+    }
+
+    public bool ConnectedDevices_Initialized
+    {
+        get
+        {
+            return currentState == HueAppState.ConnectedDevices_Initialized;
         }
     }
 

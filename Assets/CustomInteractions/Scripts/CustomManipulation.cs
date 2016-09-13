@@ -63,17 +63,12 @@ namespace HoloToolkit.Unity
 
         private void BeginManipulation()
         {
-            if (GazeManager.Instance != null)
-            {
-                Debug.Log("Here is HitInfo: " + GazeManager.Instance.HitInfo.collider.name);
-                Debug.Log("Here is GO Name: " + gameObject.name);
-            }
-
+            // TODO commented out while testing. Uncommenting will prevent SmartLight GameObjects from being moved unless StateManager currentState is set to Editing
+            // if (GestureManager.Instance != null && GestureManager.Instance.ManipulationInProgress && StateManager.Instance.Editing)
             if (GestureManager.Instance != null && GestureManager.Instance.ManipulationInProgress)
-            {
+                {
                 if (!grouped && GazeManager.Instance.HitInfo.collider.name == gameObject.name)
                 {
-                    Debug.Log("whoa this worked");
                     Manipulating = true;
 
                     targetInterpolator = gameObject.GetComponent<Interpolator>();

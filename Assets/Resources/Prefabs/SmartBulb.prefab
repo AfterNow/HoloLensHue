@@ -22,6 +22,7 @@ GameObject:
   - 33: {fileID: 33000011686207988}
   - 135: {fileID: 135000010211228574}
   - 23: {fileID: 23000013873900392}
+  - 114: {fileID: 114000013288608934}
   m_Layer: 0
   m_Name: SmartBulb
   m_TagString: Untagged
@@ -77,6 +78,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012987507904}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114000013288608934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012987507904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15e63dd7a7b5544bba69f3122447709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handPositionScale: {x: 2, y: 2, z: 4}
+  grouped: 0
 --- !u!135 &135000010211228574
 SphereCollider:
   m_ObjectHideFlags: 1

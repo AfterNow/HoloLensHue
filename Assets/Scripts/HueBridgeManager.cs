@@ -40,7 +40,7 @@ public class HueBridgeManager : MonoBehaviour {
 
         if ((!bridgeip.Equals("127.0.0.1")) && (!username.Equals("newdeveloper")))
         {
-            if (StateManager.Instance.CurrentState == StateManager.HueAppState.Start)
+            if (StateManager.Instance.Starting)
             {
                 StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
                 StartCoroutine(DiscoverLights(lightDataToClass));
@@ -97,7 +97,7 @@ public class HueBridgeManager : MonoBehaviour {
 
     void lightDataToClass()
     {
-        if (StateManager.Instance.CurrentState == StateManager.HueAppState.ConnectedDevices_Initialized && lights_json != null)
+        if (StateManager.Instance.ConnectedDevices_Initialized && lights_json != null)
         {
             var lights = (Dictionary<string, object>)Json.Deserialize(lights_json.downloadHandler.text);
 
