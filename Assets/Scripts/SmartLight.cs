@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class SmartLight
 {
     public SmartLight()
@@ -75,6 +76,7 @@ public class SmartLight
     private State state;
 }
 
+[System.Serializable]
 public class State
 {
 

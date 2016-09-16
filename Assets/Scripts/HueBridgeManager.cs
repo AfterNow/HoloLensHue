@@ -18,8 +18,7 @@ public class HueBridgeManager : MonoBehaviour {
     public UnityWebRequest lights_json;
     public List<SmartLight> smartLights = null;
 
-    [Tooltip("Drag parent object containing all holograms or GameObject with SmartLightManager script attached")]
-    public GameObject hologramCollection;
+    private GameObject hologramCollection;
     private SmartLightManager slm;
 
     // TODO remove mock data
@@ -28,8 +27,17 @@ public class HueBridgeManager : MonoBehaviour {
     void Awake()
     {
         smartLights = new List<SmartLight>();
-        slm = hologramCollection.GetComponent<SmartLightManager>();
+        if (GameObject.Find("HologramCollection") != null)
+        {
+            hologramCollection = GameObject.Find("HologramCollection");
+            slm = hologramCollection.GetComponent<SmartLightManager>();
+        }
+        else
+        {
+            Debug.LogError("No GameObject name HologramCollection can be found. This object should contain all holograms and the SmartLightManager");
+        }   
     }
+
     void Start()
     {
        // MOCK smart lights for testing
@@ -91,6 +99,7 @@ public class HueBridgeManager : MonoBehaviour {
         {
             Debug.Log(lights_json.downloadHandler.text);
             StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
+            GetComponent<VoiceManager>().RegisterPhrases();
             nextAction();
         }
     }
