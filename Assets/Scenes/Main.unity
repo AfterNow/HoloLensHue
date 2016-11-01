@@ -186,6 +186,11 @@ Prefab:
       propertyPath: drawVisualMeshes
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012149591842, guid: 2ed75ffdf9031c94e8bce4b3d17b9928,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2ed75ffdf9031c94e8bce4b3d17b9928, type: 2}
   m_IsPrefabParent: 0
@@ -404,6 +409,7 @@ MonoBehaviour:
   bridgeip: 10.0.3.19
   portNumber: 8000
   username: i2Voaj8bPhY53PNDxstogI2so6WL-K9OEWaE7N6s
+  smartLights: []
 --- !u!4 &1022827888
 Transform:
   m_ObjectHideFlags: 0
