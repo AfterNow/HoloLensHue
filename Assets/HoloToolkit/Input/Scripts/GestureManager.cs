@@ -22,6 +22,22 @@ namespace HoloToolkit.Unity
     public partial class GestureManager : Singleton<GestureManager>
     {
         /// <summary>
+        /// Occurs when a navigation gesture has started
+        /// </summary>
+        public System.Action NavigationStarted;
+
+        /// <summary>
+        /// Occurs when a navigation gesture ended as a result of user input
+        /// </summary>
+        public System.Action NavigationCompleted;
+
+        /// <summary>
+        /// Occurs when a navigation gesture ended as a result of some other condition.
+        /// (e.g. the hand being used for the gesture is no longer visible).
+        /// </summary>
+        public System.Action NavigationCanceled;
+
+        /// <summary>
         /// Occurs when a manipulation gesture has started
         /// </summary>
         public System.Action ManipulationStarted;
@@ -48,11 +64,16 @@ namespace HoloToolkit.Unity
         /// If its null, then the gazed at object will be selected.
         /// </summary>
         public GameObject OverrideFocusedObject { get; set; }
-        
+
         /// <summary>
         /// Gets the currently focused object, or null if none.
         /// </summary>
         public GameObject FocusedObject { get; private set; }
+
+        /// <summary>
+        /// Whether or not a navigation gesture is currently in progress
+        /// </summary>
+        public bool NavigationInProgress { get; private set; }
 
         /// <summary>
         /// Whether or not a manipulation gesture is currently in progress
@@ -61,10 +82,31 @@ namespace HoloToolkit.Unity
 
         /// <summary>
         /// The offset of the hand from its position at the beginning of 
+        /// the currently active navigation gesture, in world space.  Not valid if
+        /// a navigation gesture is not in progress
+        /// </summary>
+        public Vector3 NavigationOffset { get; private set; }
+
+        /// <summary>
+        /// The offset of the hand from its position at the beginning of 
         /// the currently active manipulation gesture, in world space.  Not valid if
         /// a manipulation gesture is not in progress
         /// </summary>
         public Vector3 ManipulationOffset { get; private set; }
+
+        /// <summary>
+        /// The world space position of the hand being used for the current navigation gesture.  Not valid
+        /// if a navigation gesture is not in progress.
+        /// </summary>
+        public Vector3 NavigationHandPosition
+        {
+            get
+            {
+                Vector3 handPosition = Vector3.zero;
+                currentHandState.properties.location.TryGetPosition(out handPosition);
+                return handPosition;
+            }
+        }
 
         /// <summary>
         /// The world space position of the hand being used for the current manipulation gesture.  Not valid
@@ -81,10 +123,13 @@ namespace HoloToolkit.Unity
         }
 
         private GestureRecognizer gestureRecognizer;
-        // We use a separate manipulation recognizer here because the tap gesture recognizer cancels
+        // We use a separate manipulation and navigation recognizer here because the tap gesture recognizer cancels
         // capturing gestures whenever the GazeManager focus changes, which is not the behavior
-        // we want for manipulation
+        // we want for manipulation or navigation
+        private GestureRecognizer navigationRecognizer;
         private GestureRecognizer manipulationRecognizer;
+
+        private bool hasRecognitionStarted = false;
 
         private bool HandPressed { get { return pressedHands.Count > 0; } }
         private HashSet<uint> pressedHands = new HashSet<uint>();
@@ -102,10 +147,24 @@ namespace HoloToolkit.Unity
             gestureRecognizer = new GestureRecognizer();
             gestureRecognizer.SetRecognizableGestures(GestureSettings.Tap);
 
+            navigationRecognizer = new GestureRecognizer();
+            navigationRecognizer.SetRecognizableGestures(GestureSettings.NavigationX);
+            navigationRecognizer.SetRecognizableGestures(GestureSettings.NavigationY);
+
             manipulationRecognizer = new GestureRecognizer();
             manipulationRecognizer.SetRecognizableGestures(GestureSettings.ManipulationTranslate);
 
             gestureRecognizer.TappedEvent += GestureRecognizer_TappedEvent;
+
+            // We need to send pressed and released events to UI so they can provide visual feedback
+            // of the current state of the UI based on user input.
+            gestureRecognizer.RecognitionStartedEvent += GestureRecognizer_RecognitionStartedEvent;
+            gestureRecognizer.RecognitionEndedEvent += GestureRecogniser_RecognitionEndedEvent;
+
+            navigationRecognizer.NavigationStartedEvent += NavigationRecognizer_NavigationStartedEvent;
+            navigationRecognizer.NavigationUpdatedEvent += NavigationRecognizer_NavigationUpdatedEvent;
+            navigationRecognizer.NavigationCompletedEvent += NavigationRecognizer_NavigationCompletedEvent;
+            navigationRecognizer.NavigationCanceledEvent += NavigationRecognizer_NavigationCanceledEvent;
 
             manipulationRecognizer.ManipulationStartedEvent += ManipulationRecognizer_ManipulationStartedEvent;
             manipulationRecognizer.ManipulationUpdatedEvent += ManipulationRecognizer_ManipulationUpdatedEvent;
@@ -114,10 +173,9 @@ namespace HoloToolkit.Unity
 
             // Start looking for gestures.
             gestureRecognizer.StartCapturingGestures();
+            navigationRecognizer.StartCapturingGestures();
             manipulationRecognizer.StartCapturingGestures();
         }
-
-
 
         private void InteractionManager_SourcePressed(InteractionSourceState state)
         {
@@ -152,11 +210,53 @@ namespace HoloToolkit.Unity
             OnTap();
         }
 
+        private void GestureRecognizer_RecognitionStartedEvent(InteractionSourceKind source, Ray headRay)
+        {
+            OnRecognitionStarted();
+        }
+
+        private void GestureRecogniser_RecognitionEndedEvent(InteractionSourceKind source, Ray headRay)
+        {
+            OnRecognitionEndeded();
+        }
+
         private void OnTap()
         {
             if (FocusedObject != null)
             {
-                FocusedObject.SendMessage("OnSelect");
+                FocusedObject.SendMessage("OnSelect", SendMessageOptions.DontRequireReceiver);
+            }
+        }
+
+        private void OnRecognitionStarted()
+        {
+            if (FocusedObject != null)
+            {
+                hasRecognitionStarted = true;
+                FocusedObject.SendMessage("OnPressed", SendMessageOptions.DontRequireReceiver);
+            }
+        }
+
+        private void OnRecognitionEndeded()
+        {
+            if (FocusedObject != null && hasRecognitionStarted)
+            {
+                FocusedObject.SendMessage("OnReleased", SendMessageOptions.DontRequireReceiver);
+            }
+
+            hasRecognitionStarted = false;
+        }
+
+        private void NavigationRecognizer_NavigationStartedEvent(InteractionSourceKind source, Vector3 cumulativeDelta, Ray headRay)
+        {
+            // Don't start another manipulation gesture if one is already underway
+            if (!NavigationInProgress)
+            {
+                OnNavigation(true, cumulativeDelta);
+                if (NavigationStarted != null)
+                {
+                    NavigationStarted();
+                }
             }
         }
 
@@ -178,12 +278,35 @@ namespace HoloToolkit.Unity
             OnManipulation(true, cumulativeDelta);
         }
 
+        private void NavigationRecognizer_NavigationUpdatedEvent(InteractionSourceKind source, Vector3 cumulativeDelta, Ray headRay)
+        {
+            OnNavigation(true, cumulativeDelta);
+        }
+
+        private void NavigationRecognizer_NavigationCompletedEvent(InteractionSourceKind source, Vector3 cumulativeDelta, Ray headRay)
+        {
+            OnNavigation(false, cumulativeDelta);
+            if (NavigationCompleted != null)
+            {
+                NavigationCompleted();
+            }
+        }
+
         private void ManipulationRecognizer_ManipulationCompletedEvent(InteractionSourceKind source, Vector3 cumulativeDelta, Ray headRay)
         {
             OnManipulation(false, cumulativeDelta);
             if (ManipulationCompleted != null)
             {
                 ManipulationCompleted();
+            }
+        }
+
+        private void NavigationRecognizer_NavigationCanceledEvent(InteractionSourceKind source, Vector3 cumulativeDelta, Ray headRay)
+        {
+            OnNavigation(false, cumulativeDelta);
+            if (NavigationCanceled != null)
+            {
+                NavigationCompleted();
             }
         }
 
@@ -196,6 +319,12 @@ namespace HoloToolkit.Unity
             }
         }
 
+        private void OnNavigation(bool inProgress, Vector3 offset)
+        {
+            NavigationInProgress = inProgress;
+            NavigationOffset = offset;
+        }
+
         private void OnManipulation(bool inProgress, Vector3 offset)
         {
             ManipulationInProgress = inProgress;
@@ -204,7 +333,9 @@ namespace HoloToolkit.Unity
 
         void LateUpdate()
         {
-            GameObject oldFocusedObject = FocusedObject;
+            // set the next focus object to see if focus has changed, but don't replace the current focused object
+            // until all the inputs are handled, like Unity Editor input for OnTap().
+            GameObject newFocusedObject;
 
             if (GazeManager.Instance.Hit &&
                 OverrideFocusedObject == null &&
@@ -212,34 +343,44 @@ namespace HoloToolkit.Unity
             {
                 // If gaze hits a hologram, set the focused object to that game object.
                 // Also if the caller has not decided to override the focused object.
-                FocusedObject = GazeManager.Instance.HitInfo.collider.gameObject;
+                newFocusedObject = GazeManager.Instance.HitInfo.collider.gameObject;
             }
             else
             {
                 // If our gaze doesn't hit a hologram, set the focused object to null or override focused object.
-                FocusedObject = OverrideFocusedObject;
+                newFocusedObject = OverrideFocusedObject;
             }
 
-            if (FocusedObject != oldFocusedObject)
-            {
-                // If the currently focused object doesn't match the old focused object, cancel the current gesture.
-                // Start looking for new gestures.  This is to prevent applying gestures from one hologram to another.
-                gestureRecognizer.CancelGestures();
-                gestureRecognizer.StartCapturingGestures();
-            }
+            bool focusedChanged = FocusedObject != newFocusedObject;
 
 #if UNITY_EDITOR
             if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(EditorSelectKey))
             {
                 OnTap();
+                OnRecognitionStarted();
+            }
+
+            if (Input.GetMouseButtonUp(1) || Input.GetKeyUp(EditorSelectKey) || focusedChanged)
+            {
+                OnRecognitionEndeded();
             }
 #endif
+            if (focusedChanged)
+            {
+                // If the currently focused object doesn't match the new focused object, cancel the current gesture.
+                // Start looking for new gestures.  This is to prevent applying gestures from one hologram to another.
+                gestureRecognizer.CancelGestures();
+                FocusedObject = newFocusedObject;
+                gestureRecognizer.StartCapturingGestures();
+            }
         }
 
         void OnDestroy()
         {
             gestureRecognizer.StopCapturingGestures();
             gestureRecognizer.TappedEvent -= GestureRecognizer_TappedEvent;
+            gestureRecognizer.RecognitionStartedEvent -= GestureRecognizer_RecognitionStartedEvent;
+            gestureRecognizer.RecognitionEndedEvent -= GestureRecogniser_RecognitionEndedEvent;
 
             manipulationRecognizer.StopCapturingGestures();
             manipulationRecognizer.ManipulationStartedEvent -= ManipulationRecognizer_ManipulationStartedEvent;

@@ -19,7 +19,9 @@ public class StateManager : Singleton<StateManager>
         // IoT Devices values
         ConnectedDevices_Initializing,
         ConnectedDevices_Initialized,
-        ConnectedDevices_Failed
+        ConnectedDevices_Failed,
+        // Interface States
+        LightUI_Active
     }
 
     HueAppState currentState = HueAppState.Starting;
