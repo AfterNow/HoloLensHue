@@ -118,19 +118,19 @@ public class HueBridgeManager : MonoBehaviour {
                 string effect, alert;
 
                 var light = (Dictionary<string, object>)lights[key];
-                var state = (Dictionary<string, dynamic>)light["state"];
+                //var state = (Dictionary<string, dynamic>)light["state"];
 
-                // converting needs to be done prior to instantiating new SmartLight
-                on = Convert.ToBoolean(state["on"]);
-                bri = Convert.ToInt32(state["bri"]);
-                hue = Convert.ToInt32(state["hue"]);
-                sat = Convert.ToInt32(state["sat"]);
-                effect = Convert.ToString(state["effect"]);
-                alert = Convert.ToString(state["alert"]);
+                //// converting needs to be done prior to instantiating new SmartLight
+                //on = Convert.ToBoolean(state["on"]);
+                //bri = Convert.ToInt32(state["bri"]);
+                //hue = Convert.ToInt32(state["hue"]);
+                //sat = Convert.ToInt32(state["sat"]);
+                //effect = Convert.ToString(state["effect"]);
+                //alert = Convert.ToString(state["alert"]);
 
                 id = Convert.ToInt32(key);
-
-                State smartLightState = new State(on, bri, hue, sat, effect, alert);
+                State smartLightState = new State(true, 254, 0, 254, "none", "none");
+                //State smartLightState = new State(on, bri, hue, sat, effect, alert);
                 smartLights.Add(new SmartLight(id, light["name"].ToString(), light["modelid"].ToString(), smartLightState));
             }
             // sends collection of lights to the SmartLightManager to handle all future changes

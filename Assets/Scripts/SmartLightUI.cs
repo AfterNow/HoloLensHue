@@ -36,6 +36,7 @@ public class SmartLightUI : MonoBehaviour {
     public void OnSelect()
     {
         showLightUI = !showLightUI;
+        // TODO Needs to check is exists first
         lightUIHologram.SetActive(showLightUI);
     }
 }
