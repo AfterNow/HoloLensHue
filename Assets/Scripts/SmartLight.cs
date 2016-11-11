@@ -82,7 +82,7 @@ public class State
 
     public State()
     {
-        on = false;
+        on = true;
         bri = 254;
         hue = 2762;
         sat = 254;

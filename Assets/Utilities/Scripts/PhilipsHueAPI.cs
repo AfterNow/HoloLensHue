@@ -30,7 +30,7 @@ public class PhilipsHueAPI : Singleton<PhilipsHueAPI> {
     private IEnumerator updateLight(SmartLight sl)
     {
         string request = "http://" + bridgeValues.bridgeip + "/api/" + bridgeValues.username + "/lights/" + sl.ID.ToString() + "/state";
-        Debug.Log("Send triggered to " + request);
+        //Debug.Log("Send triggered to " + request);
 
         string json = JsonUtility.ToJson(sl.State);
 

@@ -119,16 +119,16 @@ public class SmartLightManager : MonoBehaviour {
 
     public void SetLightsToDefault()
     {
-        for (int i = 0; i < lights.Count; i++)
-        {
-            State currentState;
-            currentState = lights[i].State;
-            currentState.setHue(16000);
-            currentState.setBri(254);
-            currentState.setSat(150);
-            currentState.setAlert("none");
-            // compensate for index vs request id
-            hueAPI.UpdateLight(lights[i + 1]);
-        }
+        //for (int i = 0; i < lights.Count; i++)
+        //{
+        //    State currentState;
+        //    currentState = lights[i].State;
+        //    currentState.setHue(16000);
+        //    currentState.setBri(254);
+        //    currentState.setSat(150);
+        //    currentState.setAlert("none");
+        //    // compensate for index vs request id
+        //    hueAPI.UpdateLight(lights[i + 1]);
+        //}
     }
 }
