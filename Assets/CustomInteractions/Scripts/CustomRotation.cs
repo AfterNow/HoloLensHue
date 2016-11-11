@@ -2,7 +2,8 @@
 //using HoloToolkit.Unity;
 //using System.Collections;
 
-//public class CustomRotation : MonoBehaviour {
+//public class CustomRotation : MonoBehaviour
+//{
 
 //    [Tooltip("How much to scale each axis of hand movement (camera relative) when manipulating the object")]
 //    public Vector3 handRotationScale = new Vector3(2.0f, 2.0f, 4.0f);  // Default tuning values, expected to be modified per application
@@ -10,7 +11,7 @@
 //    [Tooltip("Rotation speed - the higher the number the quick the acceleration and maximun speed.")]
 //    public float RotationSensitivity = 5f;
 
-//    public enum ActiveAxis{ x, y, z, xy }
+//    public enum ActiveAxis { x, y, z, xy }
 //    ActiveAxis currentAxis = ActiveAxis.xy;
 
 //    // GameObject to represent NavigationY
@@ -22,7 +23,7 @@
 
 //    private Vector3 initialHandPosition;
 //    private Vector3 initialObjectPosition;
-      
+
 //    private Interpolator targetInterpolator;
 
 //    private bool Navigating { get; set; }
@@ -42,7 +43,7 @@
 //        }
 //    }
 
-//    private void OnDisable() 
+//    private void OnDisable()
 //    {
 //        if (GestureManager.Instance)
 //        {

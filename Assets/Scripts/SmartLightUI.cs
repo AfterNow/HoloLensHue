@@ -19,9 +19,9 @@ public class SmartLightUI : MonoBehaviour {
         if (sl.Name == gameObject.name)
         {
             Renderer rend = gameObject.GetComponent<Renderer>();
-            Debug.Log(sl.State.Hue);
+            //Debug.Log(sl.State.Hue);
             Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
-            Debug.Log(ledColor);
+            //Debug.Log(ledColor);
             rend.material.color = ledColor;
         }
     }

@@ -117,7 +117,7 @@ namespace HoloToolkit.Unity
         }
 
         /// <summary>
-        /// OWhether or not a navigation gesture is currently in progress
+        /// Whether or not a navigation gesture is currently in progress
         /// </summary>
         public bool NavigationInProgress { get; private set; }
 

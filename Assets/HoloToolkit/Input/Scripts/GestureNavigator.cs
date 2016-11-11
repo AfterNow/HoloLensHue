@@ -24,6 +24,10 @@ namespace HoloToolkit.Unity
         [Tooltip("How much to scale each axis of movement (camera relative) when manipulating the object")]
         public Vector3 PositionScale = new Vector3(2.0f, 2.0f, 4.0f);  // Default tuning values, expected to be modified per application
 
+        //public bool AxisX, AxisY, AxisZ;
+
+        private NavigatorActions navigatorActions;
+
         private Vector3 initialNavigationPosition;
 
         private Vector3 initialObjectPosition;
@@ -44,18 +48,23 @@ namespace HoloToolkit.Unity
             }
         }
 
+        private void Start()
+        {
+            navigatorActions = GetComponent<NavigatorActions>();
+        }
+
         private void OnEnable()
         {
-            gestureManager.OnNavigationCompleted += BeginNavigation;
-            gestureManager.OnNavigationCompleted += EndNavigation;
-            gestureManager.OnNavigationCanceled += EndNavigation;
+            gestureManager.OnManipulationStarted += BeginNavigation;
+            gestureManager.OnManipulationCompleted += EndNavigation;
+            gestureManager.OnManipulationCanceled += EndNavigation;
         }
 
         private void OnDisable()
         {
-            gestureManager.OnNavigationCompleted -= BeginNavigation;
-            gestureManager.OnNavigationCompleted -= EndNavigation;
-            gestureManager.OnNavigationCanceled -= EndNavigation;
+            gestureManager.OnManipulationStarted -= BeginNavigation;
+            gestureManager.OnManipulationCompleted -= EndNavigation;
+            gestureManager.OnManipulationCanceled -= EndNavigation;
 
             Navigating = false;
         }
@@ -63,7 +72,7 @@ namespace HoloToolkit.Unity
         private void BeginNavigation(InteractionSourceKind sourceKind)
         {
             // Check if the gesture manager is not null, we're currently focused on this Game Object, and a current manipulation is in progress.
-            if (gestureManager != null && gestureManager.FocusedObject != null && gestureManager.FocusedObject == gameObject && gestureManager.NavigationInProgress)
+            if (gestureManager != null && gestureManager.FocusedObject != null && gestureManager.FocusedObject == gameObject && gestureManager.ManipulationInProgress)
             {
                 Navigating = true;
 
@@ -71,7 +80,7 @@ namespace HoloToolkit.Unity
 
                 // In order to ensure that any actively navigated objects move with the user, we do all our math relative to the camera,
                 // so when we save the initial navigation position and object position we first transform them into the camera's coordinate space
-                initialNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.NavigationPosition);
+                initialNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
                 initialObjectPosition = Camera.main.transform.InverseTransformPoint(transform.position);
             }
         }
@@ -87,9 +96,9 @@ namespace HoloToolkit.Unity
             if (Navigating)
             {
                 // First step is to figure out the delta between the initial navigation position and the current navigation position
-                Vector3 localNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.NavigationPosition);
+                Vector3 localNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
                 Vector3 initialToCurrentPosition = localNavigationPosition - initialNavigationPosition;
-
+                
                 // When performing a navigation gesture, the navigation generally only translates a relatively small amount.
                 // If we rotate the object only as much as the input source itself moves, users can only make small adjustments before
                 // the source is lost and the gesture completes.  To improve the usability of the gesture we scale each
@@ -112,7 +121,23 @@ namespace HoloToolkit.Unity
                 }
                 else
                 {
-                    transform.position = worldObjectPosition;
+                    navigatorActions.ActionController(worldObjectPosition);
+                    //transform.position = worldObjectPosition;
+                    //if (AxisX)
+                    //{
+                    //    transform.RotateAround(gameObject.transform.position, Vector3.right, scaledLocalPositionDelta.y);
+                    //}
+
+                    //if (AxisY)
+                    //{
+                    //    // inverted rotation to mimic user's hand movement direction
+                    //    transform.RotateAround(gameObject.transform.position, Vector3.up, scaledLocalPositionDelta.x * -1);
+                    //}
+                    
+                    //if (AxisZ)
+                    //{
+                    //    transform.RotateAround(gameObject.transform.position, Vector3.forward, scaledLocalPositionDelta.z);
+                    //}
                 }
             }
         }
