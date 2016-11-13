@@ -49,7 +49,7 @@ public class NavigatorActions : MonoBehaviour
         {
             if (Slider)
             {
-                SliderAction.SendMessage("OnSlider", scaledLocalPositionDelta);
+                SliderAction.SendMessage("OnSlider", scaledLocalPositionDelta, SendMessageOptions.DontRequireReceiver);
             }
         }
         else if (Slider)

@@ -15,7 +15,7 @@ public class Brightness : MonoBehaviour {
     [Tooltip("A higher value increases the value per hand traveled distance.")]
     public float sliderSensitivity = 1;
 
-    [Tooltip("Frequency of light update requests to the API. Value in seconds")]
+    [Tooltip("Frequency of light update requests to the API. Higher the number the more frequently requests are made")]
     public float requestFrequency = 20f;
     private float tempTime = 0.0f;
 
@@ -77,7 +77,7 @@ public class Brightness : MonoBehaviour {
                 int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
 
                 sl.State.Bri = brightness;
-                sl.State.Hue = 19000;
+                //sl.State.Hue = 19000;
                 sl.State.On = true;
 
                 StartCoroutine(updateLight(sl.State));
@@ -98,7 +98,7 @@ public class Brightness : MonoBehaviour {
         string json = JsonUtility.ToJson(slState);
 
         UnityWebRequest www = UnityWebRequest.Put(request, json);
-        Debug.Log("here i am");
+        Debug.Log("json: " + json);
         yield return www.Send();
         if (www.isError)
         {
