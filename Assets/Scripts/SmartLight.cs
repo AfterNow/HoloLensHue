@@ -5,6 +5,8 @@ using System.Collections.Generic;
 [System.Serializable]
 public class SmartLight
 {
+    // Call Hue API on any change to any light/state update. Should pass ID as well. Rate limit should be handled on the Hue API service
+    // Use public var accessible from inspector to allow changes to rate limit
     public SmartLight()
     {
         id = 0;
@@ -98,7 +100,6 @@ public class State
         this.sat = sat;
         this.alert = alert;
         this.effect = effect;
-        //EventManager.TriggerEvent("test");
     }
 
     //Accessor Functions

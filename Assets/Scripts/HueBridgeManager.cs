@@ -20,6 +20,7 @@ public class HueBridgeManager : MonoBehaviour {
     public List<SmartLight> smartLights = null;
 
     private string parsedBridgeip;
+    private bool bridgeFound;
 
     private GameObject hologramCollection;
     private SmartLightManager slm;
@@ -44,10 +45,12 @@ public class HueBridgeManager : MonoBehaviour {
     void Start()
     {
        // MOCK smart lights for testing
-       //mockLights = new MockSmartLights();
-       //smartLights = mockLights.getLights();
-       //convertLightData();
-       // MOCK end mock setup
+       mockLights = new MockSmartLights();
+       smartLights = mockLights.getLights();
+        Debug.Log("lightz: " + smartLights[0].ID);
+        slm.InitSmartLightManager(smartLights);
+        //convertLightData();
+        // MOCK end mock setup
 
         if ((bridgeip != "127.0.0.1" || bridgeip != "") && (username != "newdeveloper"))
         {
@@ -63,7 +66,31 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
+            State sState = new State(true, 254, 0, 254, "none", "none");
+            sState.Bri = 100;
+            Debug.Log("sState: " + sState.Bri);
             StartCoroutine(CheckOrGetBridgeIP());
+
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("q"))
+        {
+            slm.UpdateLightBrightness(1, 212);
+        }
+        if (Input.GetKeyDown("w"))
+        {
+            slm.UpdateLightBrightness(1, 202);
+        }
+        if (Input.GetKeyDown("p"))
+        {
+            slm.UpdateLightHue(2, 212);
+        }
+        if (Input.GetKeyDown("o"))
+        {
+            slm.UpdateLightSaturation(2, 202);
         }
     }
 
@@ -81,9 +108,12 @@ public class HueBridgeManager : MonoBehaviour {
         if (bridgeJson.isError)
         {
             // TODO - message to be displayed on headset
+            
             Debug.Log("There was an error attempting to discover bridge ip");
             yield break;
         }
+        Debug.Log(bridgeJson.downloadHandler.text);
+
 
         string bridgeJsonValue = bridgeJson.downloadHandler.text;
 
@@ -101,16 +131,17 @@ public class HueBridgeManager : MonoBehaviour {
         var charsToRemove = new string[] { "internalipaddress", "\"", ":", "}", "]" };
         foreach (var c in charsToRemove)
         {
-            parsedBridgeip = parsedBridgeip.Replace(c, string.Empty);
+            //parsedBridgeip = parsedBridgeip.Replace(c, string.Empty);
         }
 
-        if (parsedBridgeip != "")
+        if (bridgeFound)
         {
             bridgeip = parsedBridgeip;
+            StartCoroutine(CreateBridgeUser(parsedBridgeip));
         }
         Debug.Log(parsedBridgeip);
 
-        StartCoroutine(CreateBridgeUser(parsedBridgeip));
+        
 
         //Debug.Log("Please enter your Bridge IP and username");
     }
@@ -243,4 +274,5 @@ public class HueBridgeManager : MonoBehaviour {
         //Debug.Log("Send triggered to " + request);
         //setLight.Send();
     }
+
 }

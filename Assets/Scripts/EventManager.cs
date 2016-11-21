@@ -75,4 +75,18 @@ public class EventManager : MonoBehaviour
             thisEvent.Invoke();
         }
     }
+
+    public static void TriggerEventWithParams(string eventName, SmartLight sl)
+    {
+        UnityEvent thisEvent = null;
+        if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke();
+        }
+    }
+
+    //IEnumerator Trigger(bool status, SmartLight sl)
+    //{
+    //    yield return 
+    //}
 }

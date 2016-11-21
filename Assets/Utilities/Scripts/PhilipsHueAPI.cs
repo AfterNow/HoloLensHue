@@ -4,8 +4,9 @@ using UnityEngine.Networking;
 using HoloToolkit.Unity;
 
 using MiniJSON;
+using System;
 
-public class PhilipsHueAPI : Singleton<PhilipsHueAPI> {
+public class PhilipsHueAPI : MonoBehaviour {
 
     private HueBridgeManager bridgeValues;
     private GameObject hologramCollection;
@@ -16,11 +17,28 @@ public class PhilipsHueAPI : Singleton<PhilipsHueAPI> {
         if (GameObject.Find("HologramCollection") != null)
         {
             hologramCollection = GameObject.Find("HologramCollection");
+            
         }
         else
         {
             Debug.LogError("No GameObject name HologramCollection can be found. This object should contain all holograms and the SmartLightManager");
         }
+    }
+
+    void OnEnable()
+    {
+        SmartLightManager.brightnessChanged += SendLightBrightness;
+        SmartLightManager.hueChanged += SendLightHue;
+        SmartLightManager.saturationChanged += SendLightSaturation;
+        SmartLightManager.stateChanged += SendLightState;
+    }
+
+    void OnDisable()
+    {
+        SmartLightManager.brightnessChanged -= SendLightBrightness;
+        SmartLightManager.hueChanged -= SendLightHue;
+        SmartLightManager.saturationChanged -= SendLightSaturation;
+        SmartLightManager.stateChanged -= SendLightState;
     }
 
     public void UpdateLight(SmartLight sl)
@@ -44,6 +62,31 @@ public class PhilipsHueAPI : Singleton<PhilipsHueAPI> {
         {
             hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
         }
+    }
+
+    private void PostLights(int newApplesCount)
+    {
+        Debug.Log("lights were updated via events with params: " + newApplesCount);
+    }
+
+    private void SendLightBrightness(int id, int bri)
+    {
+        Debug.Log(string.Format("light {0} has been updated with a brightness of {1}.", id, bri));
+    }
+
+    private void SendLightHue(int id, int hue)
+    {
+        Debug.Log(string.Format("light {0} has been updated with a hue of {1}.", id, hue));
+    }
+
+    private void SendLightSaturation(int id, int sat)
+    {
+        Debug.Log(string.Format("light {0} has been updated with a saturation of {1}.", id, sat));
+    }
+
+    private void SendLightState(int id, State state)
+    {
+        Debug.Log(string.Format("light {0} has been updated with a State of {1}.", id, state));
     }
 }
  

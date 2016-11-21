@@ -82,6 +82,8 @@ public class Brightness : MonoBehaviour {
 
                 StartCoroutine(updateLight(sl.State));
                 tempTime = 0;
+
+                EventManager.TriggerEventWithParams("OnBrightnessChange", sl);
             }
         }
 
@@ -99,7 +101,7 @@ public class Brightness : MonoBehaviour {
 
         UnityWebRequest www = UnityWebRequest.Put(request, json);
         Debug.Log("json: " + json);
-        yield return www.Send();
+       yield return www.Send();
         if (www.isError)
         {
             Debug.LogError("There was an error with your request: " + www.error);
