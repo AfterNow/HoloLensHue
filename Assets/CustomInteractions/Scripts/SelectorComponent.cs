@@ -10,7 +10,7 @@ public class SelectorComponent : MonoBehaviour {
     /// Allows access to the parent's details and values needed for this component
     /// </summary>
     [Tooltip("Attach the parent HoloLightContainer.")]
-    public GameObject HoloLightContainer;
+    public GameObject holoLightContainer;
 
     /// <summary>
     /// The selector uses a raycast to determine what color the panel selected currently is. The selector should
@@ -35,14 +35,14 @@ public class SelectorComponent : MonoBehaviour {
 
     void OnDisable()
     {
-        EventManager.StartListening("SmartLightManagerReady", initSelector);
+        EventManager.StopListening("SmartLightManagerReady", initSelector);
     }
 
     private void initSelector()
     {
-        if (HoloLightContainer.tag != "Untagged")
+        if (holoLightContainer.tag != "Untagged")
         {
-            var idTag = HoloLightContainer.tag;
+            var idTag = holoLightContainer.tag;
             // Ignores HoloLightContainers that do not have a valid id assigned to tag
             if (int.TryParse(idTag, out arrayId))
             {
@@ -85,7 +85,7 @@ public class SelectorComponent : MonoBehaviour {
                 if (currentLight != null)
                 {
                     currentLight.State.Hue = hue;
-                    SmartLightManager.UpdateLightHue(arrayId);
+                    SmartLightManager.UpdateLightState(arrayId);
                 }
             }
         }

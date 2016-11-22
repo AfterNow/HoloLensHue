@@ -75,11 +75,13 @@ public class HueBridgeManager : MonoBehaviour {
     {
         if (Input.GetKeyDown("q"))
         {
-            SmartLightManager.UpdateLightBrightness(0, 212);
+            SmartLightManager.lights[0].State.Bri = 200;
+            SmartLightManager.UpdateLightState(0);
         }
         if (Input.GetKeyDown("w"))
         {
-            SmartLightManager.UpdateLightBrightness(0, 202);
+            SmartLightManager.lights[0].State.Bri = 155;
+            SmartLightManager.UpdateLightState(0);
         }
         if (Input.GetKeyDown("p"))
         {

@@ -459,6 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d5b622b3baa564ca01a237011bac35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenRequests: 0.3
 --- !u!114 &1022827892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,10 +648,6 @@ Prefab:
     - target: {fileID: 4145622175806722, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
       propertyPath: m_RootOrder
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1927271251445792, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}

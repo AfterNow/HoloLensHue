@@ -18,9 +18,13 @@ public class VoiceManager : MonoBehaviour {
     [Tooltip("Brightness range 0 - 254 (Default: 80)")]
     public int dimMoreValue = 50;
 
+    // assigned upon initialization of initBrightness call from SmartLightManager
+    private SmartLight currentLight;
+    // position of light in lights array. Needed as Hue API starts light array at '1'.
+    private int arrayId;
+
     // Use this for initialization
     void Start () {
-
         if (GameObject.Find("HologramCollection") != null)
         {
             hologramCollection = GameObject.Find("HologramCollection");
@@ -33,8 +37,26 @@ public class VoiceManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        var focusObject = GestureManager.Instance.FocusedObject;
+        if (focusObject != null)
+        {
+            //slm.UpdateLightState(focusObject.name, param, value);
+            //SmartLightManager.light
+            if (focusObject.tag != "Untagged")
+            {
+                var idTag = focusObject.tag;
+                //// Ignores focusObject if it does not have a valid id assigned to tag
+                if (int.TryParse(idTag, out arrayId))
+                {
+                    currentLight = SmartLightManager.lights[arrayId];
+                }
+            }
+            else
+            {
+                Debug.Log("No tag containing arrayId was found on this HoloLightContainer.");
+            }
+        }
+    }
 
     public void RegisterPhrases()
     {
@@ -187,10 +209,64 @@ public class VoiceManager : MonoBehaviour {
 
     void buildUpdateCall(string param, int value)
     {
-        var focusObject = GestureManager.Instance.FocusedObject;
-        if (focusObject != null)
+        var focusedObject = GestureManager.Instance.FocusedObject;
+        //Debug.Log("here is focused object: " + focusObject);
+        //if (focusObject != null)
+        //{
+        //    slm.UpdateLightState(focusObject.name, param, value);
+        //    //SmartLightManager.light
+        //}
+        if (focusedObject != null)
         {
-            slm.UpdateLightState(focusObject.name, param, value);
+            // retrieves array index (arrayId) from the tag assigned in SmartLightManager
+            if (focusedObject.tag != "Untagged")
+            {
+                var idTag = focusedObject.tag;
+                //// Ignores focusedObject if it does not have a valid id assigned to tag
+                if (int.TryParse(idTag, out arrayId))
+                {
+                    currentLight = SmartLightManager.lights[arrayId];
+                    if (param == "On")
+                    {
+                        currentLight.State.On = true;
+                    }
+                    else if (param == "Off")
+                    {
+                        currentLight.State.On = false;
+                    }
+                    else if (param == "hue")
+                    {
+                        currentLight.State.Hue = value;
+                        currentLight.State.Sat = 254;
+                    }
+                    else if (param == "bri")
+                    {
+                        currentLight.State.Bri = value;
+                    }
+                    else if (param == "alert")
+                    {
+                        if (value == 0)
+                        {
+                            currentLight.State.Alert = "none";
+                        }
+                        else
+                        {
+                            currentLight.State.Alert = "lselect";
+                        }
+                    }
+                    // hueAPI.UpdateLight(currentLight);
+                    SmartLightManager.UpdateLightState(arrayId);
+                    currentLight.State.Alert = "none";
+                }
+                else
+                {
+                    Debug.Log("a tag with a valid array index (arrayId) could not be found on focusedObject");
+                }
+            }
+            else
+            {
+                Debug.Log("No tag containing arrayId was found on this focusedObject.");
+            }
         }
     }
 }
