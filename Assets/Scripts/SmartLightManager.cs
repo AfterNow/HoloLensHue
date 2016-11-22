@@ -71,7 +71,6 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             Renderer rend = currentLight.GetComponent<Renderer>();
             Vector4 ledColor = ColorService.GetColorByHue(light.State.Hue);
             rend.material.color = ledColor;
-            light.State.Hue = 19000;
             // TODO commented out while testing. This hides spawned prefabs.
             //if (!StateManager.Instance.Editing)
             //{

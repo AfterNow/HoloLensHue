@@ -56,40 +56,18 @@ public class SelectorComponent : MonoBehaviour {
                 int hue = ColorService.GetHueByColor(hitInfo.collider.tag);
                 sl.State.Hue = hue;
                 sl.State.On = true;
-
-                //StartCoroutine(updateLight(sl.State));
-                // for testing
-                //tempTime += Time.deltaTime;
-                //if (tempTime > requestFrequency)
-                //{
-
-                //    int hue = 0;
-
-                //    sl.State.Hue = hue;
-                //    sl.State.On = true;
-
-                //    //StartCoroutine(updateLight(sl.State));
-                //    tempTime = 0;
-                //}
             }
-            
-
         }
     }
 
-
-
     private IEnumerator updateLight(State slState)
     {
-        //Debug.Log("Send triggered to " + request);
         string otherJson = JsonUtility.ToJson("{\"devicetype\":\"hololenshue#hololens\"}");
-        Debug.Log(slState.Hue);
         string json = JsonUtility.ToJson(slState);
         
         UnityWebRequest www = UnityWebRequest.Put(request, json);
-        Debug.Log("json data: " + json);
         yield return www.Send();
-        Debug.Log("was i sent");
+
         if (www.isError)
         {
             Debug.LogError("There was an error with your request: " + www.error);
@@ -97,7 +75,7 @@ public class SelectorComponent : MonoBehaviour {
         else
         {
             Debug.Log("response code: " + www.responseCode);
-            Debug.Log("isDone: " + www.isDone);
+            Debug.Log("updating light isDone: " + www.isDone);
             //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
         }
     }
