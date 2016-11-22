@@ -512,6 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e329d9ace6fa794eb351792d3eab972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightID: 0
   appManager: {fileID: 1022827886}
   lightContainerOffset: 1
 --- !u!1 &1116521159
@@ -649,7 +650,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1927271251445792, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}

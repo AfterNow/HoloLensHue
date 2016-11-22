@@ -88,5 +88,37 @@ public class PhilipsHueAPI : MonoBehaviour {
     {
         Debug.Log(string.Format("light {0} has been updated with a State of {1}.", id, state));
     }
+
+    //private IEnumerator updateLight(State slState)
+    //{
+    //    string json = JsonUtility.ToJson(slState);
+
+    //    UnityWebRequest www = UnityWebRequest.Put(request, json);
+    //    yield return www.Send();
+
+    //    if (www.isError)
+    //    {
+    //        Debug.LogError("There was an error with your request: " + www.error);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("response code: " + www.responseCode);
+    //        Debug.Log("updating light isDone: " + www.isDone);
+    //        //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
+    //    }
+    //}
+
+    // for testing
+    //tempTime += Time.deltaTime;
+    //if (tempTime > requestFrequency)
+    //{
+    //    int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
+
+    //    sl.State.Bri = brightness;
+    //    sl.State.On = true;
+
+    //    StartCoroutine(updateLight(sl.State));
+    //    tempTime = 0;
+
+    //}
 }
- 

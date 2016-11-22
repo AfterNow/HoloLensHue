@@ -72,7 +72,8 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             Vector3 lightContainerPos = new Vector3(pos.x, lightContainerOffset * currentLight.transform.localScale.y, pos.z);
             var lightContObject = Instantiate(holoLightContPrefab, lightContainerPos, rotation);
             // assigns light ID to tag for easier interating downstream.
-            lightContObject.tag = light.ID.ToString();
+            var lightIDOffset = light.ID - 1;
+            lightContObject.tag = lightIDOffset.ToString();
             lightContObject.transform.parent = currentLight.transform;
 
             // sets color of light prefab based on current light hue state
@@ -91,6 +92,7 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             // TODO see if this call is needed. Real lights should already be these values
             //hueAPI.UpdateLight(light);
         }
+        EventManager.TriggerEvent("SmartLightManagerReady");
         StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
     }
 
@@ -145,9 +147,9 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     }
 
     // TODO if no change has been made perhaps no change should be called. Done for this function, double check and dupe for others
-    public void UpdateLightBrightness(int id, int bri)
+    public static void UpdateLightBrightness(int arrayId, int bri)
     {
-        SmartLight light = lights[id];
+        SmartLight light = lights[arrayId];
         // checks if there has been any change. If not, don't do anything
         if (light.State.bri != bri)
         {
@@ -158,7 +160,15 @@ public class SmartLightManager : Singleton<SmartLightManager> {
                 brightnessChanged(light.ID, light.State.Bri);
             }
         }
-        
+    }
+
+    public static void UpdateLightBrightness(int arrayId)
+    {
+        SmartLight light = lights[arrayId];
+        if (brightnessChanged != null)
+        {
+            brightnessChanged(light.ID, light.State.Bri);
+        }
     }
 
     public void UpdateLightHue(int id, int hue)
