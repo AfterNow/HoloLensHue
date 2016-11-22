@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Contact
+  - Red
+  - Orange
+  - Yellow
+  - Green
+  - Blue
+  - Indigo
+  - Violet
   layers:
   - Default
   - TransparentFX
@@ -13,7 +21,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - ColorWheel
   - 
   - 
   - 

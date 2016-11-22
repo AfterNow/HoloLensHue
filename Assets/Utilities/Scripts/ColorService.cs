@@ -74,12 +74,12 @@ public static class ColorService
         // yellow
         else if (color == "Yellow")
         {
-            hueValue = 12750;
+            hueValue = 19000;
         }
         // green
         else if (color == "Green")
         {
-            hueValue = 25500;
+            hueValue = 23500;
         }
         // white
         else if (color == "White")
@@ -92,14 +92,14 @@ public static class ColorService
             hueValue = 46950;
         }
         // indigo
-        else if (color == "Purple")
+        else if (color == "Purple" || color == "Indigo")
         {
-            hueValue = 56100;
+            hueValue = 50500;
         }
         // pink
-        else if (color == "Pink")
+        else if (color == "Pink" || color == "Violet")
         {
-            hueValue = 56100;
+            hueValue = 57100;
         }
 
         return hueValue;

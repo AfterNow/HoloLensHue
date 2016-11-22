@@ -15,7 +15,7 @@ public class Brightness : MonoBehaviour {
     [Tooltip("A higher value increases the value per hand traveled distance.")]
     public float sliderSensitivity = 1;
 
-    [Tooltip("Frequency of light update requests to the API. Value in seconds")]
+    [Tooltip("Frequency of light update requests to the API. Higher the number the more frequently requests are made")]
     public float requestFrequency = 20f;
     private float tempTime = 0.0f;
 
@@ -31,7 +31,7 @@ public class Brightness : MonoBehaviour {
     private float maxBrightness = 254f;
     private float brightnessRange;
 
-    // for testing
+    // TODO remove - for testing only
     SmartLight sl;
     State testState;
     string request = "http://" + "10.0.3.19" + "/api/" + "i2Voaj8bPhY53PNDxstogI2so6WL-K9OEWaE7N6s" + "/lights/4/state";
@@ -42,7 +42,7 @@ public class Brightness : MonoBehaviour {
         heightRange = maxHeight - minHeight;
         brightnessRange = maxBrightness - minBrightness;
 
-        // for testing
+        // TODO remove - for testing only
         sl = new SmartLight();
         testState = new State();
         sl.State = testState;
@@ -77,11 +77,12 @@ public class Brightness : MonoBehaviour {
                 int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
 
                 sl.State.Bri = brightness;
-                sl.State.Hue = 19000;
                 sl.State.On = true;
 
                 StartCoroutine(updateLight(sl.State));
                 tempTime = 0;
+
+                EventManager.TriggerEventWithParams("OnBrightnessChange", sl);
             }
         }
 
@@ -93,13 +94,11 @@ public class Brightness : MonoBehaviour {
 
     private IEnumerator updateLight(State slState)
     {
-        //Debug.Log("Send triggered to " + request);
-
         string json = JsonUtility.ToJson(slState);
 
         UnityWebRequest www = UnityWebRequest.Put(request, json);
-        Debug.Log("here i am");
         yield return www.Send();
+
         if (www.isError)
         {
             Debug.LogError("There was an error with your request: " + www.error);
@@ -107,7 +106,7 @@ public class Brightness : MonoBehaviour {
         else
         {
             Debug.Log("response code: " + www.responseCode);
-            Debug.Log("isDone: " + www.isDone);
+            Debug.Log("updating light isDone: " + www.isDone);
             //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
         }
     }
