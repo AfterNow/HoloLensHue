@@ -45,9 +45,8 @@ public class HueBridgeManager : MonoBehaviour {
     void Start()
     {
        // MOCK smart lights for testing
-       mockLights = new MockSmartLights();
-       smartLights = mockLights.getLights();
-        Debug.Log("lightz: " + smartLights[0].ID);
+        mockLights = new MockSmartLights();
+        smartLights = mockLights.getLights();
         slm.InitSmartLightManager(smartLights);
         //convertLightData();
         // MOCK end mock setup
@@ -68,9 +67,7 @@ public class HueBridgeManager : MonoBehaviour {
         {
             State sState = new State(true, 254, 0, 254, "none", "none");
             sState.Bri = 100;
-            Debug.Log("sState: " + sState.Bri);
             StartCoroutine(CheckOrGetBridgeIP());
-
         }
     }
 
@@ -78,19 +75,19 @@ public class HueBridgeManager : MonoBehaviour {
     {
         if (Input.GetKeyDown("q"))
         {
-            slm.UpdateLightBrightness(1, 212);
+            SmartLightManager.UpdateLightBrightness(0, 212);
         }
         if (Input.GetKeyDown("w"))
         {
-            slm.UpdateLightBrightness(1, 202);
+            SmartLightManager.UpdateLightBrightness(0, 202);
         }
         if (Input.GetKeyDown("p"))
         {
-            slm.UpdateLightHue(2, 212);
+            SmartLightManager.UpdateLightHue(2, 212);
         }
         if (Input.GetKeyDown("o"))
         {
-            slm.UpdateLightSaturation(2, 202);
+            SmartLightManager.UpdateLightSaturation(2, 202);
         }
     }
 
@@ -139,10 +136,6 @@ public class HueBridgeManager : MonoBehaviour {
             bridgeip = parsedBridgeip;
             StartCoroutine(CreateBridgeUser(parsedBridgeip));
         }
-        Debug.Log(parsedBridgeip);
-
-        
-
         //Debug.Log("Please enter your Bridge IP and username");
     }
 

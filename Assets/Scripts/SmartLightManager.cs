@@ -11,7 +11,9 @@ public class SmartLightManager : Singleton<SmartLightManager> {
 
     private HueBridgeManager hueMgr;
     private GameObject lightPrefab;
-    private List<SmartLight> lights = new List<SmartLight>();
+    private GameObject holoLightContPrefab;
+    public static List<SmartLight> lights = new List<SmartLight>();
+    public int lightID;
     private SmartLight currentLight;
 
     public delegate void BrightnessChanged(int id, int bri);
@@ -26,19 +28,17 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     public delegate void StateChanged(int id, State state);
     public static event StateChanged stateChanged;
 
-    public int apples = 0;
-
     [Tooltip("The GameObject that contains the app specific managers. By default - AppManager Prefab")]
     public GameObject appManager;
     private PhilipsHueAPI hueAPI;
 
+    [Tooltip("The height offset above or below a SmartBulb a HoloLightContainer will be spawned")]
+    public float lightContainerOffset = 1.25f;
+
     void Start()
     {
-        Debug.Log("was start called");
         hueMgr = GetComponent<HueBridgeManager>();
         hueAPI = appManager.GetComponent<PhilipsHueAPI>();
-        //lightPrefab = (GameObject)Resources.Load("Prefabs/SmartBulb");
-        Debug.Log(lightPrefab);
     }
 
     // called when bridge has been found and lights are available
@@ -52,10 +52,12 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     void InstantiateLights()
     {
         lightPrefab = (GameObject)Resources.Load("Prefabs/SmartBulb");
+        holoLightContPrefab = (GameObject)Resources.Load("Prefabs/HoloLightContainer");
 
         Vector3 camPos = Camera.main.transform.position;
         // where to spawn unassigned SmartBulb GameObjects in relation to the user's current position
         Vector3 pos = new Vector3(-1, 0, 2);
+        
         Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, camPos);
 
         //
@@ -67,6 +69,13 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             GameObject currentLight = GameObject.Find(light.Name);
             currentLight.transform.parent = gameObject.transform;
 
+            Vector3 lightContainerPos = new Vector3(pos.x, lightContainerOffset * currentLight.transform.localScale.y, pos.z);
+            var lightContObject = Instantiate(holoLightContPrefab, lightContainerPos, rotation);
+            // assigns light ID to tag for easier interating downstream.
+            var lightIDOffset = light.ID - 1;
+            lightContObject.tag = lightIDOffset.ToString();
+            lightContObject.transform.parent = currentLight.transform;
+
             // sets color of light prefab based on current light hue state
             Renderer rend = currentLight.GetComponent<Renderer>();
             Vector4 ledColor = ColorService.GetColorByHue(light.State.Hue);
@@ -77,12 +86,13 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             //    rend.enabled = false;
             //}
 
-            // increments x value to space out spawned prefabs
+            // increments x value to space out spawned prefabs that have no Anchor Store entry.
             pos += new Vector3(1, 0, 0);
 
             // TODO see if this call is needed. Real lights should already be these values
             //hueAPI.UpdateLight(light);
         }
+        EventManager.TriggerEvent("SmartLightManagerReady");
         StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
     }
 
@@ -137,11 +147,11 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     }
 
     // TODO if no change has been made perhaps no change should be called. Done for this function, double check and dupe for others
-    public void UpdateLightBrightness(int id, int bri)
+    public static void UpdateLightBrightness(int arrayId, int bri)
     {
-        SmartLight light = lights[id];
+        SmartLight light = lights[arrayId];
         // checks if there has been any change. If not, don't do anything
-        if (light.State.bri != bri)
+        if (light.State.Bri != bri)
         {
             light.State.Bri = bri;
 
@@ -150,34 +160,70 @@ public class SmartLightManager : Singleton<SmartLightManager> {
                 brightnessChanged(light.ID, light.State.Bri);
             }
         }
-        
     }
 
-    public void UpdateLightHue(int id, int hue)
+    public static void UpdateLightBrightness(int arrayId)
     {
-        SmartLight light = lights[id];
-        light.State.Hue = hue;
+        SmartLight light = lights[arrayId];
+        if (brightnessChanged != null)
+        {
+            brightnessChanged(light.ID, light.State.Bri);
+        }
+    }
 
+    // TODO if no change has been made perhaps no change should be called. Done for this function, double check and dupe for others
+    public static void UpdateLightHue(int arrayId, int hue)
+    {
+        SmartLight light = lights[arrayId];
+        // checks if there has been any change. If not, don't do anything
+        if (light.State.Hue != hue)
+        {
+            light.State.Hue = hue;
+
+            if (hueChanged != null)
+            {
+                hueChanged(light.ID, light.State.Hue);
+            }
+        }
+    }
+
+    public static void UpdateLightHue(int arrayId)
+    {
+        SmartLight light = lights[arrayId];
         if (hueChanged != null)
         {
             hueChanged(light.ID, light.State.Hue);
         }
     }
 
-    public void UpdateLightSaturation(int id, int sat)
+    // TODO if no change has been made perhaps no change should be called. Done for this function, double check and dupe for others
+    public static void UpdateLightSaturation(int arrayId, int sat)
     {
-        SmartLight light = lights[id];
-        light.State.Sat = sat;
+        SmartLight light = lights[arrayId];
+        // checks if there has been any change. If not, don't do anything
+        if (light.State.Sat != sat)
+        {
+            light.State.Sat = sat;
 
-        if (saturationChanged != null)
+            if (saturationChanged != null)
+            {
+                saturationChanged(light.ID, light.State.Sat);
+            }
+        }      
+    }
+
+    public static void UpdateLightSaturation(int arrayId)
+    {
+        SmartLight light = lights[arrayId];
+        if (hueChanged != null)
         {
             saturationChanged(light.ID, light.State.Sat);
         }
     }
 
-    public void UpdateLightState(int id, State state)
+    public static void UpdateLightState(int arrayId, State state)
     {
-        SmartLight light = lights[id];
+        SmartLight light = lights[arrayId];
         light.State = state;
 
         if (stateChanged != null)

@@ -3,8 +3,8 @@ using System.Collections;
 using UnityEngine;
 
 
-public class Brightness : MonoBehaviour {
-
+public class BrightnessComponent : MonoBehaviour
+{
     // Slider actions
     [Header("Enable Sliders")]
     public bool SliderX;
@@ -14,7 +14,7 @@ public class Brightness : MonoBehaviour {
     public float sliderSensitivity = 1;
 
     [Tooltip("Frequency of light update requests to the API. Higher the number the more frequently requests are made")]
-    public float requestFrequency = 20f;
+    public float requestFrequency = 0.5f;
 
     [Tooltip("The minimum size the brightness gameObject BrightnessIndicator will scale.")]
     public float minSize = 0.04f;
@@ -81,7 +81,7 @@ public class Brightness : MonoBehaviour {
             gameObject.transform.localScale = new Vector3(scaleSize, scaleSize, scaleSize);
 
             int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
-            
+
             if (currentLight.State.Bri != brightness)
             {
                 currentLight.State.Bri = brightness;
@@ -95,3 +95,4 @@ public class Brightness : MonoBehaviour {
         }
     }
 }
+

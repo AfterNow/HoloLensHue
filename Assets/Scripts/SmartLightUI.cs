@@ -11,7 +11,7 @@ public class SmartLightUI : MonoBehaviour {
 
     public void Start()
     {
-        LightUIStart();
+
     }
 
     void UpdateSmartLightUI(SmartLight sl)
@@ -24,13 +24,6 @@ public class SmartLightUI : MonoBehaviour {
             //Debug.Log(ledColor);
             rend.material.color = ledColor;
         }
-    }
-
-    void LightUIStart()
-    {
-        lightUI = (GameObject)Resources.Load("Prefabs/HologramContainer");
-        lightUIHologram = (GameObject)Instantiate(lightUI, gameObject.transform.position, Quaternion.identity);
-        lightUIHologram.SetActive(showLightUI);
     }
 
     public void OnSelect()
