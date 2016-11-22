@@ -76,7 +76,6 @@ public class HueBridgeManager : MonoBehaviour {
         if (Input.GetKeyDown("q"))
         {
             SmartLightManager.UpdateLightBrightness(0, 212);
-            //slm.UpdateLightBrightness(1, 212);
         }
         if (Input.GetKeyDown("w"))
         {

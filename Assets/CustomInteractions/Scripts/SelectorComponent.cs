@@ -81,9 +81,12 @@ public class SelectorComponent : MonoBehaviour {
                 Debug.Log("hit info: " + hitInfo.collider.tag);
 
                 int hue = ColorService.GetHueByColor(hitInfo.collider.tag);
-                //currentLight.State.Hue = hue;
-                //sl.State.Hue = hue;
-                //sl.State.On = true;
+
+                if (currentLight != null)
+                {
+                    currentLight.State.Hue = hue;
+                    SmartLightManager.UpdateLightHue(arrayId);
+                }
             }
         }
     }
