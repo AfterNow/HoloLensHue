@@ -67,9 +67,7 @@ public class HueBridgeManager : MonoBehaviour {
         {
             State sState = new State(true, 254, 0, 254, "none", "none");
             sState.Bri = 100;
-            Debug.Log("sState: " + sState.Bri);
             StartCoroutine(CheckOrGetBridgeIP());
-
         }
     }
 
@@ -86,11 +84,11 @@ public class HueBridgeManager : MonoBehaviour {
         }
         if (Input.GetKeyDown("p"))
         {
-            slm.UpdateLightHue(2, 212);
+            SmartLightManager.UpdateLightHue(2, 212);
         }
         if (Input.GetKeyDown("o"))
         {
-            slm.UpdateLightSaturation(2, 202);
+            SmartLightManager.UpdateLightSaturation(2, 202);
         }
     }
 
@@ -139,10 +137,6 @@ public class HueBridgeManager : MonoBehaviour {
             bridgeip = parsedBridgeip;
             StartCoroutine(CreateBridgeUser(parsedBridgeip));
         }
-        Debug.Log(parsedBridgeip);
-
-        
-
         //Debug.Log("Please enter your Bridge IP and username");
     }
 

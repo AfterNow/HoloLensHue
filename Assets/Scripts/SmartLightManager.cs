@@ -151,7 +151,7 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     {
         SmartLight light = lights[arrayId];
         // checks if there has been any change. If not, don't do anything
-        if (light.State.bri != bri)
+        if (light.State.Bri != bri)
         {
             light.State.Bri = bri;
 
@@ -171,31 +171,59 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         }
     }
 
-    public void UpdateLightHue(int id, int hue)
+    // TODO if no change has been made perhaps no change should be called. Done for this function, double check and dupe for others
+    public static void UpdateLightHue(int arrayId, int hue)
     {
-        SmartLight light = lights[id];
-        light.State.Hue = hue;
+        SmartLight light = lights[arrayId];
+        // checks if there has been any change. If not, don't do anything
+        if (light.State.Hue != hue)
+        {
+            light.State.Hue = hue;
 
+            if (hueChanged != null)
+            {
+                hueChanged(light.ID, light.State.Hue);
+            }
+        }
+    }
+
+    public static void UpdateLightHue(int arrayId)
+    {
+        SmartLight light = lights[arrayId];
         if (hueChanged != null)
         {
             hueChanged(light.ID, light.State.Hue);
         }
     }
 
-    public void UpdateLightSaturation(int id, int sat)
+    // TODO if no change has been made perhaps no change should be called. Done for this function, double check and dupe for others
+    public static void UpdateLightSaturation(int arrayId, int sat)
     {
-        SmartLight light = lights[id];
-        light.State.Sat = sat;
+        SmartLight light = lights[arrayId];
+        // checks if there has been any change. If not, don't do anything
+        if (light.State.Sat != sat)
+        {
+            light.State.Sat = sat;
 
-        if (saturationChanged != null)
+            if (saturationChanged != null)
+            {
+                saturationChanged(light.ID, light.State.Sat);
+            }
+        }      
+    }
+
+    public static void UpdateLightSaturation(int arrayId)
+    {
+        SmartLight light = lights[arrayId];
+        if (hueChanged != null)
         {
             saturationChanged(light.ID, light.State.Sat);
         }
     }
 
-    public void UpdateLightState(int id, State state)
+    public static void UpdateLightState(int arrayId, State state)
     {
-        SmartLight light = lights[id];
+        SmartLight light = lights[arrayId];
         light.State = state;
 
         if (stateChanged != null)

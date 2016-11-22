@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 33607617585133502}
   - component: {fileID: 135906528952313656}
   - component: {fileID: 23737937543162798}
-  - component: {fileID: 114431844832411994}
+  - component: {fileID: 114286928082205950}
   m_Layer: 0
   m_Name: BrightnessIndicator
   m_TagString: Untagged
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939e0cc5a54376a4b9b2aec4f60bca8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestFrequency: 20
+  HoloLightContainer: {fileID: 0}
   colorWheel: {fileID: 0}
 --- !u!114 &114274823579810836
 MonoBehaviour:
@@ -1495,7 +1495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c2dda147f5bb494f9be2f88e4bffcb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114431844832411994
+--- !u!114 &114286928082205950
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1503,7 +1503,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1311804068827238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57cf5052869f09049899ed88332535c4, type: 3}
+  m_Script: {fileID: 11500000, guid: a7e2fa3564f012642a99c9e8be1c4446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SliderX: 0
@@ -1511,6 +1511,10 @@ MonoBehaviour:
   SliderZ: 0
   sliderSensitivity: 0.3
   requestFrequency: 0.2
+  minSize: 0.04
+  maxSize: 0.15
+  minHeight: -0.03
+  maxHeight: 0.2
 --- !u!114 &114474912003117476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1522,7 +1526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939e0cc5a54376a4b9b2aec4f60bca8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestFrequency: 20
+  HoloLightContainer: {fileID: 1927271251445792}
   colorWheel: {fileID: 1160583055212310}
 --- !u!114 &114489720615914938
 MonoBehaviour:

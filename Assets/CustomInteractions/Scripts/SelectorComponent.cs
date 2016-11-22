@@ -6,29 +6,57 @@ using UnityEngine.Networking;
 
 public class SelectorComponent : MonoBehaviour {
 
-    [Tooltip("Frequency of light update requests to the API. Higher the number the more frequently requests are made")]
-    public float requestFrequency = 20f;
+    /// <summary>
+    /// Allows access to the parent's details and values needed for this component
+    /// </summary>
+    [Tooltip("Attach the parent HoloLightContainer.")]
+    public GameObject HoloLightContainer;
 
+    /// <summary>
+    /// The selector uses a raycast to determine what color the panel selected currently is. The selector should
+    /// should always face toward the center of the object it is observing.
+    /// </summary>
+    [Tooltip("Attach the object that the selector should always face.")]
     public GameObject colorWheel;
+
     private int layerMask = 1 << 8;
 
-    // for testing
-    SmartLight sl;
-    State testState;
-    string request = "http://" + "192.168.0.16" + "/api/" + "i2Voaj8bPhY53PNDxstogI2so6WL-K9OEWaE7N6s" + "/lights/2/state";
+    // assigned upon initialization of initBrightness call from SmartLightManager
+    private SmartLight currentLight;
+    // position of light in lights array. Needed as Hue API starts light array at '1'.
+    private int arrayId;
+
     string previousHitTag;
 
-    // Use this for initialization
-    void Start () {
-
-        // for testing
-        sl = new SmartLight();
-        testState = new State();
-        sl.State = testState;
+    void OnEnable()
+    {
+        EventManager.StartListening("SmartLightManagerReady", initSelector);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void OnDisable()
+    {
+        EventManager.StartListening("SmartLightManagerReady", initSelector);
+    }
+
+    private void initSelector()
+    {
+        if (HoloLightContainer.tag != "Untagged")
+        {
+            var idTag = HoloLightContainer.tag;
+            // Ignores HoloLightContainers that do not have a valid id assigned to tag
+            if (int.TryParse(idTag, out arrayId))
+            {
+                currentLight = SmartLightManager.lights[arrayId];
+            }
+        }
+        else
+        {
+            Debug.Log("No tag containing arrayId was found on this HoloLightContainer.");
+        }       
+    }
+
+    // Update is called once per frame
+    void Update () {
         transform.LookAt(colorWheel.transform);
 	}
 
@@ -45,6 +73,7 @@ public class SelectorComponent : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.forward, out hitInfo,
             0.1f, layerMask))
         {
+            // Only call update if the color has changed
             if (previousHitTag != hitInfo.collider.tag)
             {
                 previousHitTag = hitInfo.collider.tag;
@@ -52,29 +81,10 @@ public class SelectorComponent : MonoBehaviour {
                 Debug.Log("hit info: " + hitInfo.collider.tag);
 
                 int hue = ColorService.GetHueByColor(hitInfo.collider.tag);
-                sl.State.Hue = hue;
-                sl.State.On = true;
+                //currentLight.State.Hue = hue;
+                //sl.State.Hue = hue;
+                //sl.State.On = true;
             }
-        }
-    }
-
-    private IEnumerator updateLight(State slState)
-    {
-        string otherJson = JsonUtility.ToJson("{\"devicetype\":\"hololenshue#hololens\"}");
-        string json = JsonUtility.ToJson(slState);
-        
-        UnityWebRequest www = UnityWebRequest.Put(request, json);
-        yield return www.Send();
-
-        if (www.isError)
-        {
-            Debug.LogError("There was an error with your request: " + www.error);
-        }
-        else
-        {
-            Debug.Log("response code: " + www.responseCode);
-            Debug.Log("updating light isDone: " + www.isDone);
-            //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
         }
     }
 }
