@@ -8,9 +8,8 @@ public class SelectorComponent : MonoBehaviour {
 
     [Tooltip("Frequency of light update requests to the API. Higher the number the more frequently requests are made")]
     public float requestFrequency = 20f;
-    private float tempTime = 0.0f;
 
-    private GameObject colorWheel;
+    public GameObject colorWheel;
     private int layerMask = 1 << 8;
 
     // for testing
@@ -21,7 +20,6 @@ public class SelectorComponent : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        colorWheel = GameObject.Find("ColorWheel");
 
         // for testing
         sl = new SmartLight();

@@ -64,10 +64,10 @@ public class PhilipsHueAPI : MonoBehaviour {
         }
     }
 
-    private void PostLights(int newApplesCount)
-    {
-        Debug.Log("lights were updated via events with params: " + newApplesCount);
-    }
+    //private void PostLights(int newApplesCount)
+    //{
+    //    Debug.Log("lights were updated via events with params: " + newApplesCount);
+    //}
 
     private void SendLightBrightness(int id, int bri)
     {

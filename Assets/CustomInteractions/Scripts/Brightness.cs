@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
-using UnityEngine.Networking;
-using MiniJSON;
 
 public class Brightness : MonoBehaviour {
 
@@ -31,6 +29,7 @@ public class Brightness : MonoBehaviour {
     private float maxBrightness = 254f;
     private float brightnessRange;
 
+    private int lightID;
     // TODO remove - for testing only
     SmartLight sl;
     State testState;
@@ -38,19 +37,14 @@ public class Brightness : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        var idTag = gameObject.transform.parent.tag;
+        //lightID = (int)idTag;
         sizeRange = maxSize - minSize;
         heightRange = maxHeight - minHeight;
         brightnessRange = maxBrightness - minBrightness;
 
-        // TODO remove - for testing only
-        sl = new SmartLight();
-        testState = new State();
-        sl.State = testState;
-    }
-	
-	// Update is called once per frame
-	void Update () {
-
+        
+        Debug.Log("here be state: " + SmartLightManager.lights[0].State.Bri);
     }
 
     public void OnSlider(Vector3 scaledLocalPositionDelta)
@@ -70,20 +64,22 @@ public class Brightness : MonoBehaviour {
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, adjustedDelta, gameObject.transform.position.z);
             gameObject.transform.localScale = new Vector3(scaleSize, scaleSize, scaleSize);
 
+            int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
+            SmartLightManager.lights[lightID].State.Bri = brightness;
             // for testing
-            tempTime += Time.deltaTime;
-            if (tempTime > requestFrequency)
-            {
-                int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
+            //tempTime += Time.deltaTime;
+            //if (tempTime > requestFrequency)
+            //{
+            //    int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
 
-                sl.State.Bri = brightness;
-                sl.State.On = true;
+            //    sl.State.Bri = brightness;
+            //    sl.State.On = true;
 
-                StartCoroutine(updateLight(sl.State));
-                tempTime = 0;
+            //    StartCoroutine(updateLight(sl.State));
+            //    tempTime = 0;
 
-                EventManager.TriggerEventWithParams("OnBrightnessChange", sl);
-            }
+            //    EventManager.TriggerEventWithParams("OnBrightnessChange", sl);
+            //}
         }
 
         if (SliderZ)
@@ -92,22 +88,22 @@ public class Brightness : MonoBehaviour {
         }
     }
 
-    private IEnumerator updateLight(State slState)
-    {
-        string json = JsonUtility.ToJson(slState);
+    //private IEnumerator updateLight(State slState)
+    //{
+    //    string json = JsonUtility.ToJson(slState);
 
-        UnityWebRequest www = UnityWebRequest.Put(request, json);
-        yield return www.Send();
+    //    UnityWebRequest www = UnityWebRequest.Put(request, json);
+    //    yield return www.Send();
 
-        if (www.isError)
-        {
-            Debug.LogError("There was an error with your request: " + www.error);
-        }
-        else
-        {
-            Debug.Log("response code: " + www.responseCode);
-            Debug.Log("updating light isDone: " + www.isDone);
-            //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
-        }
-    }
+    //    if (www.isError)
+    //    {
+    //        Debug.LogError("There was an error with your request: " + www.error);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("response code: " + www.responseCode);
+    //        Debug.Log("updating light isDone: " + www.isDone);
+    //        //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
+    //    }
+    //}
 }

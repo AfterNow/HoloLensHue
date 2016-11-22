@@ -45,9 +45,8 @@ public class HueBridgeManager : MonoBehaviour {
     void Start()
     {
        // MOCK smart lights for testing
-       mockLights = new MockSmartLights();
-       smartLights = mockLights.getLights();
-        Debug.Log("lightz: " + smartLights[0].ID);
+        mockLights = new MockSmartLights();
+        smartLights = mockLights.getLights();
         slm.InitSmartLightManager(smartLights);
         //convertLightData();
         // MOCK end mock setup

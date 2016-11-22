@@ -23,7 +23,7 @@ public class MockSmartLights : MonoBehaviour
             1,
             "kitchen",
             "LC0015",
-            new State(true, 254, 35000, 254, "none", "none"));
+            new State(true, 100, 35000, 254, "none", "none"));
         light2 = new SmartLight(
             2,
             "floorstanding",
