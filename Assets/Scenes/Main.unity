@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050dfe80fffbae14095c1e4db418e550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bridgeip: 192.168.0.16
+  bridgeip: 
   portNumber: 8000
   username: newdeveloper
   smartLights: []
@@ -459,6 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d5b622b3baa564ca01a237011bac35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenRequests: 0.3
 --- !u!114 &1022827892
 MonoBehaviour:
   m_ObjectHideFlags: 0

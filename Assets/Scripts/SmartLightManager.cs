@@ -71,9 +71,12 @@ public class SmartLightManager : Singleton<SmartLightManager> {
 
             Vector3 lightContainerPos = new Vector3(pos.x, lightContainerOffset * currentLight.transform.localScale.y, pos.z);
             var lightContObject = Instantiate(holoLightContPrefab, lightContainerPos, rotation);
+
             // assigns light ID to tag for easier interating downstream.
             var lightIDOffset = light.ID - 1;
+            currentLight.tag = lightIDOffset.ToString();
             lightContObject.tag = lightIDOffset.ToString();
+
             lightContObject.transform.parent = currentLight.transform;
 
             // sets color of light prefab based on current light hue state
@@ -96,55 +99,55 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
     }
 
-    public void UpdateLightState(string name, string param, int value)
-    {
-        Debug.Log("here is name in ULS: " + name);
-        foreach (SmartLight l in lights)
-        {
-            Debug.Log("here is name in lights list: " + l.Name);         
-            if (l.Name == name)
-            {
-                Debug.Log("name was a match in if statement");
-                currentLight = l;
-            }
-        }
-        if (currentLight != null)
-        {
-            if (param == "On")
-            {
-                currentLight.State.On = true;
-            }
-            else if (param == "Off")
-            {
-                currentLight.State.On = false;
-            }
-            else if (param == "hue")
-            {
-                Debug.Log("what is current light: " + currentLight);
-                currentLight.State.Hue = value;
-                currentLight.State.Sat = 254;
-            }
-            else if (param == "bri")
-            {
-                currentLight.State.Bri = value;
-            }
-            else if (param == "alert")
-            {
-                if (value == 0)
-                {
-                    currentLight.State.Alert = "none";
-                }
-                else
-                {
-                    currentLight.State.Alert = "lselect";
-                }
-            }
-            hueAPI.UpdateLight(currentLight);
-            currentLight.State.Alert = "none";
-        }
-        //int adjustedID = (lightID - 1);
+    //public void UpdateLightState(string name, string param, int value)
+    //{
+    //    Debug.Log("here is name in ULS: " + name);
+    //    foreach (SmartLight l in lights)
+    //    {
+    //        Debug.Log("here is name in lights list: " + l.Name);         
+    //        if (l.Name == name)
+    //        {
+    //            Debug.Log("name was a match in if statement");
+    //            currentLight = l;
+    //        }
+    //    }
+    //    if (currentLight != null)
+    //    {
+    //        if (param == "On")
+    //        {
+    //            currentLight.State.On = true;
+    //        }
+    //        else if (param == "Off")
+    //        {
+    //            currentLight.State.On = false;
+    //        }
+    //        else if (param == "hue")
+    //        {
+    //            Debug.Log("what is current light: " + currentLight);
+    //            currentLight.State.Hue = value;
+    //            currentLight.State.Sat = 254;
+    //        }
+    //        else if (param == "bri")
+    //        {
+    //            currentLight.State.Bri = value;
+    //        }
+    //        else if (param == "alert")
+    //        {
+    //            if (value == 0)
+    //            {
+    //                currentLight.State.Alert = "none";
+    //            }
+    //            else
+    //            {
+    //                currentLight.State.Alert = "lselect";
+    //            }
+    //        }
+    //        hueAPI.UpdateLight(currentLight);
+    //        currentLight.State.Alert = "none";
+    //    }
+    //    //int adjustedID = (lightID - 1);
         
-    }
+    //}
 
     // TODO if no change has been made perhaps no change should be called. Done for this function, double check and dupe for others
     public static void UpdateLightBrightness(int arrayId, int bri)
@@ -221,11 +224,9 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         }
     }
 
-    public static void UpdateLightState(int arrayId, State state)
+    public static void UpdateLightState(int arrayId)
     {
         SmartLight light = lights[arrayId];
-        light.State = state;
-
         if (stateChanged != null)
         {
             stateChanged(light.ID, light.State);

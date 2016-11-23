@@ -11,13 +11,16 @@ public class PhilipsHueAPI : MonoBehaviour {
     private HueBridgeManager bridgeValues;
     private GameObject hologramCollection;
 
+    [Tooltip("Rate limit of network requests. Value indicates time between requests in seconds")]
+    public float timeBetweenRequests = 0.3f;
+    private float requestCounter = 0f;
+
     void Start()
     {
         bridgeValues = GetComponent<HueBridgeManager>();
         if (GameObject.Find("HologramCollection") != null)
         {
-            hologramCollection = GameObject.Find("HologramCollection");
-            
+            hologramCollection = GameObject.Find("HologramCollection");      
         }
         else
         {
@@ -60,18 +63,14 @@ public class PhilipsHueAPI : MonoBehaviour {
         }
         else
         {
+            // TODO - Perhaps this should be changed to be an event in the event mananger's listing
             hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
         }
     }
 
-    //private void PostLights(int newApplesCount)
-    //{
-    //    Debug.Log("lights were updated via events with params: " + newApplesCount);
-    //}
-
     private void SendLightBrightness(int id, int bri)
     {
-        Debug.Log(string.Format("light {0} has been updated with a brightness of {1}.", id, bri));
+        Debug.Log(string.Format("light {0} has been updated with a bri of {1}.", id, bri));
     }
 
     private void SendLightHue(int id, int hue)
@@ -84,41 +83,35 @@ public class PhilipsHueAPI : MonoBehaviour {
         Debug.Log(string.Format("light {0} has been updated with a saturation of {1}.", id, sat));
     }
 
+    // subscribed to any change in a light's state. The id refers to the Hue Light's id value, not array id value.
     private void SendLightState(int id, State state)
     {
-        Debug.Log(string.Format("light {0} has been updated with a State of {1}.", id, state));
+        // variable limiter for network requests to the Hue bridge
+        requestCounter += Time.deltaTime;
+        if (requestCounter > timeBetweenRequests)
+        {
+            StartCoroutine(sendLightPutRequest(id, state));
+            requestCounter = 0;
+        }
     }
 
-    //private IEnumerator updateLight(State slState)
-    //{
-    //    string json = JsonUtility.ToJson(slState);
+    private IEnumerator sendLightPutRequest(int id, State state)
+    {
+        string request = "http://" + bridgeValues.bridgeip + "/api/" + bridgeValues.username + "/lights/" + id.ToString() + "/state";
+        string json = JsonUtility.ToJson(state);
 
-    //    UnityWebRequest www = UnityWebRequest.Put(request, json);
-    //    yield return www.Send();
+        UnityWebRequest www = UnityWebRequest.Put(request, json);
+        yield return www.Send();
 
-    //    if (www.isError)
-    //    {
-    //        Debug.LogError("There was an error with your request: " + www.error);
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("response code: " + www.responseCode);
-    //        Debug.Log("updating light isDone: " + www.isDone);
-    //        //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
-    //    }
-    //}
-
-    // for testing
-    //tempTime += Time.deltaTime;
-    //if (tempTime > requestFrequency)
-    //{
-    //    int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
-
-    //    sl.State.Bri = brightness;
-    //    sl.State.On = true;
-
-    //    StartCoroutine(updateLight(sl.State));
-    //    tempTime = 0;
-
-    //}
+        if (www.isError)
+        {
+            Debug.LogError("There was an error with your request: " + www.error);
+        }
+        else
+        {
+            Debug.Log("response code: " + www.responseCode);
+            Debug.Log("updating light isDone: " + www.isDone);
+            //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
+        }
+    }
 }

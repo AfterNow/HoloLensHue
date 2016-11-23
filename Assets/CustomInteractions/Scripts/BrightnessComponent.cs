@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class BrightnessComponent : MonoBehaviour
 {
+    /// <summary>
+    /// Allows access to the parent's details and values needed for this component
+    /// </summary>
+    [Tooltip("Attach the parent HoloLightContainer.")]
+    public GameObject holoLightContainer;
+
     // Slider actions
     [Header("Enable Sliders")]
     public bool SliderX;
@@ -44,12 +50,12 @@ public class BrightnessComponent : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.StartListening("SmartLightManagerReady", initBrightness);
+        EventManager.StopListening("SmartLightManagerReady", initBrightness);
     }
 
     private void initBrightness()
     {
-        var idTag = gameObject.transform.parent.tag;
+        var idTag = holoLightContainer.tag;
         // Ignores HoloLightContainers that do not have a valid id assigned to tag
         if (int.TryParse(idTag, out arrayId))
         {
@@ -85,7 +91,7 @@ public class BrightnessComponent : MonoBehaviour
             if (currentLight.State.Bri != brightness)
             {
                 currentLight.State.Bri = brightness;
-                SmartLightManager.UpdateLightBrightness(arrayId);
+                SmartLightManager.UpdateLightState(arrayId);
             }
         }
 
