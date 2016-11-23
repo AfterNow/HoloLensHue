@@ -113,30 +113,40 @@ public class HueBridgeManager : MonoBehaviour {
         }
         Debug.Log(bridgeJson.downloadHandler.text);
 
-
-        string bridgeJsonValue = bridgeJson.downloadHandler.text;
-
-        string[] bridgeResponse = bridgeJsonValue.Split(',');
-
-        foreach (string s in bridgeResponse)
+        if (bridgeJson.downloadHandler.text != "[]")
         {
-            if (s.Contains("internalipaddress"))
-            {
-                parsedBridgeip = s;
-            }
-            
-        }
-        // TODO will need a more robust system for parsing ip
-        var charsToRemove = new string[] { "internalipaddress", "\"", ":", "}", "]" };
-        foreach (var c in charsToRemove)
-        {
-            //parsedBridgeip = parsedBridgeip.Replace(c, string.Empty);
+            bridgeFound = true;
         }
 
         if (bridgeFound)
         {
+            string bridgeJsonValue = bridgeJson.downloadHandler.text;
+
+            string[] bridgeResponse = bridgeJsonValue.Split(',');
+
+            foreach (string s in bridgeResponse)
+            {
+                if (s.Contains("internalipaddress"))
+                {
+                    parsedBridgeip = s;
+                }
+
+            }
+
+            // TODO will need a more robust system for parsing ip
+            var charsToRemove = new string[] { "internalipaddress", "\"", ":", "}", "]" };
+            foreach (var c in charsToRemove)
+            {
+                parsedBridgeip = parsedBridgeip.Replace(c, string.Empty);
+            }
+
+            Debug.Log("bridge found: " + parsedBridgeip);
             bridgeip = parsedBridgeip;
             StartCoroutine(CreateBridgeUser(parsedBridgeip));
+        }
+        else
+        {
+            Debug.Log("No bridge was discovered on the current network. Refer to https://www.meethue.com/api/nupnp");
         }
         //Debug.Log("Please enter your Bridge IP and username");
     }
