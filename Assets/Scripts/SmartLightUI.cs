@@ -30,6 +30,6 @@ public class SmartLightUI : MonoBehaviour {
     {
         showLightUI = !showLightUI;
         // TODO Needs to check is exists first
-        lightUIHologram.SetActive(showLightUI);
+        //lightUIHologram.SetActive(showLightUI);
     }
 }

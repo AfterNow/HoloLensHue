@@ -411,6 +411,7 @@ MonoBehaviour:
   bridgeip: 
   portNumber: 8000
   username: newdeveloper
+  devices: []
   smartLights: []
 --- !u!4 &1022827888
 Transform:
@@ -515,7 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightID: 0
   appManager: {fileID: 1022827886}
-  lightContainerOffset: 1
+  lightContainerOffset: 2
 --- !u!1 &1116521159
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,7 +624,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145622175806722, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.10000001
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: 4145622175806722, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
       propertyPath: m_LocalPosition.z
@@ -647,7 +648,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4145622175806722, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1927271251445792, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
       propertyPath: m_IsActive
@@ -823,7 +824,7 @@ Transform:
   - {fileID: 1116521163}
   - {fileID: 721642476}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2132490107
 GameObject:
