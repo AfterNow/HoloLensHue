@@ -412,7 +412,6 @@ MonoBehaviour:
   portNumber: 8000
   username: newdeveloper
   devices: []
-  smartLights: []
 --- !u!4 &1022827888
 Transform:
   m_ObjectHideFlags: 0
@@ -516,7 +515,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightID: 0
   appManager: {fileID: 1022827886}
-  lightContainerOffset: 2
+  lightContainerOffset: 1.2
 --- !u!1 &1116521159
 GameObject:
   m_ObjectHideFlags: 0

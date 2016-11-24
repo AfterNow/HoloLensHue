@@ -1513,9 +1513,9 @@ MonoBehaviour:
   sliderSensitivity: 0.3
   requestFrequency: 0.2
   minSize: 0.04
-  maxSize: 0.15
+  maxSize: 0.25
   minHeight: -0.03
-  maxHeight: 0.2
+  maxHeight: 0.4
 --- !u!114 &114474912003117476
 MonoBehaviour:
   m_ObjectHideFlags: 1

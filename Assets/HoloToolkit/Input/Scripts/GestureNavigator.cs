@@ -96,8 +96,11 @@ namespace HoloToolkit.Unity
             if (Navigating)
             {
                 // First step is to figure out the delta between the initial navigation position and the current navigation position
-                Vector3 localNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
-                Vector3 initialToCurrentPosition = localNavigationPosition - initialNavigationPosition;
+
+                // commented out as turning head affected the rotation of the ColorWheel. Will evaluate with user testing
+                //Vector3 localNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
+                Vector3 initialToCurrentPosition = gestureManager.ManipulationPosition - initialNavigationPosition;
+               // Vector3 initialToCurrentPosition = localNavigationPosition - initialNavigationPosition;
                 
                 // When performing a navigation gesture, the navigation generally only translates a relatively small amount.
                 // If we rotate the object only as much as the input source itself moves, users can only make small adjustments before
@@ -117,11 +120,14 @@ namespace HoloToolkit.Unity
                 // If the object has an interpolator we should use it, otherwise just move the transform directly
                 if (targetInterpolator != null)
                 {
-                    targetInterpolator.SetTargetPosition(worldObjectPosition);
+                    //targetInterpolator.SetTargetPosition(worldObjectPosition);
+                    targetInterpolator.SetTargetPosition(localObjectPosition);
                 }
                 else
                 {
-                    navigatorActions.ActionController(worldObjectPosition);
+                    Debug.Log(worldObjectPosition);
+                    //navigatorActions.ActionController(worldObjectPosition);
+                    navigatorActions.ActionController(localObjectPosition);
                     //transform.position = worldObjectPosition;
                     //if (AxisX)
                     //{
@@ -133,7 +139,7 @@ namespace HoloToolkit.Unity
                     //    // inverted rotation to mimic user's hand movement direction
                     //    transform.RotateAround(gameObject.transform.position, Vector3.up, scaledLocalPositionDelta.x * -1);
                     //}
-                    
+
                     //if (AxisZ)
                     //{
                     //    transform.RotateAround(gameObject.transform.position, Vector3.forward, scaledLocalPositionDelta.z);
