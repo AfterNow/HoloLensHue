@@ -51,10 +51,6 @@ public class VoiceManager : MonoBehaviour {
                     currentLight = SmartLightManager.lights[arrayId];
                 }
             }
-            else
-            {
-                Debug.Log("No tag containing arrayId was found on this HoloLightContainer.");
-            }
         }
     }
 
