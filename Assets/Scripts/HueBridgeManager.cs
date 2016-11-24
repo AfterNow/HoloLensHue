@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 
 using MiniJSON;
+using Newtonsoft.Json;
 using System.Text;
 
 public class HueBridgeManager : MonoBehaviour {
@@ -15,12 +16,16 @@ public class HueBridgeManager : MonoBehaviour {
     [Tooltip("Developer username")]
     public string username = "newdeveloper";
 
+    public List<HueDevice> devices;
+
     public UnityWebRequest lights_json;
-    public UnityWebRequest bridgeJson;
+    //public UnityWebRequest request;
     public List<SmartLight> smartLights = null;
 
     private string parsedBridgeip;
     private bool bridgeFound;
+
+    private string bridgeIpUsername;
 
     private GameObject hologramCollection;
     private SmartLightManager slm;
@@ -44,19 +49,18 @@ public class HueBridgeManager : MonoBehaviour {
 
     void Start()
     {
-       // MOCK smart lights for testing
-        mockLights = new MockSmartLights();
-        smartLights = mockLights.getLights();
-        slm.InitSmartLightManager(smartLights);
-        //convertLightData();
+        // MOCK smart lights for testing
+            //mockLights = new MockSmartLights();
+            //smartLights = mockLights.getLights();
+            //slm.InitSmartLightManager(smartLights);
+            //convertLightData();
         // MOCK end mock setup
 
-        if ((bridgeip != "127.0.0.1" || bridgeip != "") && (username != "newdeveloper"))
+        if ((bridgeip != "127.0.0.1" || bridgeip != "") && (username != "newdeveloper" && username != ""))
         {
             if (StateManager.Instance.Starting)
             {
-                StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
-                StartCoroutine(DiscoverLights(lightDataToClass));
+                bridgeReady();
             }
             else
             {
@@ -65,8 +69,6 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
-            State sState = new State(true, 254, 0, 254, "none", "none");
-            sState.Bri = 100;
             StartCoroutine(CheckOrGetBridgeIP());
         }
     }
@@ -96,87 +98,110 @@ public class HueBridgeManager : MonoBehaviour {
     public IEnumerator CheckOrGetBridgeIP()
     {
         string url = "https://www.meethue.com/api/nupnp";
-        bridgeJson = UnityWebRequest.Get(url);
-        if (bridgeJson.error != null)
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        if (request.error != null)
         {
             // TODO - message to be displayed on headset
             Debug.Log("there was an error attempting to reach bridge");
         }
-        yield return bridgeJson.Send();
+        yield return request.Send();
 
-        if (bridgeJson.isError)
+        if (request.isError)
         {
-            // TODO - message to be displayed on headset
-            
+            // TODO - message to be displayed on headset           
             Debug.Log("There was an error attempting to discover bridge ip");
             yield break;
         }
-        Debug.Log(bridgeJson.downloadHandler.text);
+        Debug.Log(request.downloadHandler.text);
 
-        if (bridgeJson.downloadHandler.text != "[]")
+        if (request.downloadHandler.text != "[]")
         {
             bridgeFound = true;
         }
 
         if (bridgeFound)
         {
-            string bridgeJsonValue = bridgeJson.downloadHandler.text;
+            string bridgeJsonValue = request.downloadHandler.text;
 
-            string[] bridgeResponse = bridgeJsonValue.Split(',');
-
-            foreach (string s in bridgeResponse)
+            if (bridgeJsonValue != null)
             {
-                if (s.Contains("internalipaddress"))
-                {
-                    parsedBridgeip = s;
-                }
+                devices = JsonConvert.DeserializeObject<List<HueDevice>>(bridgeJsonValue);
 
+                // TODO - only sending the ip of the first bridge found. Will need to handle multiple briges found cases
+                string firstBridgeIP = devices[0].internalipaddress;
+                bridgeip = firstBridgeIP;
+                StartCoroutine(CheckOrCreateBridgeUser(bridgeip));
             }
-
-            // TODO will need a more robust system for parsing ip
-            var charsToRemove = new string[] { "internalipaddress", "\"", ":", "}", "]" };
-            foreach (var c in charsToRemove)
+            else
             {
-                parsedBridgeip = parsedBridgeip.Replace(c, string.Empty);
+                Debug.Log("no JSON data was returned from the bridge");
             }
-
-            Debug.Log("bridge found: " + parsedBridgeip);
-            bridgeip = parsedBridgeip;
-            StartCoroutine(CreateBridgeUser(parsedBridgeip));
         }
         else
         {
             Debug.Log("No bridge was discovered on the current network. Refer to https://www.meethue.com/api/nupnp");
         }
-        //Debug.Log("Please enter your Bridge IP and username");
     }
 
-    public IEnumerator CreateBridgeUser(string ip)
+    public IEnumerator CheckOrCreateBridgeUser(string ip)
     {
-        string url = "http://" + ip +"/api";
-
-        var request = new UnityWebRequest(url, "POST");
-        byte[] bodyRaw = Encoding.UTF8.GetBytes("{\"devicetype\": \"hololenshue#android\"}");
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-
-        yield return request.Send();
-
-        if (request.isError)
+        // if a username has been manually added to the inspector, bypass checking from or creating to the device
+        if (username != null && username != "newdeveloper" && username != "")
         {
-            // TODO - message to be displayed on headset
-            Debug.LogError("The request timed out. Please check your Bridge IP and internet connection");
-            yield break;
+            Debug.Log("existing username found: " + username);
         }
-
-        if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
+        else
         {
-            // TODO - message to be displayed on headset
-            Debug.Log("Please press the link button on your Bridge and try again");
+            // check if this Hue Bridge already has a valid username
+            StartCoroutine(GetUsername(ip));
+            // if a valid username is saved to the device, set as current user
+            if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
+            {
+                username = bridgeIpUsername;
+                Debug.Log("An existing username has been retrieved from the device");
+            }
+            // if no username was associated with the Hue Bridge, create and store one
+            else
+            {
+                string url = "http://" + ip + "/api";
+                UnityWebRequest request = new UnityWebRequest(url, "POST");
+                byte[] bodyRaw = Encoding.UTF8.GetBytes("{\"devicetype\": \"hololenshue#hololens\"}");
+                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                request.downloadHandler = new DownloadHandlerBuffer();
+                request.SetRequestHeader("Content-Type", "application/json");
+
+                yield return request.Send();
+
+                if (request.isError)
+                {
+                    // TODO - message to be displayed on headset
+                    Debug.LogError("The request timed out. Please check your Bridge IP and internet connection");
+                    yield break;
+                }
+
+                if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
+                {
+                    // TODO - message to be displayed on headset
+                    Debug.Log("Please press the link button on your Bridge and try again");
+                    yield break;
+                }
+                List<HueUser> users = JsonConvert.DeserializeObject<List<HueUser>>(request.downloadHandler.text);
+                if (users[0].success != null)
+                {
+                    username = users[0].success.username;
+                }
+                StartCoroutine(SetUsername(ip, username));
+                Debug.Log("A new username has been created: " + bridgeIpUsername);
+            }          
         }
-        Debug.Log("user json: " + request.downloadHandler.text);
-        Debug.Log(request);
+        // Bridgeid and username are both found and valid. Ready to make lighting requests
+        bridgeReady();
+    }
+
+    private void bridgeReady()
+    {
+        StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
+        StartCoroutine(DiscoverLights(lightDataToClass));
     }
 
     public IEnumerator DiscoverLights(Action nextAction)
@@ -265,6 +290,35 @@ public class HueBridgeManager : MonoBehaviour {
             // TODO - message to be displayed on headset
             Debug.LogError("No lights can be found. Please ensure the Bridge IP is set and your lighting system is functioning properly");
         }
+    }
+
+    IEnumerator GetUsername(string ipKey)
+    {
+        try
+        {
+            bridgeIpUsername = PlayerPrefs.GetString(ipKey);
+        }
+        // handle error if exists
+        catch (Exception err)
+        {
+            Debug.Log("The following error occurred when retrieving username from device: " + err);
+        }
+        yield return bridgeIpUsername;
+    }
+
+    IEnumerator SetUsername(string ipKey, string name)
+    {
+        try
+        {
+            PlayerPrefs.SetString(ipKey, name);
+        }
+        // handle error if exists
+        catch (Exception err)
+        {
+            Debug.Log("The following error occurred when saving username to device: " + err);
+        }
+        StartCoroutine(GetUsername(ipKey));
+        yield return null;
     }
 
     public void TestPut()

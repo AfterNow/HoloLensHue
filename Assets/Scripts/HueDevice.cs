@@ -1,4 +1,5 @@
-﻿public class HueDevice
+﻿[System.Serializable]
+public class HueDevice
 {
     public string id;
     public string internalipaddress;
