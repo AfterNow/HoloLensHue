@@ -62,7 +62,10 @@ public class HueBridgeManager : MonoBehaviour {
             }
             else
             {
-                Debug.Log("There was an error with the app startup state");
+                string message = "There was an error with the app startup state";
+                Debug.Log(message);
+                Notification notification = new Notification("error", message);
+                NotificationManager.DisplayNotification(notification);
             }
         }
         else
@@ -77,6 +80,9 @@ public class HueBridgeManager : MonoBehaviour {
         {
             SmartLightManager.lights[0].State.Bri = 200;
             SmartLightManager.UpdateLightState(0);
+
+            Notification notification = new Notification("error", "There was an error with the app startup state");
+            NotificationManager.DisplayNotification(notification);
         }
         if (Input.GetKeyDown("w"))
         {
