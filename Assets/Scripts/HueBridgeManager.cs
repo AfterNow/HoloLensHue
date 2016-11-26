@@ -62,7 +62,8 @@ public class HueBridgeManager : MonoBehaviour {
             }
             else
             {
-                Debug.Log("There was an error with the app startup state");
+                Notification notification = new Notification("error", "There was an error with the app startup state.");
+                NotificationManager.DisplayNotification(notification);
             }
         }
         else
@@ -77,19 +78,14 @@ public class HueBridgeManager : MonoBehaviour {
         {
             SmartLightManager.lights[0].State.Bri = 200;
             SmartLightManager.UpdateLightState(0);
+
+            Notification notification = new Notification("error", "There was an error with the app startup state.");
+            NotificationManager.DisplayNotification(notification);
         }
         if (Input.GetKeyDown("w"))
         {
             SmartLightManager.lights[0].State.Bri = 155;
             SmartLightManager.UpdateLightState(0);
-        }
-        if (Input.GetKeyDown("p"))
-        {
-            SmartLightManager.UpdateLightHue(2, 212);
-        }
-        if (Input.GetKeyDown("o"))
-        {
-            SmartLightManager.UpdateLightSaturation(2, 202);
         }
     }
 
@@ -99,15 +95,15 @@ public class HueBridgeManager : MonoBehaviour {
         UnityWebRequest request = UnityWebRequest.Get(url);
         if (request.error != null)
         {
-            // TODO - message to be displayed on headset
-            Debug.Log("there was an error attempting to reach bridge");
+            Notification notification = new Notification("error", "there was an error attempting to reach bridge.");
+            NotificationManager.DisplayNotification(notification);
         }
         yield return request.Send();
 
         if (request.isError)
         {
-            // TODO - message to be displayed on headset           
-            Debug.Log("There was an error attempting to discover bridge ip");
+            Notification notification = new Notification("error", "There was an error attempting to discover bridge ip.");
+            NotificationManager.DisplayNotification(notification);
             yield break;
         }
         Debug.Log(request.downloadHandler.text);
@@ -137,7 +133,8 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
-            Debug.Log("No bridge was discovered on the current network. Refer to https://www.meethue.com/api/nupnp");
+            Notification notification = new Notification("error", "No bridge was discovered on the current network. Refer to https://www.meethue.com/api/nupnp");
+            NotificationManager.DisplayNotification(notification);
         }
     }
 
@@ -172,15 +169,15 @@ public class HueBridgeManager : MonoBehaviour {
 
                 if (request.isError)
                 {
-                    // TODO - message to be displayed on headset
-                    Debug.LogError("The request timed out. Please check your Bridge IP and internet connection");
+                    Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and internet connection.");
+                    NotificationManager.DisplayNotification(notification);
                     yield break;
                 }
 
                 if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
                 {
-                    // TODO - message to be displayed on headset
-                    Debug.Log("Please press the link button on your Bridge and try again");
+                    Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
+                    NotificationManager.DisplayNotification(notification);
                     yield break;
                 }
                 List<HueUser> users = JsonConvert.DeserializeObject<List<HueUser>>(request.downloadHandler.text);
@@ -210,14 +207,15 @@ public class HueBridgeManager : MonoBehaviour {
         UnityWebRequest request = UnityWebRequest.Get(url);
         if (request.error != null)
         {
-            Debug.Log("There was an error. Your request was not sent");
+            Notification notification = new Notification("error", "There was an error. Your request was not sent.");
+            NotificationManager.DisplayNotification(notification);
         }
         yield return request.Send();
 
         if (request.isError)
         {
-            // TODO - message to be displayed on headset
-            Debug.LogError("The request timed out. Please check your Bridge IP and internet connection");
+            Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and internet connection.");
+            NotificationManager.DisplayNotification(notification);
             yield break;
         }
 
@@ -226,12 +224,13 @@ public class HueBridgeManager : MonoBehaviour {
         {
             if (json.Contains("unauthorized"))
             {
-                Debug.LogError("Unauthorized user. Please add valid Username to Hue Bridge Manager.");
+                Notification notification = new Notification("alert", "Unauthorized user. Please add valid Username to Hue Bridge Manager.");
+                NotificationManager.DisplayNotification(notification);
             }
             else
             {
-                // TODO - message to be displayed on headset
-                Debug.LogError("A bridge could not be found or could not be accessed at this time.");
+                Notification notification = new Notification("error", "A bridge could not be found or could not be accessed at this time.");
+                NotificationManager.DisplayNotification(notification);
                 StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Failed;
             }
         }
@@ -284,8 +283,8 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
-            // TODO - message to be displayed on headset
-            Debug.LogError("No lights can be found. Please ensure the Bridge IP is set and your lighting system is functioning properly");
+            Notification notification = new Notification("alert", "No lights can be found. Please ensure the Bridge IP is set and your lighting system is functioning properly.");
+            NotificationManager.DisplayNotification(notification);
         }
     }
 

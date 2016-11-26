@@ -85,7 +85,7 @@ public class Brightness : MonoBehaviour {
             if (currentLight.State.Bri != brightness)
             {
                 currentLight.State.Bri = brightness;
-                SmartLightManager.UpdateLightBrightness(arrayId);
+                SmartLightManager.UpdateLightState(arrayId);
             }
         }
 
