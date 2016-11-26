@@ -29,12 +29,7 @@ public class UIPanel : MonoBehaviour {
     private void ShowPanel(Notification notification, Color color)
     {
         panelImage.color = color;
-        StartCoroutine(ShowMessage(MessageExpiration));
+        //StartCoroutine(ShowMessage(MessageExpiration));
     }
 
-    IEnumerator ShowMessage(float displayTime)
-    {
-        yield return new WaitForSeconds(displayTime);
-        panel.enabled = false;
-    }
 }
