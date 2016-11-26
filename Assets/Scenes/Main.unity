@@ -649,11 +649,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1311804068827238, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1927271251445792, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114892211009814430, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 3fa491215ca93104aacdf8f4e2cba0d0, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1625636110
@@ -730,6 +735,7 @@ GameObject:
   - component: {fileID: 1871698106}
   - component: {fileID: 1871698105}
   - component: {fileID: 1871698104}
+  - component: {fileID: 1871698108}
   m_Layer: 0
   m_Name: HoloManager
   m_TagString: Untagged
@@ -794,6 +800,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1871698108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1871698103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f122ca4ae6b527e4798205becf9a0550, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1899037815
 GameObject:
   m_ObjectHideFlags: 0

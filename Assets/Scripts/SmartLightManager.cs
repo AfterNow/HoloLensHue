@@ -44,7 +44,6 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     // called when bridge has been found and lights are available
     public void InitSmartLightManager(List<SmartLight> smartLights)
     {
-        Debug.Log("smart saved?: " + smartLights[0].State.Hue);
         lights = smartLights;
         InstantiateLights();
     }
@@ -72,7 +71,7 @@ public class SmartLightManager : Singleton<SmartLightManager> {
 
             Vector3 lightContainerPos = new Vector3(pos.x, lightContainerOffset * currentLight.transform.localScale.y, pos.z);
             var lightContObject = Instantiate(holoLightContPrefab, lightContainerPos, Quaternion.identity);
-
+            
             // assigns light ID to tag for easier interating downstream.
             var lightIDOffset = light.ID - 1;
             currentLight.tag = lightIDOffset.ToString();

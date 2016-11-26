@@ -78,7 +78,7 @@ public class SelectorComponent : MonoBehaviour {
             {
                 previousHitTag = hitInfo.collider.tag;
 
-                Debug.Log("hit info: " + hitInfo.collider.tag);
+                //Debug.Log("hit info: " + hitInfo.collider.tag);
 
                 int hue = ColorService.GetHueByColor(hitInfo.collider.tag);
 
@@ -91,4 +91,3 @@ public class SelectorComponent : MonoBehaviour {
         }
     }
 }
- 

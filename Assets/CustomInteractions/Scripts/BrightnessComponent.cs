@@ -88,7 +88,7 @@ public class BrightnessComponent : MonoBehaviour
 
             int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
 
-            if (currentLight.State.Bri != brightness)
+            if (currentLight != null && currentLight.State.Bri != brightness)
             {
                 currentLight.State.Bri = brightness;
                 SmartLightManager.UpdateLightState(arrayId);

@@ -55,16 +55,16 @@ namespace HoloToolkit.Unity
 
         private void OnEnable()
         {
-            gestureManager.OnManipulationStarted += BeginNavigation;
-            gestureManager.OnManipulationCompleted += EndNavigation;
-            gestureManager.OnManipulationCanceled += EndNavigation;
+            gestureManager.OnNavigationStarted += BeginNavigation;
+            gestureManager.OnNavigationCompleted += EndNavigation;
+            gestureManager.OnNavigationCanceled += EndNavigation;
         }
 
         private void OnDisable()
         {
-            gestureManager.OnManipulationStarted -= BeginNavigation;
-            gestureManager.OnManipulationCompleted -= EndNavigation;
-            gestureManager.OnManipulationCanceled -= EndNavigation;
+            gestureManager.OnNavigationStarted -= BeginNavigation;
+            gestureManager.OnNavigationCompleted -= EndNavigation;
+            gestureManager.OnNavigationCanceled -= EndNavigation;
 
             Navigating = false;
         }
@@ -72,7 +72,7 @@ namespace HoloToolkit.Unity
         private void BeginNavigation(InteractionSourceKind sourceKind)
         {
             // Check if the gesture manager is not null, we're currently focused on this Game Object, and a current manipulation is in progress.
-            if (gestureManager != null && gestureManager.FocusedObject != null && gestureManager.FocusedObject == gameObject && gestureManager.ManipulationInProgress)
+            if (gestureManager != null && gestureManager.FocusedObject != null && gestureManager.FocusedObject == gameObject && gestureManager.NavigationInProgress)
             {
                 Navigating = true;
 
@@ -80,7 +80,7 @@ namespace HoloToolkit.Unity
 
                 // In order to ensure that any actively navigated objects move with the user, we do all our math relative to the camera,
                 // so when we save the initial navigation position and object position we first transform them into the camera's coordinate space
-                initialNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
+                initialNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.NavigationPosition);
                 initialObjectPosition = Camera.main.transform.InverseTransformPoint(transform.position);
             }
         }
@@ -99,7 +99,7 @@ namespace HoloToolkit.Unity
 
                 // commented out as turning head affected the rotation of the ColorWheel. Will evaluate with user testing
                 //Vector3 localNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
-                Vector3 initialToCurrentPosition = gestureManager.ManipulationPosition - initialNavigationPosition;
+                Vector3 initialToCurrentPosition = gestureManager.NavigationPosition - initialNavigationPosition;
                // Vector3 initialToCurrentPosition = localNavigationPosition - initialNavigationPosition;
                 
                 // When performing a navigation gesture, the navigation generally only translates a relatively small amount.
@@ -120,14 +120,11 @@ namespace HoloToolkit.Unity
                 // If the object has an interpolator we should use it, otherwise just move the transform directly
                 if (targetInterpolator != null)
                 {
-                    //targetInterpolator.SetTargetPosition(worldObjectPosition);
-                    targetInterpolator.SetTargetPosition(localObjectPosition);
+                    targetInterpolator.SetTargetPosition(worldObjectPosition);
                 }
                 else
                 {
-                    Debug.Log(worldObjectPosition);
-                    //navigatorActions.ActionController(worldObjectPosition);
-                    navigatorActions.ActionController(localObjectPosition);
+                    navigatorActions.ActionController(worldObjectPosition);
                     //transform.position = worldObjectPosition;
                     //if (AxisX)
                     //{
