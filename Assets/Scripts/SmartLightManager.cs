@@ -70,8 +70,8 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             currentLight.transform.parent = gameObject.transform;
 
             Vector3 lightContainerPos = new Vector3(pos.x, lightContainerOffset * currentLight.transform.localScale.y, pos.z);
-            var lightContObject = Instantiate(holoLightContPrefab, lightContainerPos, rotation);
-
+            var lightContObject = Instantiate(holoLightContPrefab, lightContainerPos, Quaternion.identity);
+            
             // assigns light ID to tag for easier interating downstream.
             var lightIDOffset = light.ID - 1;
             currentLight.tag = lightIDOffset.ToString();

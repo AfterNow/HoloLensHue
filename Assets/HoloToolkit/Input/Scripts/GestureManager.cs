@@ -249,10 +249,6 @@ namespace HoloToolkit.Unity
             navigationRecognizer = new GestureRecognizer();
 
             // Subscribe to our navigation events.
-            navigationRecognizer.SetRecognizableGestures(GestureSettings.NavigationX);
-            navigationRecognizer.SetRecognizableGestures(GestureSettings.NavigationY);
-
-            // Subscribe to our navigation events.
             navigationRecognizer.NavigationStartedEvent += NavigationRecognizer_NavigationStartedEvent;
             navigationRecognizer.NavigationUpdatedEvent += NavigationRecognizer_NavigationUpdatedEvent;
             navigationRecognizer.NavigationCompletedEvent += NavigationRecognizer_NavigationCompletedEvent;
@@ -289,7 +285,7 @@ namespace HoloToolkit.Unity
                 }
 
                 // Don't start another manipulation gesture if one is already underway.
-                if (!ManipulationInProgress)
+                if (!ManipulationInProgress && !NavigationInProgress) 
                 {
                     // Cache our current source state for use later.
                     currentInteractionSourceState = state;
@@ -367,7 +363,7 @@ namespace HoloToolkit.Unity
         {
             // If we currently in a manipulation then stop.
             // Check the current interaction source matches our cached value.
-            if (ManipulationInProgress && state.source.id == currentInteractionSourceState.source.id)
+            if ((ManipulationInProgress || NavigationInProgress) && state.source.id == currentInteractionSourceState.source.id)
             {
                 // Gesture Support for Controllers: (i.e. Clicker, Xbox Controller, etc.)
                 if (state.source.kind == InteractionSourceKind.Controller)

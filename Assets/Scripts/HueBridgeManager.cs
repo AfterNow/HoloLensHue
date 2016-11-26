@@ -18,9 +18,7 @@ public class HueBridgeManager : MonoBehaviour {
 
     public List<HueDevice> devices;
 
-    public UnityWebRequest lights_json;
-    //public UnityWebRequest request;
-    public List<SmartLight> smartLights = null;
+    private List<SmartLight> smartLights;
 
     private string parsedBridgeip;
     private bool bridgeFound;
@@ -201,32 +199,32 @@ public class HueBridgeManager : MonoBehaviour {
     private void bridgeReady()
     {
         StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
-        StartCoroutine(DiscoverLights(lightDataToClass));
+        StartCoroutine(DiscoverLights());
     }
 
-    public IEnumerator DiscoverLights(Action nextAction)
+    public IEnumerator DiscoverLights()
     {
         string url = "http://" + bridgeip + "/api/" + username + "/lights";
         Debug.Log("Request url: " + url);
 
-        lights_json = UnityWebRequest.Get(url);
-        if (lights_json.error != null)
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        if (request.error != null)
         {
             Debug.Log("There was an error. Your request was not sent");
         }
-        yield return lights_json.Send();
+        yield return request.Send();
 
-        if (lights_json.isError)
+        if (request.isError)
         {
             // TODO - message to be displayed on headset
             Debug.LogError("The request timed out. Please check your Bridge IP and internet connection");
             yield break;
         }
 
-        string jsonValue = lights_json.downloadHandler.text;
-        if (jsonValue.Contains("error"))
+        string json = request.downloadHandler.text;
+        if (json.Contains("error"))
         {
-            if (jsonValue.Contains("unauthorized"))
+            if (json.Contains("unauthorized"))
             {
                 Debug.LogError("Unauthorized user. Please add valid Username to Hue Bridge Manager.");
             }
@@ -239,18 +237,17 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
-            Debug.Log(lights_json.downloadHandler.text);
             StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
             GetComponent<VoiceManager>().RegisterPhrases();
-            nextAction();
+            convertLightData(json);
         }
     }
 
-    void lightDataToClass()
+    private void convertLightData(string json)
     {
-        if (StateManager.Instance.ConnectedDevices_Initialized && lights_json != null)
+        if (StateManager.Instance.ConnectedDevices_Initialized && json != null)
         {
-            var lights = (Dictionary<string, object>)Json.Deserialize(lights_json.downloadHandler.text);
+            var lights = (Dictionary<string, object>)Json.Deserialize(json);
 
             foreach (string key in lights.Keys)
             {
@@ -260,19 +257,19 @@ public class HueBridgeManager : MonoBehaviour {
                 string effect, alert;
 
                 var light = (Dictionary<string, object>)lights[key];
-                //var state = (Dictionary<string, dynamic>)light["state"];
 
-                //// converting needs to be done prior to instantiating new SmartLight
-                //on = Convert.ToBoolean(state["on"]);
-                //bri = Convert.ToInt32(state["bri"]);
-                //hue = Convert.ToInt32(state["hue"]);
-                //sat = Convert.ToInt32(state["sat"]);
-                //effect = Convert.ToString(state["effect"]);
-                //alert = Convert.ToString(state["alert"]);
+                var state = (Dictionary<string, object>)light["state"];
+
+                on = Convert.ToBoolean(state["on"]);
+                bri = Convert.ToInt32(state["bri"]);
+                hue = Convert.ToInt32(state["hue"]);
+                sat = Convert.ToInt32(state["sat"]);
+                effect = Convert.ToString(state["effect"]);
+                alert = Convert.ToString(state["alert"]);
 
                 id = Convert.ToInt32(key);
-                State smartLightState = new State(true, 254, 0, 254, "none", "none");
-                //State smartLightState = new State(on, bri, hue, sat, effect, alert);
+
+                State smartLightState = new State(on, bri, hue, sat, effect, alert);
                 smartLights.Add(new SmartLight(id, light["name"].ToString(), light["modelid"].ToString(), smartLightState));
             }
             // sends collection of lights to the SmartLightManager to handle all future changes

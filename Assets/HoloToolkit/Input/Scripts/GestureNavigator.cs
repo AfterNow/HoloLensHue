@@ -24,8 +24,6 @@ namespace HoloToolkit.Unity
         [Tooltip("How much to scale each axis of movement (camera relative) when manipulating the object")]
         public Vector3 PositionScale = new Vector3(2.0f, 2.0f, 4.0f);  // Default tuning values, expected to be modified per application
 
-        //public bool AxisX, AxisY, AxisZ;
-
         private NavigatorActions navigatorActions;
 
         private Vector3 initialNavigationPosition;
@@ -96,8 +94,9 @@ namespace HoloToolkit.Unity
             if (Navigating)
             {
                 // First step is to figure out the delta between the initial navigation position and the current navigation position
-                Vector3 localNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
-                Vector3 initialToCurrentPosition = localNavigationPosition - initialNavigationPosition;
+                // commented out as turning head affected the rotation of the ColorWheel. Will evaluate with user testing
+                //Vector3 localNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
+                Vector3 initialToCurrentPosition = gestureManager.ManipulationPosition - initialNavigationPosition;
                 
                 // When performing a navigation gesture, the navigation generally only translates a relatively small amount.
                 // If we rotate the object only as much as the input source itself moves, users can only make small adjustments before
@@ -122,22 +121,6 @@ namespace HoloToolkit.Unity
                 else
                 {
                     navigatorActions.ActionController(worldObjectPosition);
-                    //transform.position = worldObjectPosition;
-                    //if (AxisX)
-                    //{
-                    //    transform.RotateAround(gameObject.transform.position, Vector3.right, scaledLocalPositionDelta.y);
-                    //}
-
-                    //if (AxisY)
-                    //{
-                    //    // inverted rotation to mimic user's hand movement direction
-                    //    transform.RotateAround(gameObject.transform.position, Vector3.up, scaledLocalPositionDelta.x * -1);
-                    //}
-                    
-                    //if (AxisZ)
-                    //{
-                    //    transform.RotateAround(gameObject.transform.position, Vector3.forward, scaledLocalPositionDelta.z);
-                    //}
                 }
             }
         }

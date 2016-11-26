@@ -22,9 +22,9 @@ GameObject:
   - component: {fileID: 33000011686207988}
   - component: {fileID: 135000010211228574}
   - component: {fileID: 23000013873900392}
-  - component: {fileID: 114000013288608934}
   - component: {fileID: 114000012322811886}
   - component: {fileID: 114547963942909968}
+  - component: {fileID: 114688603006630634}
   m_Layer: 0
   m_Name: SmartBulb
   m_TagString: Untagged
@@ -94,24 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981c0ef7675867a409747fba35acd74a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000013288608934
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012987507904}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b15e63dd7a7b5544bba69f3122447709, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  handPositionScale: {x: 2, y: 2, z: 4}
-  grouped: 0
-  initialHandPosition: {x: 0, y: 0, z: 0}
-  initialObjectPosition: {x: 0, y: 0, z: 0}
-  targetInterpolator: {fileID: 0}
-  <Manipulating>k__BackingField: 0
-  <FocusedObject>k__BackingField: 0
 --- !u!114 &114547963942909968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,6 +106,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PositionScale: {x: 2, y: 2, z: 4}
+--- !u!114 &114688603006630634
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012987507904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2df506a46ef45e4da50fa60f1515011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BypassRotation: 1
 --- !u!135 &135000010211228574
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -28,6 +28,12 @@ public class PhilipsHueAPI : MonoBehaviour {
         }
     }
 
+    void Update()
+    {
+        // variable limiter for network requests to the Hue bridge
+        requestCounter += Time.deltaTime;
+    }
+
     void OnEnable()
     {
         SmartLightManager.brightnessChanged += SendLightBrightness;
@@ -86,8 +92,6 @@ public class PhilipsHueAPI : MonoBehaviour {
     // subscribed to any change in a light's state. The id refers to the Hue Light's id value, not array id value.
     private void SendLightState(int id, State state)
     {
-        // variable limiter for network requests to the Hue bridge
-        requestCounter += Time.deltaTime;
         if (requestCounter > timeBetweenRequests)
         {
             StartCoroutine(sendLightPutRequest(id, state));
