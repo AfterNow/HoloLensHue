@@ -83,7 +83,7 @@ public class BrightnessComponent : MonoBehaviour
 
             float scaleSize = (percentOfMaxHeight * sizeRange) + minSize;
 
-            gameObject.transform.position = new Vector3(gameObject.transform.position.x, adjustedDelta, gameObject.transform.position.z);
+            gameObject.transform.localPosition = new Vector3(gameObject.transform.localPosition.x, adjustedDelta, gameObject.transform.localPosition.z);
             gameObject.transform.localScale = new Vector3(scaleSize, scaleSize, scaleSize);
 
             int brightness = (int)((percentOfMaxHeight * brightnessRange) + minBrightness);
