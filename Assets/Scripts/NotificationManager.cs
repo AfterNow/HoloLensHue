@@ -33,11 +33,11 @@ public class NotificationManager : Singleton<NotificationManager> {
             {
                 color = Color.blue;
             }
+
             if (notification.SendToConsole)
             {
                 Debug.Log(notification.Message);
             }
-            newNotification(notification, color);
         }
     }
 }

@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class UIPanel : MonoBehaviour {
 
+    [Tooltip("Time message should be displayed. Void if message requires user action.")]
+    public float MessageExpiration = 3f;
+
     private UIPanel panel;
     private Image panelImage;
 
@@ -15,16 +18,23 @@ public class UIPanel : MonoBehaviour {
 	
     void OnEnable()
     {
-        NotificationManager.newNotification += UpdateColor;
+        NotificationManager.newNotification += ShowPanel;
     }
 
     void OnDisable()
     {
-        NotificationManager.newNotification -= UpdateColor;
+        NotificationManager.newNotification -= ShowPanel;
     }
 
-    private void UpdateColor(Notification notification, Color color)
+    private void ShowPanel(Notification notification, Color color)
     {
         panelImage.color = color;
+        StartCoroutine(ShowMessage(MessageExpiration));
+    }
+
+    IEnumerator ShowMessage(float displayTime)
+    {
+        yield return new WaitForSeconds(displayTime);
+        panel.enabled = false;
     }
 }

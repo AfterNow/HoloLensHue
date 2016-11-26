@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad2882f286a51d47afe5117462c7b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MessageExpiration: 3
 --- !u!1001 &476484322
 Prefab:
   m_ObjectHideFlags: 0
@@ -703,7 +704,7 @@ GameObject:
   m_PrefabParentObject: {fileID: 1143395204785522, guid: f8b50db8037811e40a2ffd0b4c56af90,
     type: 2}
   m_PrefabInternal: {fileID: 1772009373}
---- !u!114 &1451377730
+--- !u!114 &1451377733
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -821,6 +822,10 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 661634620}
+    - target: {fileID: 1101702956971530, guid: f8b50db8037811e40a2ffd0b4c56af90, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f8b50db8037811e40a2ffd0b4c56af90, type: 2}
   m_IsPrefabParent: 0
