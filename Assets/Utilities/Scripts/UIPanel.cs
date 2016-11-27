@@ -29,7 +29,6 @@ public class UIPanel : MonoBehaviour {
     private void ShowPanel(Notification notification, Color color)
     {
         panelImage.color = color;
-        //StartCoroutine(ShowMessage(MessageExpiration));
     }
 
 }

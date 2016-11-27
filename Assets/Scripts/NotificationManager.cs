@@ -46,6 +46,7 @@ public class NotificationManager : Singleton<NotificationManager> {
             if (notification.Type == "error")
             {
                 color = Color.red;
+
             } else if (notification.Type == "alert")
             {
                 color = new Color(0.27f, 0.5f, 0.7f);
