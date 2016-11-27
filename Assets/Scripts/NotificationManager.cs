@@ -10,12 +10,15 @@ public class NotificationManager : Singleton<NotificationManager> {
     public static event NewNotification newNotification;
 
     // Time notification should be displayed. Void if notification requires user action
-    private static float TimeTillExpiration = 3.5f;
+    private static float TimeTillExpiration = 5f;
 
     private static Canvas canvas;
     private static Color color;
 
     private static NotificationManager notificationManager;
+
+    private static Coroutine coroutine;
+    private static bool notificationActive;
 
     void Awake()
     {
@@ -43,9 +46,10 @@ public class NotificationManager : Singleton<NotificationManager> {
             if (notification.Type == "error")
             {
                 color = Color.red;
+
             } else if (notification.Type == "alert")
             {
-                color = Color.blue;
+                color = new Color(0.27f, 0.5f, 0.7f);
             }
 
             if (notification.SendToConsole)
@@ -57,7 +61,13 @@ public class NotificationManager : Singleton<NotificationManager> {
 
             if (!notification.RequiresAction)
             {
-                notificationManager.StartCoroutine(NotificationExpiration(TimeTillExpiration));
+                // if notification is active, we discard the previous expiration timer before we start a new one
+                if (notificationActive)
+                {
+                    notificationManager.StopCoroutine(coroutine);
+                }
+                notificationActive = true;
+                coroutine = notificationManager.StartCoroutine(NotificationExpiration(TimeTillExpiration));
             }
         }
     }
@@ -65,10 +75,11 @@ public class NotificationManager : Singleton<NotificationManager> {
     public static void CancelNotification()
     {
         canvas.enabled = false;
+        notificationActive = false;
     }
 
     private static IEnumerator NotificationExpiration(float seconds)
-    {
+    {    
         yield return new WaitForSeconds(seconds);
         CancelNotification();
     }
