@@ -86,6 +86,9 @@ public class HueBridgeManager : MonoBehaviour {
         {
             SmartLightManager.lights[0].State.Bri = 155;
             SmartLightManager.UpdateLightState(0);
+
+            Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
+            NotificationManager.DisplayNotification(notification);
         }
     }
 
