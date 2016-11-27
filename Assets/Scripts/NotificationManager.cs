@@ -46,10 +46,12 @@ public class NotificationManager : Singleton<NotificationManager> {
             if (notification.Type == "error")
             {
                 color = Color.red;
+                SoundManager.instance.PlayNotificationPopup("beepup");
 
             } else if (notification.Type == "alert")
             {
                 color = new Color(0.27f, 0.5f, 0.7f);
+                SoundManager.instance.PlayNotificationPopup("tonebeep");
             }
 
             if (notification.SendToConsole)
