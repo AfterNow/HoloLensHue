@@ -9,6 +9,9 @@ public class NotificationManager : Singleton<NotificationManager> {
     public delegate void NewNotification(Notification notification, Color color);
     public static event NewNotification newNotification;
 
+    public delegate void NotificationCanceled();
+    public static event NotificationCanceled notificationCanceled;
+
     // Time notification should be displayed. Void if notification requires user action
     private static float TimeTillExpiration = 5f;
 
@@ -20,12 +23,17 @@ public class NotificationManager : Singleton<NotificationManager> {
     private static Coroutine coroutine;
     private static bool notificationActive;
 
+    private GameObject hueBridgeGO;
+    private HueBridgeManager hueBridgeManager;
+
     void Awake()
     {
+        Debug.Log("NotifMgr Awake");
         notificationManager = this;
     }
 
     void Start () {
+        Debug.Log("NotifMgr Start");
         if (transform.GetChild(0).name == "Canvas")
         {
             canvas = transform.GetChild(0).gameObject.GetComponent<Canvas>();
@@ -35,7 +43,12 @@ public class NotificationManager : Singleton<NotificationManager> {
         {
             Debug.Log("No child Canvas was found. Please add one to use notification system.");
         }
-	}
+
+        // TODO create a more reliable solution - used to prevent 
+        hueBridgeGO = GameObject.Find("AppManager");
+        hueBridgeManager = hueBridgeGO.GetComponent<HueBridgeManager>();
+        hueBridgeManager.InitHueBridgeManager();
+    }
 	
     public static void DisplayNotification(Notification notification)
     {
@@ -69,7 +82,17 @@ public class NotificationManager : Singleton<NotificationManager> {
                     notificationManager.StopCoroutine(coroutine);
                 }
                 notificationActive = true;
-                coroutine = notificationManager.StartCoroutine(NotificationExpiration(TimeTillExpiration));
+
+                var expiration = TimeTillExpiration;
+                if (notification.Expiration != 0)
+                {
+                    expiration = notification.Expiration;
+                }
+                coroutine = notificationManager.StartCoroutine(NotificationExpiration(expiration));
+            }
+            else
+            {
+                // TODO handle notifications that require a user action
             }
         }
     }
@@ -78,6 +101,11 @@ public class NotificationManager : Singleton<NotificationManager> {
     {
         canvas.enabled = false;
         notificationActive = false;
+
+        if (notificationCanceled != null)
+        {
+            notificationCanceled();
+        }
     }
 
     private static IEnumerator NotificationExpiration(float seconds)

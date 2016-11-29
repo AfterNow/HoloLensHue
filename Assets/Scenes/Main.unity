@@ -495,7 +495,7 @@ MonoBehaviour:
   PopupClips:
   - {fileID: 8300000, guid: d95946c49e419e8469fa56a1c39cae58, type: 3}
   - {fileID: 8300000, guid: f5e894908d099094581796bd26cbcf63, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: a6b45fe459c73c1469ec31179e98484d, type: 3}
 --- !u!82 &1022827894
 AudioSource:
   m_ObjectHideFlags: 0
@@ -875,6 +875,31 @@ Prefab:
         type: 2}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114821128691150514, guid: f8b50db8037811e40a2ffd0b4c56af90,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114678376231768966, guid: f8b50db8037811e40a2ffd0b4c56af90,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114821128691150514, guid: f8b50db8037811e40a2ffd0b4c56af90,
+        type: 2}
+      propertyPath: SmoothingFactor
+      value: 0.457
+      objectReference: {fileID: 0}
+    - target: {fileID: 114821128691150514, guid: f8b50db8037811e40a2ffd0b4c56af90,
+        type: 2}
+      propertyPath: PositionUpdateSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114821128691150514, guid: f8b50db8037811e40a2ffd0b4c56af90,
+        type: 2}
+      propertyPath: EnforceDistance
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f8b50db8037811e40a2ffd0b4c56af90, type: 2}
