@@ -28,11 +28,14 @@ public class HueBridgeManager : MonoBehaviour {
     private GameObject hologramCollection;
     private SmartLightManager slm;
 
+    private bool awaitingBridgeLink;
+
     // TODO remove mock data
     MockSmartLights mockLights;
 
     void Awake()
     {
+        Debug.Log("HueBridgeMgr Awake");
         smartLights = new List<SmartLight>();
         if (GameObject.Find("HologramCollection") != null)
         {
@@ -45,13 +48,29 @@ public class HueBridgeManager : MonoBehaviour {
         }   
     }
 
+    void OnEnable()
+    {
+        Debug.Log("HueBridgeMgr OnEnable");
+        NotificationManager.notificationCanceled += NotificationExpired;
+    }
+
+    void OnDisable()
+    {
+        NotificationManager.notificationCanceled -= NotificationExpired;
+    }
+
     void Start()
     {
+        Debug.Log("HueBridgeMgr Start");
+    }
+
+    public void InitHueBridgeManager()
+    {
         // MOCK smart lights for testing
-            //mockLights = new MockSmartLights();
-            //smartLights = mockLights.getLights();
-            //slm.InitSmartLightManager(smartLights);
-            //convertLightData();
+        //mockLights = new MockSmartLights();
+        //smartLights = mockLights.getLights();
+        //slm.InitSmartLightManager(smartLights);
+        //convertLightData();
         // MOCK end mock setup
 
         if ((bridgeip != "127.0.0.1" || bridgeip != "") && (username != "newdeveloper" && username != ""))
@@ -83,7 +102,7 @@ public class HueBridgeManager : MonoBehaviour {
             NotificationManager.DisplayNotification(notification);
         }
         if (Input.GetKeyDown("w"))
-        {
+        { 
             SmartLightManager.lights[0].State.Bri = 155;
             SmartLightManager.UpdateLightState(0);
 
@@ -96,11 +115,6 @@ public class HueBridgeManager : MonoBehaviour {
     {
         string url = "https://www.meethue.com/api/nupnp";
         UnityWebRequest request = UnityWebRequest.Get(url);
-        if (request.error != null)
-        {
-            Notification notification = new Notification("error", "there was an error attempting to reach bridge.");
-            NotificationManager.DisplayNotification(notification);
-        }
         yield return request.Send();
 
         if (request.isError)
@@ -151,7 +165,7 @@ public class HueBridgeManager : MonoBehaviour {
         else
         {
             // check if this Hue Bridge already has a valid username
-            StartCoroutine(GetUsername(ip));
+            StartCoroutine(GetUsername("cats1"));
             // if a valid username is saved to the device, set as current user
             if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
             {
@@ -180,20 +194,31 @@ public class HueBridgeManager : MonoBehaviour {
                 if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
                 {
                     Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
+                    notification.Expiration = 30f;
                     NotificationManager.DisplayNotification(notification);
+
+                    // while true, a request to the bridge will be sent during specified intervals
+                    awaitingBridgeLink = true;
+
+                    StartCoroutine(AwaitingBridgeButtonPress(ip));
                     yield break;
                 }
-                List<HueUser> users = JsonConvert.DeserializeObject<List<HueUser>>(request.downloadHandler.text);
-                if (users[0].success != null)
-                {
-                    username = users[0].success.username;
-                }
-                StartCoroutine(SetUsername(ip, username));
-                Debug.Log("A new username has been created: " + bridgeIpUsername);
+                storeHueUser(ip, request.downloadHandler.text);
             }          
         }
         // Bridgeid and username are both found and valid. Ready to make lighting requests
         bridgeReady();
+    }
+
+    private void storeHueUser(string ip, string json)
+    {
+        List<HueUser> users = JsonConvert.DeserializeObject<List<HueUser>>(json);
+        if (users[0].success != null)
+        {
+            username = users[0].success.username;
+        }
+        StartCoroutine(SetUsername(ip, username));
+        Debug.Log("A new username has been created: " + bridgeIpUsername);
     }
 
     private void bridgeReady()
@@ -205,14 +230,8 @@ public class HueBridgeManager : MonoBehaviour {
     public IEnumerator DiscoverLights()
     {
         string url = "http://" + bridgeip + "/api/" + username + "/lights";
-        Debug.Log("Request url: " + url);
 
         UnityWebRequest request = UnityWebRequest.Get(url);
-        if (request.error != null)
-        {
-            Notification notification = new Notification("error", "There was an error. Your request was not sent.");
-            NotificationManager.DisplayNotification(notification);
-        }
         yield return request.Send();
 
         if (request.isError)
@@ -291,6 +310,47 @@ public class HueBridgeManager : MonoBehaviour {
         }
     }
 
+    IEnumerator AwaitingBridgeButtonPress(string ip)
+    {
+        if (awaitingBridgeLink)
+        {
+            string url = "http://" + ip + "/api";
+            UnityWebRequest request = new UnityWebRequest(url, "POST");
+            byte[] bodyRaw = Encoding.UTF8.GetBytes("{\"devicetype\": \"hololenshue#hololens\"}");
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.Send();
+
+            if (request.isError)
+            {
+                Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and internet connection.");
+                NotificationManager.DisplayNotification(notification);
+                yield break;
+            }
+
+            if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
+            {
+                StartCoroutine(AwaitingButtonPressInterval(ip));
+                yield break;
+            }
+
+            NotificationManager.CancelNotification();
+            storeHueUser(ip, request.downloadHandler.text);
+        }
+        else
+        {
+            Debug.Log("Bridge link button was not pressed within the time specified by counter");
+        }
+    }
+
+    IEnumerator AwaitingButtonPressInterval(string ip)
+    {
+        yield return new WaitForSeconds(1);
+        StartCoroutine(AwaitingBridgeButtonPress(ip));
+    }
+
     IEnumerator GetUsername(string ipKey)
     {
         try
@@ -317,7 +377,13 @@ public class HueBridgeManager : MonoBehaviour {
             Debug.Log("The following error occurred when saving username to device: " + err);
         }
         StartCoroutine(GetUsername(ipKey));
+        bridgeReady();
         yield return null;
+    }
+
+    private void NotificationExpired()
+    {
+        awaitingBridgeLink = false;
     }
 
     public void TestPut()

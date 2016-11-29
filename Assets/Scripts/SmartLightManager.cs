@@ -37,6 +37,7 @@ public class SmartLightManager : Singleton<SmartLightManager> {
 
     void Start()
     {
+        Debug.Log("StateMgr Start");
         hueMgr = GetComponent<HueBridgeManager>();
         hueAPI = appManager.GetComponent<PhilipsHueAPI>();
     }
