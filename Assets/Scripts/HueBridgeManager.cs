@@ -73,7 +73,7 @@ public class HueBridgeManager : MonoBehaviour {
         //convertLightData();
         // MOCK end mock setup
 
-        if ((bridgeip != "127.0.0.1" || bridgeip != "") && (username != "newdeveloper" && username != ""))
+        if ((bridgeip != "127.0.0.1" && bridgeip != "") && (username != "newdeveloper" && username != ""))
         {
             if (StateManager.Instance.Starting)
             {
@@ -108,6 +108,15 @@ public class HueBridgeManager : MonoBehaviour {
 
             Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
             NotificationManager.DisplayNotification(notification);
+        }
+
+        if (Input.GetKeyDown("space"))
+        {
+            if (StateManager.Instance.Starting && !awaitingBridgeLink)
+            {
+                Debug.Log("i shouldn't pop up when notif is up");
+                StartCoroutine(CheckOrCreateBridgeUser(bridgeip));
+            }             
         }
     }
 
@@ -157,14 +166,11 @@ public class HueBridgeManager : MonoBehaviour {
 
     public IEnumerator CheckOrCreateBridgeUser(string ip)
     {
-        // if a username has been manually added to the inspector, bypass checking from or creating to the device
-        if (username != null && username != "newdeveloper" && username != "")
-        {
-            Debug.Log("existing username found: " + username);
-        }
-        else
+        // checks that a username has not been manually added to the inspector. If one has, we want to bypass creating a new one
+        if (username == null || username == "newdeveloper" || username == "")
         {
             // check if this Hue Bridge already has a valid username
+            // TODO replace casts with the param ip when done testing
             StartCoroutine(GetUsername("cats1"));
             // if a valid username is saved to the device, set as current user
             if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
@@ -259,7 +265,7 @@ public class HueBridgeManager : MonoBehaviour {
         else
         {
             StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
-            GetComponent<VoiceManager>().RegisterPhrases();
+            //GetComponent<VoiceManager>().RegisterPhrases();
             convertLightData(json);
         }
     }
@@ -384,6 +390,24 @@ public class HueBridgeManager : MonoBehaviour {
     private void NotificationExpired()
     {
         awaitingBridgeLink = false;
+    }
+
+    public void RecheckOrGetBridgeIP()
+    {
+        if (StateManager.Instance.Starting && !awaitingBridgeLink)
+        {
+            Debug.Log("rechdck bridge cond met");
+            StartCoroutine(CheckOrGetBridgeIP());
+        }
+    }
+
+    public void RecheckOrCreateBridgeUser()
+    {
+        if (StateManager.Instance.Starting && !awaitingBridgeLink)
+        {
+            Debug.Log("rechdck username cond met");
+            StartCoroutine(CheckOrCreateBridgeUser(bridgeip));
+        }
     }
 
     public void TestPut()

@@ -44,7 +44,7 @@ public class NotificationManager : Singleton<NotificationManager> {
             Debug.Log("No child Canvas was found. Please add one to use notification system.");
         }
 
-        // TODO create a more reliable solution - used to prevent 
+        // TODO create a more reliable solution - used to prevent null object reference
         hueBridgeGO = GameObject.Find("AppManager");
         hueBridgeManager = hueBridgeGO.GetComponent<HueBridgeManager>();
         hueBridgeManager.InitHueBridgeManager();
@@ -63,6 +63,7 @@ public class NotificationManager : Singleton<NotificationManager> {
 
             } else if (notification.Type == "alert")
             {
+                // color = steelblue
                 color = new Color(0.27f, 0.5f, 0.7f);
                 SoundManager.instance.PlayNotificationPopup("tonebeep");
             }
