@@ -34,6 +34,8 @@ public class VoiceManager : MonoBehaviour {
         {
             Debug.LogError("No GameObject name HologramCollection can be found. This object should contain all holograms and the SmartLightManager");
         }
+
+        RegisterPhrases();
     }
 	
 	// Update is called once per frame
@@ -62,12 +64,47 @@ public class VoiceManager : MonoBehaviour {
 
         keywords = new Dictionary<string, System.Action>();
 
-        // Global light commands
+        /// <summary>
+        /// Global systemwide voice commands
+        /// </summary>
+        // runs a search function to discover Hue Bridges on the same network.
+        keywords.Add("Search For Bridge", () =>
+        {
+            SendMessage("RecheckOrGetBridgeIP", SendMessageOptions.DontRequireReceiver);
+        });
+
+        // runs a search for existing usernames associated with the Bridge ip. If none are found, creates one.
+        keywords.Add("Link To Bridge", () =>
+        {
+            SendMessage("RecheckOrCreateBridgeUser", SendMessageOptions.DontRequireReceiver);
+        });
+
+        // Displays panel of available voice commands
+        keywords.Add("Show Voice Menu", () =>
+        {
+            //showVCMenu(true);
+        });
+        
+        // Hides panel of availalbe voice commands
+        keywords.Add("Hide Voice Menu", () =>
+        {
+            //showVCMenu(false);
+        });
+
+        /// <summary>
+        /// Collection of lights voice commands
+        /// </summary>
+        /// 
+        // resets all lights back to default hue, full saturation, and full brightness.
         keywords.Add("Normal Lights", () =>
         {
             slm.SetLightsToDefault();
         });
 
+        /// <summary>
+        /// Individual light voice commands
+        /// </summary>
+        /// 
         // On/Off commands
         keywords.Add("Light On", () =>
         {
@@ -170,17 +207,6 @@ public class VoiceManager : MonoBehaviour {
         keywords.Add("OK That's Enough", () =>
         {
             buildUpdateCall("alert", 0);
-        });
-
-        // system voice commands
-        keywords.Add("Show Voice Menu", () =>
-        {
-            //showVCMenu(true);
-        });
-
-        keywords.Add("Hide Voice Menu", () =>
-        {
-            //showVCMenu(false);
         });
 
         // Tell the KeywordRecognizer about our keywords.
