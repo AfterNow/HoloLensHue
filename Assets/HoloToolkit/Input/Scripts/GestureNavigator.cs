@@ -69,6 +69,7 @@ namespace HoloToolkit.Unity
 
         private void BeginNavigation(InteractionSourceKind sourceKind)
         {
+            //Debug.Log("gesture Focused object: " + gestureManager.FocusedObject.layer);
             // Check if the gesture manager is not null, we're currently focused on this Game Object, and a current manipulation is in progress.
             if (gestureManager != null && gestureManager.FocusedObject != null && gestureManager.FocusedObject == gameObject && gestureManager.ManipulationInProgress)
             {

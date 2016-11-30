@@ -141,7 +141,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.85, y: 0.32, z: 0.02}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114035291953167802
 MonoBehaviour:
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1588585809555350}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac8d5b128a1d8204fb76c86f47b75912, type: 3}
   m_Name: 
@@ -292,25 +292,25 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1588585809555350}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c655338633f4544180b3d90a593ac17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TagalongDistance: 1.5
+  TagalongDistance: 2
   EnforceDistance: 1
   PositionUpdateSpeed: 6
   SmoothMotion: 1
-  SmoothingFactor: 0.38
-  MinimumHorizontalOverlap: 0.1
+  SmoothingFactor: 0.5
+  MinimumHorizontalOverlap: 0.75
   TargetHorizontalOverlap: 1
-  MinimumVerticalOverlap: 0.1
+  MinimumVerticalOverlap: 0.5
   TargetVerticalOverlap: 1
   HorizontalRayCount: 3
   VerticalRayCount: 3
   MinimumTagalongDistance: 1
   MaintainFixedSize: 1
-  DepthUpdateSpeed: 4
+  DepthUpdateSpeed: 6
   DebugDrawLines: 0
   DebugPointLight: {fileID: 0}
 --- !u!114 &114933654411461632
@@ -361,7 +361,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 16
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -469,5 +469,5 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 1.0955787, y: -0.19453605}
-  m_SizeDelta: {x: 24, y: 8}
+  m_SizeDelta: {x: 18, y: 6}
   m_Pivot: {x: 0.5, y: 0.5}

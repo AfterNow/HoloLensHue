@@ -260,7 +260,6 @@ public class VoiceManager : MonoBehaviour {
                     else if (param == "hue")
                     {
                         currentLight.State.Hue = value;
-                        currentLight.State.Sat = 254;
                     }
                     else if (param == "bri")
                     {

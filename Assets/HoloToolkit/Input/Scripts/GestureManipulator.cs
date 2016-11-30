@@ -73,11 +73,20 @@ namespace HoloToolkit.Unity
                 // so when we save the initial manipulation position and object position we first transform them into the camera's coordinate space
                 initialManipulationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
                 initialObjectPosition = Camera.main.transform.InverseTransformPoint(transform.position);
+
+                if (GetComponent<IoTAnchor>())
+                {
+                    GetComponent<IoTAnchor>().RemoveAnchor(sourceKind);
+                }
             }
         }
 
         private void EndManipulation(InteractionSourceKind sourceKind)
         {
+            if (GetComponent<IoTAnchor>() && Manipulating)
+            {
+                GetComponent<IoTAnchor>().AddAnchor(sourceKind);
+            }
             Manipulating = false;
         }
 
