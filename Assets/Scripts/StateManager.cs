@@ -7,6 +7,9 @@ using HoloToolkit.Unity;
 /// </summary>
 public class StateManager : Singleton<StateManager>
 {
+    public delegate void OnConfiguration();
+    public static event OnConfiguration onConfiguration;
+
     [Tooltip("Current state of the application")]
     public string appState;
 
@@ -15,7 +18,7 @@ public class StateManager : Singleton<StateManager>
         // Overall states
         Starting,
         Ready,
-        Editing,
+        Configuring,
         // IoT Devices values
         ConnectedDevices_Initializing,
         ConnectedDevices_Initialized,
@@ -36,6 +39,7 @@ public class StateManager : Singleton<StateManager>
         {
             currentState = value;
             appState = CurrentStateName;
+            OnStateChanged(currentState);
         }
     }
 
@@ -47,11 +51,11 @@ public class StateManager : Singleton<StateManager>
         }
     }
 
-    public bool Editing
+    public bool Configuring
     {
         get
         {
-            return currentState == HueAppState.Editing;
+            return currentState == HueAppState.Configuring;
         }
     }
 
@@ -91,4 +95,16 @@ public class StateManager : Singleton<StateManager>
     {
         appState = CurrentStateName;
     }
+
+    private void OnStateChanged(HueAppState state)
+    {
+        if (state == HueAppState.Configuring)
+        {
+            if (onConfiguration != null)
+            {
+                onConfiguration();
+            }
+        }
+    }
+    
 }

@@ -102,12 +102,14 @@ public class HueBridgeManager : MonoBehaviour {
             NotificationManager.DisplayNotification(notification);
         }
         if (Input.GetKeyDown("w"))
-        { 
-            SmartLightManager.lights[0].State.Bri = 155;
-            SmartLightManager.UpdateLightState(0);
+        {
+            //SmartLightManager.lights[0].State.Bri = 155;
+            //SmartLightManager.UpdateLightState(0);
 
-            Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
-            NotificationManager.DisplayNotification(notification);
+            //Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
+            //NotificationManager.DisplayNotification(notification);
+
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Configuring;
         }
 
         if (Input.GetKeyDown("space"))

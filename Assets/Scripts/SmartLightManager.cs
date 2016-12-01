@@ -42,6 +42,16 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         hueAPI = appManager.GetComponent<PhilipsHueAPI>();
     }
 
+    void OnEnable()
+    {
+        StateManager.onConfiguration += configureLights;
+    }
+
+    void OnDisable()
+    {
+        StateManager.onConfiguration -= configureLights;
+    }
+
     // called when bridge has been found and lights are available
     public void InitSmartLightManager(List<SmartLight> smartLights)
     {
@@ -85,10 +95,10 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             Vector4 ledColor = ColorService.GetColorByHue(light.State.Hue);
             rend.material.color = ledColor;
             // TODO commented out while testing. This hides spawned prefabs.
-            //if (!StateManager.Instance.Editing)
-            //{
-            //    rend.enabled = false;
-            //}
+            if (!StateManager.Instance.Configuring)
+            {
+                rend.enabled = false;
+            }
 
             // increments x value to space out spawned prefabs that have no Anchor Store entry.
             pos += new Vector3(1, 0, 0);
@@ -106,6 +116,19 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         if (stateChanged != null)
         {
             stateChanged(light.ID, light.State);
+        }
+    }
+
+    private void configureLights()
+    {
+        foreach (SmartLight sl in lights)
+        {
+            GameObject currentLight = GameObject.Find(sl.Name);
+            Renderer rend = currentLight.GetComponent<Renderer>();
+
+            rend.enabled = true;
+            //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
+            //rend.material.color = ledColor;
         }
     }
 
