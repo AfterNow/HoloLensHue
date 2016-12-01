@@ -24,6 +24,8 @@ namespace HoloToolkit.Unity
         [Tooltip("How much to scale each axis of movement (camera relative) when manipulating the object")]
         public Vector3 PositionScale = new Vector3(2.0f, 2.0f, 4.0f);  // Default tuning values, expected to be modified per application
 
+        private float dynamicSensitivity;
+
         private NavigatorActions navigatorActions;
 
         private Vector3 initialNavigationPosition;
@@ -78,6 +80,11 @@ namespace HoloToolkit.Unity
 
                 // In order to ensure that any actively navigated objects move with the user, we do all our math relative to the camera,
                 // so when we save the initial navigation position and object position we first transform them into the camera's coordinate space
+
+                //initialNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
+                //Debug.Log("init nav pos: " + initialNavigationPosition.y);
+                //initialObjectPosition = Camera.main.transform.InverseTransformPoint(transform.position);
+
                 initialNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
                 initialObjectPosition = Camera.main.transform.InverseTransformPoint(transform.position);
             }
@@ -96,19 +103,65 @@ namespace HoloToolkit.Unity
                 // First step is to figure out the delta between the initial navigation position and the current navigation position
                 // commented out as turning head affected the rotation of the ColorWheel. Will evaluate with user testing
                 //Vector3 localNavigationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
-                Vector3 initialToCurrentPosition = gestureManager.ManipulationPosition - initialNavigationPosition;
-                
-                // When performing a navigation gesture, the navigation generally only translates a relatively small amount.
-                // If we rotate the object only as much as the input source itself moves, users can only make small adjustments before
+                //Vector3 initialToCurrentPosition = gestureManager.ManipulationPosition - initialNavigationPosition;
+
+                //Vector3 localManipulationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
+                //Vector3 initialToCurrentPosition = localManipulationPosition - initialManipulationPosition;
+
+                //// When performing a navigation gesture, the navigation generally only translates a relatively small amount.
+                //// If we rotate the object only as much as the input source itself moves, users can only make small adjustments before
+                //// the source is lost and the gesture completes.  To improve the usability of the gesture we scale each
+                //// axis of movement by some amount (camera relative).  This value can be changed in the editor or
+                //// at runtime based on the needs of individual movement scenarios.
+
+                //// If PositionScale is set high to increase sensitivity, unfortunately it also increases the minimum travel distance 
+                //// needed to begin triggering movement. To fix this, a dynamicSensitivity var is used to counter the minimum travel
+                ////Vector3 scaledLocalPositionDelta;
+                ////if (dynamicSensitivity < PositionScale.y)
+                ////{
+                ////    scaledLocalPositionDelta = Vector3.Scale(initialToCurrentPosition, new Vector3(PositionScale.x, dynamicSensitivity, PositionScale.z));
+                ////    dynamicSensitivity += 0.2f;
+                ////}
+                ////else
+                ////{
+                ////    scaledLocalPositionDelta = Vector3.Scale(initialToCurrentPosition, PositionScale);
+                ////}
+                //Vector3 scaledLocalPositionDelta = Vector3.Scale(initialToCurrentPosition, PositionScale);
+
+                //// Once we've figured out how much the object should rotate relative to the camera we apply that to the initial
+                //// camera relative position.  This ensures that the object remains in the appropriate location relative to the camera
+                //// and the input source as the camera moves.  The allows users to use both gaze and gesture to move objects.  Once they
+                //// begin navigating an object they can rotate their head or walk around and the object will move with them
+                //// as long as they maintain the gesture, while still allowing adjustment via input movement.
+                //Vector3 localObjectPosition = initialObjectPosition + scaledLocalPositionDelta;
+                //Vector3 worldObjectPosition = Camera.main.transform.TransformPoint(localObjectPosition);
+
+                //// If the object has an interpolator we should use it, otherwise just move the transform directly
+                //if (targetInterpolator != null)
+                //{
+                //    targetInterpolator.SetTargetPosition(localObjectPosition);
+                //}
+                //else
+                //{
+                //    navigatorActions.ActionController(localObjectPosition);
+                //}
+                //initialObjectPosition = initialToCurrentPosition;
+
+                // First step is to figure out the delta between the initial manipulation position and the current manipulation position
+                Vector3 localManipulationPosition = Camera.main.transform.InverseTransformPoint(gestureManager.ManipulationPosition);
+                Vector3 initialToCurrentPosition = localManipulationPosition - initialNavigationPosition;
+
+                // When performing a manipulation gesture, the manipulation generally only translates a relatively small amount.
+                // If we move the object only as much as the input source itself moves, users can only make small adjustments before
                 // the source is lost and the gesture completes.  To improve the usability of the gesture we scale each
                 // axis of movement by some amount (camera relative).  This value can be changed in the editor or
                 // at runtime based on the needs of individual movement scenarios.
                 Vector3 scaledLocalPositionDelta = Vector3.Scale(initialToCurrentPosition, PositionScale);
 
-                // Once we've figured out how much the object should rotate relative to the camera we apply that to the initial
+                // Once we've figured out how much the object should move relative to the camera we apply that to the initial
                 // camera relative position.  This ensures that the object remains in the appropriate location relative to the camera
                 // and the input source as the camera moves.  The allows users to use both gaze and gesture to move objects.  Once they
-                // begin navigating an object they can rotate their head or walk around and the object will move with them
+                // begin manipulating an object they can rotate their head or walk around and the object will move with them
                 // as long as they maintain the gesture, while still allowing adjustment via input movement.
                 Vector3 localObjectPosition = initialObjectPosition + scaledLocalPositionDelta;
                 Vector3 worldObjectPosition = Camera.main.transform.TransformPoint(localObjectPosition);
@@ -116,11 +169,12 @@ namespace HoloToolkit.Unity
                 // If the object has an interpolator we should use it, otherwise just move the transform directly
                 if (targetInterpolator != null)
                 {
-                    targetInterpolator.SetTargetPosition(worldObjectPosition);
+                    targetInterpolator.SetTargetPosition(localObjectPosition);
                 }
                 else
                 {
-                    navigatorActions.ActionController(worldObjectPosition);
+                    navigatorActions.ActionController(localObjectPosition);
+                    //transform.position = worldObjectPosition;
                 }
             }
         }

@@ -14,6 +14,11 @@ public class NavigatorActions : MonoBehaviour
     public bool Slider;
     public GameObject SliderAction;
 
+    // Rotation actions
+    [Tooltip("If action should be performed on object different from 'this', add here.")]
+    [Header("Apply To")]
+    public GameObject ObjectToRotate;
+
     // Use this for initialization
     void Start()
     {
@@ -36,8 +41,16 @@ public class NavigatorActions : MonoBehaviour
 
         if (RotateY)
         {
-            // inverted rotation to mimic user's hand movement direction
-            transform.RotateAround(gameObject.transform.position, Vector3.up, scaledLocalPositionDelta.x * -1);
+            if (ObjectToRotate)
+            {
+                // inverted rotation to mimic user's hand movement direction
+                ObjectToRotate.transform.RotateAround(ObjectToRotate.transform.position, Vector3.up, scaledLocalPositionDelta.x * -1);
+            }
+            else
+            {
+                // inverted rotation to mimic user's hand movement direction
+                transform.RotateAround(gameObject.transform.position, Vector3.up, scaledLocalPositionDelta.x * -1);
+            }
         }
 
         if (RotateZ)

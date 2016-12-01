@@ -171,7 +171,7 @@ public class HueBridgeManager : MonoBehaviour {
         {
             // check if this Hue Bridge already has a valid username
             // TODO replace casts with the param ip when done testing
-            StartCoroutine(GetUsername("cats1"));
+            StartCoroutine(GetUsername(ip));
             // if a valid username is saved to the device, set as current user
             if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
             {
@@ -290,7 +290,11 @@ public class HueBridgeManager : MonoBehaviour {
                 on = Convert.ToBoolean(state["on"]);
                 bri = Convert.ToInt32(state["bri"]);
                 hue = Convert.ToInt32(state["hue"]);
-                sat = Convert.ToInt32(state["sat"]);
+
+                // TODO - remove when ability to adjust saturation is added in the future
+                sat = 254;
+                //sat = Convert.ToInt32(state["sat"]);
+
                 effect = Convert.ToString(state["effect"]);
                 alert = Convert.ToString(state["alert"]);
 

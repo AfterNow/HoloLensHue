@@ -66,27 +66,15 @@ public class IoTAnchor : MonoBehaviour {
         }
     }
 
-    private void OnEnable()
+    public void RemoveAnchor(InteractionSourceKind sourceKind)
     {
-        gestureManager.OnManipulationStarted += RemoveAnchor;
-        gestureManager.OnManipulationCompleted += AddAnchor;
-        gestureManager.OnManipulationCanceled += AddAnchor;
-    }
-
-    private void OnDisable()
-    {
-        gestureManager.OnManipulationStarted -= RemoveAnchor;
-        gestureManager.OnManipulationCompleted -= AddAnchor;
-        gestureManager.OnManipulationCanceled -= AddAnchor;
-    }
-
-    private void RemoveAnchor(InteractionSourceKind sourceKind)
-    {
+        Debug.Log("remove anc called");
         anchorManager.RemoveAnchor(gameObject);
     }
 
-    private void AddAnchor(InteractionSourceKind sourceKind)
+    public void AddAnchor(InteractionSourceKind sourceKind)
     {
+        Debug.Log("add anc called");
         gameObject.transform.localRotation = Quaternion.identity;
         anchorManager.AttachAnchor(gameObject, anchorName);
     }
