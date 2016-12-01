@@ -258,7 +258,7 @@ public class VoiceManager : MonoBehaviour {
                         currentLight.State.On = false;
                     }
                     else if (param == "hue")
-                    {
+                    { 
                         currentLight.State.Hue = value;
                     }
                     else if (param == "bri")

@@ -290,7 +290,11 @@ public class HueBridgeManager : MonoBehaviour {
                 on = Convert.ToBoolean(state["on"]);
                 bri = Convert.ToInt32(state["bri"]);
                 hue = Convert.ToInt32(state["hue"]);
-                sat = Convert.ToInt32(state["sat"]);
+
+                // TODO - remove when ability to adjust saturation is added in the future
+                sat = 254;
+                //sat = Convert.ToInt32(state["sat"]);
+
                 effect = Convert.ToString(state["effect"]);
                 alert = Convert.ToString(state["alert"]);
 
