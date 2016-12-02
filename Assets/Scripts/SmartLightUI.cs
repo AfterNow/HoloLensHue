@@ -4,14 +4,19 @@ using HoloToolkit.Unity;
 
 public class SmartLightUI : MonoBehaviour {
 
+    private GameObject holoLightContainer;
     private GameObject lightUI;
-    private GameObject lightUIHologram;
 
     private bool showLightUI = false;
 
     public void Start()
     {
-
+        if (gameObject.transform.GetChild(0))
+        {
+            holoLightContainer = gameObject.transform.GetChild(0).gameObject;
+        }
+        // hides HoloLightContainer visual UI immediately after instantiation
+        holoLightContainer.SetActive(false);
     }
 
     void UpdateSmartLightUI(SmartLight sl)
@@ -29,6 +34,8 @@ public class SmartLightUI : MonoBehaviour {
     public void OnSelect()
     {
         showLightUI = !showLightUI;
+        holoLightContainer.SetActive(showLightUI);
+        
         // TODO Needs to check is exists first
         //lightUIHologram.SetActive(showLightUI);
     }

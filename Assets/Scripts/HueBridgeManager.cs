@@ -111,15 +111,6 @@ public class HueBridgeManager : MonoBehaviour {
 
             StateManager.Instance.CurrentState = StateManager.HueAppState.Configuring;
         }
-
-        if (Input.GetKeyDown("space"))
-        {
-            if (StateManager.Instance.Starting && !awaitingBridgeLink)
-            {
-                Debug.Log("i shouldn't pop up when notif is up");
-                StartCoroutine(CheckOrCreateBridgeUser(bridgeip));
-            }             
-        }
     }
 
     public IEnumerator CheckOrGetBridgeIP()
@@ -267,6 +258,10 @@ public class HueBridgeManager : MonoBehaviour {
         else
         {
             StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
+
+            Notification notification = new Notification("alert", "Lights have been discovered! To configure setup, say \"Configure Room.\" Otherwise, enjoy!");
+            notification.SendToConsole = false;
+            NotificationManager.DisplayNotification(notification);
             //GetComponent<VoiceManager>().RegisterPhrases();
             convertLightData(json);
         }

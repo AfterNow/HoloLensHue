@@ -45,11 +45,12 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     void OnEnable()
     {
         StateManager.onConfiguration += configureLights;
+        StateManager.onReady += saveConfiguration;
     }
 
     void OnDisable()
     {
-        StateManager.onConfiguration -= configureLights;
+        StateManager.onReady -= saveConfiguration;
     }
 
     // called when bridge has been found and lights are available
@@ -99,9 +100,8 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             {
                 rend.enabled = false;
             }
-
             // increments x value to space out spawned prefabs that have no Anchor Store entry.
-            pos += new Vector3(1, 0, 0);
+            pos += new Vector3(0.5f, 0, 0);
 
             // TODO see if this call is needed. Real lights should already be these values
             //hueAPI.UpdateLight(light);
@@ -127,6 +127,19 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             Renderer rend = currentLight.GetComponent<Renderer>();
 
             rend.enabled = true;
+            //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
+            //rend.material.color = ledColor;
+        }
+    }
+
+    private void saveConfiguration()
+    {
+        foreach (SmartLight sl in lights)
+        {
+            GameObject currentLight = GameObject.Find(sl.Name);
+            Renderer rend = currentLight.GetComponent<Renderer>();
+
+            rend.enabled = false;
             //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
             //rend.material.color = ledColor;
         }
