@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Test
-  m_Shader: {fileID: 4800000, guid: 57ff8f73e5235bb4793e12df83f75991, type: 3}
+  m_Name: Gray
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -48,8 +48,8 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 0, y: 1}
+        m_Texture: {fileID: 2800000, guid: 362a4f2e9b461f84686aeb6770f07619, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _MetallicGlossMap
@@ -87,22 +87,19 @@ Material:
       second: 1
     - first:
         name: _Glossiness
-      second: 0
+      second: 0.5
     - first:
         name: _GlossyReflections
       second: 1
     - first:
         name: _Metallic
-      second: 0
+      second: 1
     - first:
         name: _Mode
       second: 0
     - first:
         name: _OcclusionStrength
       second: 1
-    - first:
-        name: _Outline
-      second: 0.001
     - first:
         name: _Parallax
       second: 0.02
@@ -124,10 +121,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.5, g: 0, b: 0, a: 1}
+      second: {r: 0.5482759, g: 0.5482759, b: 0.5482759, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}
-    - first:
-        name: _OutlineColor
-      second: {r: 0.2724138, g: 0.2724138, b: 0.2724138, a: 1}

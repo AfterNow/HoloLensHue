@@ -11,10 +11,18 @@ public class SmartLightUI : MonoBehaviour {
 
     public void Start()
     {
-        if (gameObject.transform.GetChild(0))
+        foreach (Transform child in transform)
         {
-            holoLightContainer = gameObject.transform.GetChild(0).gameObject;
+            if (child.name == "HoloLightContainer(Clone)")
+            {
+                Debug.Log("i shoulld be a HLContainer: " + child.name);
+                holoLightContainer = child.gameObject;
+            }
         }
+        //if (gameObject.transform.GetChild(0))
+        //{
+        //    holoLightContainer = gameObject.transform.GetChild(0).gameObject;
+        //}
         // hides HoloLightContainer visual UI immediately after instantiation
         holoLightContainer.SetActive(false);
     }
