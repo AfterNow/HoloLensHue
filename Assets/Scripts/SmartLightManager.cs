@@ -125,8 +125,12 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         foreach (SmartLight sl in lights)
         {
             GameObject currentLight = GameObject.Find(sl.Name);
-            Renderer rend = currentLight.GetComponent<Renderer>();
 
+            // SmartLight orb should only be able to be moved while in configuration mode
+            currentLight.GetComponent<GestureManipulator>().enabled = true;
+
+            // Only display SmartLight orb when the app is in configuration mode
+            Renderer rend = currentLight.GetComponent<Renderer>();  
             rend.enabled = true;
             //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
             //rend.material.color = ledColor;
@@ -138,8 +142,12 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         foreach (SmartLight sl in lights)
         {
             GameObject currentLight = GameObject.Find(sl.Name);
-            Renderer rend = currentLight.GetComponent<Renderer>();
 
+            // Prevents the SmartLight orb from being moved when not in configuration mode
+            currentLight.GetComponent<GestureManipulator>().enabled = false;
+
+            // Hides the SmartLight orb when not in configuration mode
+            Renderer rend = currentLight.GetComponent<Renderer>();
             rend.enabled = false;
             //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
             //rend.material.color = ledColor;

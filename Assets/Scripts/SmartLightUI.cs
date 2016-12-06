@@ -24,7 +24,11 @@ public class SmartLightUI : MonoBehaviour {
         //    holoLightContainer = gameObject.transform.GetChild(0).gameObject;
         //}
         // hides HoloLightContainer visual UI immediately after instantiation
-        holoLightContainer.SetActive(false);
+        
+        if (holoLightContainer)
+        {
+            holoLightContainer.SetActive(false);
+        }
     }
 
     void UpdateSmartLightUI(SmartLight sl)
