@@ -9,13 +9,16 @@ public class SmartLightUI : MonoBehaviour {
 
     private bool showLightUI = false;
 
+    private GestureManager gestureManager;
+
     public void Start()
     {
+        gestureManager = GestureManager.Instance;
+
         foreach (Transform child in transform)
         {
             if (child.name == "HoloLightContainer(Clone)")
             {
-                Debug.Log("i shoulld be a HLContainer: " + child.name);
                 holoLightContainer = child.gameObject;
             }
         }
@@ -45,8 +48,19 @@ public class SmartLightUI : MonoBehaviour {
 
     public void OnSelect()
     {
+        Debug.Log("i was selected");
+        //foreach (Transform child in transform)
+        //{
+        //    if (gameObject.name != gestureManager.FocusedObject.name)
+        //    {
+        //        Debug.Log("WE are not the selected one: " + child.name);
+        //        holoLightContainer.SetActive(false);
+        //    }
+        //}
+        Debug.Log("here is the focused object onSelect: " + gestureManager.FocusedObject);
         showLightUI = !showLightUI;
         holoLightContainer.SetActive(showLightUI);
+
         
         // TODO Needs to check is exists first
         //lightUIHologram.SetActive(showLightUI);

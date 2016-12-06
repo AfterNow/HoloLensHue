@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114000012698980792}
   - component: {fileID: 114000011154029958}
   - component: {fileID: 114000012149591842}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: SpatialMapping
   m_TagString: Untagged
   m_Icon: {fileID: 0}
