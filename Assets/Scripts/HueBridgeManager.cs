@@ -102,21 +102,14 @@ public class HueBridgeManager : MonoBehaviour {
             NotificationManager.DisplayNotification(notification);
         }
         if (Input.GetKeyDown("w"))
-        { 
-            SmartLightManager.lights[0].State.Bri = 155;
-            SmartLightManager.UpdateLightState(0);
-
-            Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
-            NotificationManager.DisplayNotification(notification);
-        }
-
-        if (Input.GetKeyDown("space"))
         {
-            if (StateManager.Instance.Starting && !awaitingBridgeLink)
-            {
-                Debug.Log("i shouldn't pop up when notif is up");
-                StartCoroutine(CheckOrCreateBridgeUser(bridgeip));
-            }             
+            //SmartLightManager.lights[0].State.Bri = 155;
+            //SmartLightManager.UpdateLightState(0);
+
+            //Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
+            //NotificationManager.DisplayNotification(notification);
+
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Configuring;
         }
     }
 
@@ -265,6 +258,10 @@ public class HueBridgeManager : MonoBehaviour {
         else
         {
             StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
+
+            Notification notification = new Notification("alert", "Lights have been discovered! To configure setup, say \"Configure Room.\" Otherwise, enjoy!");
+            notification.SendToConsole = false;
+            NotificationManager.DisplayNotification(notification);
             //GetComponent<VoiceManager>().RegisterPhrases();
             convertLightData(json);
         }

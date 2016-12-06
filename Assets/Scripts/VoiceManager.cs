@@ -79,6 +79,46 @@ public class VoiceManager : MonoBehaviour {
             SendMessage("RecheckOrCreateBridgeUser", SendMessageOptions.DontRequireReceiver);
         });
 
+        // Changes current state of app. The Configuration state displays all found lights and their position
+        keywords.Add("Configure Room", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Configuring;
+        });
+        keywords.Add("Configure The Room", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Configuring;
+        });
+        keywords.Add("Setup The Room", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Configuring;
+        });
+        keywords.Add("Show All Lights", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Configuring;
+        });
+
+        // Changes current state of app. Saves configuration and switches back into main mode - Ready
+        keywords.Add("Save Configuration", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        });
+        keywords.Add("Save The Configuration", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        });
+        keywords.Add("Save The Room", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        });
+        keywords.Add("Save Room", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        });
+        keywords.Add("Hide All Lights", () =>
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        });
+
         // Displays panel of available voice commands
         keywords.Add("Show Voice Menu", () =>
         {

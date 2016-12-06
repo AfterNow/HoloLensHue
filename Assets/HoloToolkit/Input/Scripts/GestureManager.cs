@@ -219,7 +219,7 @@ namespace HoloToolkit.Unity
             gestureRecognizer = new GestureRecognizer();
             gestureRecognizer.SetRecognizableGestures(GestureSettings.Tap);
             gestureRecognizer.TappedEvent += GestureRecognizer_TappedEvent;
-
+            
             // We need to send pressed and released events to UI so they can provide visual feedback
             // of the current state of the UI based on user input.
             gestureRecognizer.RecognitionStartedEvent += GestureRecognizer_RecognitionStartedEvent;

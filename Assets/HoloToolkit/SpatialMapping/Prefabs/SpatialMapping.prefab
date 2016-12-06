@@ -16,13 +16,13 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 4000013298573622}
-  - 114: {fileID: 114000012698980792}
-  - 114: {fileID: 114000011154029958}
-  - 114: {fileID: 114000012149591842}
-  m_Layer: 0
+  - component: {fileID: 4000013298573622}
+  - component: {fileID: 114000012698980792}
+  - component: {fileID: 114000011154029958}
+  - component: {fileID: 114000012149591842}
+  m_Layer: 2
   m_Name: SpatialMapping
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ MonoBehaviour:
   PhysicsLayer: 31
   surfaceMaterial: {fileID: 2100000, guid: d698790d3facd3d4289a13fa1243030a, type: 2}
   autoStartObserver: 1
-  drawVisualMeshes: 1
+  drawVisualMeshes: 0
   castShadows: 0
 --- !u!114 &114000012149591842
 MonoBehaviour:

@@ -13,7 +13,7 @@ public class NotificationManager : Singleton<NotificationManager> {
     public static event NotificationCanceled notificationCanceled;
 
     // Time notification should be displayed. Void if notification requires user action
-    private static float TimeTillExpiration = 5f;
+    private static float TimeTillExpiration = 6f;
 
     private static Canvas canvas;
     private static Color color;
