@@ -96,7 +96,6 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             Vector4 ledColor = ColorService.GetColorByHue(light.State.Hue);
             rend.material.color = ledColor;
             // TODO commented out while testing. This hides spawned prefabs.
-            Debug.Log("current state: " + StateManager.Instance.CurrentState);
             if (!StateManager.Instance.Configuring)
             {
                 rend.enabled = false;

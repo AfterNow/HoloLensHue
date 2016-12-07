@@ -6,6 +6,7 @@ public class SmartLightUI : MonoBehaviour {
 
     private GameObject holoLightContainer;
     private GameObject lightUI;
+    private int tagId;
 
     private bool showLightUI = false;
 
@@ -14,6 +15,8 @@ public class SmartLightUI : MonoBehaviour {
     public void Start()
     {
         gestureManager = GestureManager.Instance;
+
+        tagId = int.Parse(gameObject.tag);
 
         foreach (Transform child in transform)
         {
@@ -34,7 +37,17 @@ public class SmartLightUI : MonoBehaviour {
         }
     }
 
-    void UpdateSmartLightUI(SmartLight sl)
+    void OnEnable()
+    {
+        LightUIManager.toggleUIChanged += updateToggleShow;
+    }
+
+    void OnDisable()
+    {
+        LightUIManager.toggleUIChanged -= updateToggleShow;
+    }
+
+    private void UpdateSmartLightUI(SmartLight sl)
     {
         if (sl.Name == gameObject.name)
         {
@@ -46,23 +59,13 @@ public class SmartLightUI : MonoBehaviour {
         }
     }
 
+    private void updateToggleShow()
+    {
+        holoLightContainer.SetActive(LightUIManager.lightUIs[tagId].Show);     
+    }
+
     public void OnSelect()
     {
-        Debug.Log("i was selected");
-        //foreach (Transform child in transform)
-        //{
-        //    if (gameObject.name != gestureManager.FocusedObject.name)
-        //    {
-        //        Debug.Log("WE are not the selected one: " + child.name);
-        //        holoLightContainer.SetActive(false);
-        //    }
-        //}
-        Debug.Log("here is the focused object onSelect: " + gestureManager.FocusedObject);
-        showLightUI = !showLightUI;
-        holoLightContainer.SetActive(showLightUI);
-
-        
-        // TODO Needs to check is exists first
-        //lightUIHologram.SetActive(showLightUI);
+        SendMessageUpwards("ToggleUI", tagId, SendMessageOptions.DontRequireReceiver);
     }
 }

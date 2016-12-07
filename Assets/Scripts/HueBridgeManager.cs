@@ -303,7 +303,9 @@ public class HueBridgeManager : MonoBehaviour {
             // sends collection of lights to the SmartLightManager to handle all future changes
             if (slm != null)
             {
+                // TODO - should be able to change this to the instance instead of direct reference
                 slm.InitSmartLightManager(smartLights);
+                LightUIManager.InitLightUI();
             }
             else
             {
