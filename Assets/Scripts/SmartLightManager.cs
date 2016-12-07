@@ -66,24 +66,24 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         lightPrefab = (GameObject)Resources.Load("Prefabs/SmartBulb");
         holoLightContPrefab = (GameObject)Resources.Load("Prefabs/HoloLightContainer");
 
-        Vector3 camPos = Camera.main.transform.position;
+        // Vector3 camPos = Camera.main.transform.position;
         // where to spawn unassigned SmartBulb GameObjects in relation to the user's current position
         Vector3 pos = new Vector3(-1, 0, 2);
         
-        Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, camPos);
+        // Quaternion rotation = Quaternion.FromToRotation(Vector3.forward, camPos);
 
-        //
         foreach (SmartLight light in lights)
         {
-            var lightObject = Instantiate(lightPrefab, pos, rotation);
+            var lightObject = Instantiate(lightPrefab, pos, Quaternion.identity);
             lightObject.name = light.Name;
             // gets newly instantiated GameObject and sets to child of Parent GameObject 
             GameObject currentLight = GameObject.Find(light.Name);
             currentLight.transform.parent = gameObject.transform;
-
-            Vector3 lightContainerPos = new Vector3(pos.x, lightContainerOffset * currentLight.transform.localScale.y, pos.z);
-            var lightContObject = Instantiate(holoLightContPrefab, lightContainerPos, Quaternion.identity);
             
+            Vector3 lightContainerPos = new Vector3(pos.x, lightContainerOffset * currentLight.transform.localScale.y, pos.z);
+
+            var lightContObject = Instantiate(holoLightContPrefab, lightContainerPos, Quaternion.identity);
+
             // assigns light ID to tag for easier interating downstream.
             var lightIDOffset = light.ID - 1;
             currentLight.tag = lightIDOffset.ToString();

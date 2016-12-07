@@ -163,7 +163,6 @@ public class HueBridgeManager : MonoBehaviour {
         if (username == null || username == "newdeveloper" || username == "")
         {
             // check if this Hue Bridge already has a valid username
-            // TODO replace casts with the param ip when done testing
             StartCoroutine(GetUsername(ip));
             // if a valid username is saved to the device, set as current user
             if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")

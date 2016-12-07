@@ -147,7 +147,6 @@ namespace HoloToolkit.Unity
             else
             {
                 savedAnchor.name = AnchorName;
-                Debug.Log(gameObjectToAnchor.name + " : World anchor loaded from anchor store and updated for this game object.");
             }
         }
 
