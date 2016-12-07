@@ -163,7 +163,6 @@ public class HueBridgeManager : MonoBehaviour {
         if (username == null || username == "newdeveloper" || username == "")
         {
             // check if this Hue Bridge already has a valid username
-            // TODO replace casts with the param ip when done testing
             StartCoroutine(GetUsername(ip));
             // if a valid username is saved to the device, set as current user
             if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
@@ -303,7 +302,9 @@ public class HueBridgeManager : MonoBehaviour {
             // sends collection of lights to the SmartLightManager to handle all future changes
             if (slm != null)
             {
+                // TODO - should be able to change this to the instance instead of direct reference
                 slm.InitSmartLightManager(smartLights);
+                LightUIManager.InitLightUI();
             }
             else
             {

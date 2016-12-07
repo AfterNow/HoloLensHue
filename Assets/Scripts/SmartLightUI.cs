@@ -6,16 +6,22 @@ public class SmartLightUI : MonoBehaviour {
 
     private GameObject holoLightContainer;
     private GameObject lightUI;
+    private int tagId;
 
     private bool showLightUI = false;
 
+    private GestureManager gestureManager;
+
     public void Start()
     {
+        gestureManager = GestureManager.Instance;
+
+        tagId = int.Parse(gameObject.tag);
+
         foreach (Transform child in transform)
         {
             if (child.name == "HoloLightContainer(Clone)")
             {
-                Debug.Log("i shoulld be a HLContainer: " + child.name);
                 holoLightContainer = child.gameObject;
             }
         }
@@ -31,7 +37,17 @@ public class SmartLightUI : MonoBehaviour {
         }
     }
 
-    void UpdateSmartLightUI(SmartLight sl)
+    void OnEnable()
+    {
+        LightUIManager.toggleUIChanged += updateToggleShow;
+    }
+
+    void OnDisable()
+    {
+        LightUIManager.toggleUIChanged -= updateToggleShow;
+    }
+
+    private void UpdateSmartLightUI(SmartLight sl)
     {
         if (sl.Name == gameObject.name)
         {
@@ -43,12 +59,13 @@ public class SmartLightUI : MonoBehaviour {
         }
     }
 
+    private void updateToggleShow()
+    {
+        holoLightContainer.SetActive(LightUIManager.lightUIs[tagId].Show);     
+    }
+
     public void OnSelect()
     {
-        showLightUI = !showLightUI;
-        holoLightContainer.SetActive(showLightUI);
-        
-        // TODO Needs to check is exists first
-        //lightUIHologram.SetActive(showLightUI);
+        SendMessageUpwards("ToggleUI", tagId, SendMessageOptions.DontRequireReceiver);
     }
 }

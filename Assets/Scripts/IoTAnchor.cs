@@ -51,13 +51,25 @@ public class IoTAnchor : MonoBehaviour {
             anchorManager.AttachAnchor(this.gameObject, anchorName);
 
             // ensures light UI is set at the proper position and rotation relative to parent
-            if (gameObject.transform.GetChild(0)) {
-                var child = this.gameObject.transform.GetChild(0);
-                var defaultHeight = child.localPosition.y;
 
-                child.localRotation = Quaternion.Euler(new Vector3(0, child.rotation.y, child.rotation.z));
-                child.localPosition = new Vector3(0, defaultHeight, 0);
-            }; 
+            foreach (Transform child in transform)
+            {
+                if (child.name == "HoloLightContainer(Clone)")
+                {
+                    var defaultHeight = child.localPosition.y;
+
+                    child.localRotation = Quaternion.Euler(new Vector3(0, child.rotation.y, child.rotation.z));
+                    child.localPosition = new Vector3(0, defaultHeight, 0);
+                }
+            }
+            //if (gameObject.transform.GetChild(0)) {
+            //    var child = this.gameObject.transform.GetChild(0);
+            //    Debug.Log("here is child name: " + child.name);
+            //    var defaultHeight = child.localPosition.y;
+
+            //    child.localRotation = Quaternion.Euler(new Vector3(0, child.rotation.y, child.rotation.z));
+            //    child.localPosition = new Vector3(0, defaultHeight, 0);
+            //}; 
         }
         else
         {
@@ -68,13 +80,11 @@ public class IoTAnchor : MonoBehaviour {
 
     public void RemoveAnchor(InteractionSourceKind sourceKind)
     {
-        Debug.Log("remove anc called");
         anchorManager.RemoveAnchor(gameObject);
     }
 
     public void AddAnchor(InteractionSourceKind sourceKind)
     {
-        Debug.Log("add anc called");
         gameObject.transform.localRotation = Quaternion.identity;
         anchorManager.AttachAnchor(gameObject, anchorName);
     }

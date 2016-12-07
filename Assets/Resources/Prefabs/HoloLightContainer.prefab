@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 136398067959745278}
   - component: {fileID: 114450255540898556}
   - component: {fileID: 114672153184362732}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BrightnessCone_v1_coil
   m_TagString: Untagged
   m_Icon: {fileID: 0}

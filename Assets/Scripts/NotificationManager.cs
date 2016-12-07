@@ -34,6 +34,8 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     void Start () {
         Debug.Log("NotifMgr Start");
+
+        // TODO search through children for name. Don't rely on Canvas being first 
         if (transform.GetChild(0).name == "Canvas")
         {
             canvas = transform.GetChild(0).gameObject.GetComponent<Canvas>();

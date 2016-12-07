@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114547963942909968}
   - component: {fileID: 114688603006630634}
   - component: {fileID: 114003406768977430}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SmartBulb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
