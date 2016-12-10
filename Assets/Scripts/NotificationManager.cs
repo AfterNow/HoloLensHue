@@ -9,6 +9,9 @@ public class NotificationManager : Singleton<NotificationManager> {
     public delegate void NewNotification(Notification notification, Color color);
     public static event NewNotification newNotification;
 
+    public delegate void NewMenu(Menu menu);
+    public static event NewMenu newMenu;
+
     public delegate void NotificationCanceled();
     public static event NotificationCanceled notificationCanceled;
 
@@ -18,10 +21,13 @@ public class NotificationManager : Singleton<NotificationManager> {
     private static Canvas canvas;
     private static Color color;
 
+    private static GameObject panelBorderGO;
+
     private static NotificationManager notificationManager;
 
     private static Coroutine coroutine;
     private static bool notificationActive;
+    private static bool menuActive;
 
     private GameObject hueBridgeGO;
     private HueBridgeManager hueBridgeManager;
@@ -36,12 +42,25 @@ public class NotificationManager : Singleton<NotificationManager> {
         Debug.Log("NotifMgr Start");
 
         // TODO search through children for name. Don't rely on Canvas being first 
-        if (transform.GetChild(0).name == "Canvas")
+        foreach (Transform child in transform)
         {
-            canvas = transform.GetChild(0).gameObject.GetComponent<Canvas>();
-            canvas.enabled = false;
+            if (child.name == "Canvas")
+            {
+                GameObject canvasGO = child.gameObject;
+                canvas = canvasGO.GetComponent<Canvas>();
+                canvas.enabled = false;
+
+                foreach (Transform grandchild in canvasGO.transform)
+                {
+                    if (grandchild.name == "PanelBorder")
+                    {
+                         panelBorderGO = grandchild.gameObject;
+                    }
+                }
+            }
         }
-        else
+        
+        if (!canvas)
         {
             Debug.Log("No child Canvas was found. Please add one to use notification system.");
         }
@@ -108,6 +127,37 @@ public class NotificationManager : Singleton<NotificationManager> {
         if (notificationCanceled != null)
         {
             notificationCanceled();
+        }
+    }
+
+    public static void DisplayMenu(Menu menu)
+    {
+        if (newMenu != null)
+        {
+            canvas.enabled = true;
+
+            RectTransform rt = panelBorderGO.GetComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(menu.Width, menu.Height);
+
+            SoundManager.instance.PlayNotificationPopup("beepup");
+            newMenu(menu);
+        }
+
+        if (!menu.RequiresAction)
+        {
+            // if menu is active, we discard the previous expiration timer before we start a new one
+            if (menuActive)
+            {
+                notificationManager.StopCoroutine(coroutine);
+            }
+            menuActive = true;
+
+            var expiration = TimeTillExpiration;
+            if (menu.Expiration != 0)
+            {
+                expiration = menu.Expiration;
+            }
+            coroutine = notificationManager.StartCoroutine(NotificationExpiration(expiration));
         }
     }
 

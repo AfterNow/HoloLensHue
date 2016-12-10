@@ -163,7 +163,7 @@ public class HueBridgeManager : MonoBehaviour {
         if (username == null || username == "newdeveloper" || username == "")
         {
             // check if this Hue Bridge already has a valid username
-            StartCoroutine(GetUsername(ip));
+            StartCoroutine(GetUsername("cats"));
             // if a valid username is saved to the device, set as current user
             if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
             {
@@ -191,9 +191,13 @@ public class HueBridgeManager : MonoBehaviour {
 
                 if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
                 {
-                    Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
-                    notification.Expiration = 30f;
-                    NotificationManager.DisplayNotification(notification);
+                    // TODO remove all menus except PressLink when done testing!!!
+
+                    Menu menu = new Menu("PressLink", 400, 240, false, 30f);
+                    //Menu menu = new Menu("Great", 400, 100, false, 30f);
+                    //Menu menu = new Menu("IdentifyLight", 400, 280, false, 30f);
+
+                    NotificationManager.DisplayMenu(menu);
 
                     // while true, a request to the bridge will be sent during specified intervals
                     awaitingBridgeLink = true;
