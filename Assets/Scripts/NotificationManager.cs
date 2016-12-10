@@ -22,6 +22,8 @@ public class NotificationManager : Singleton<NotificationManager> {
     private static Color color;
 
     private static GameObject panelBorderGO;
+    private static GameObject nextButtonGO;
+    private static GameObject backButtonGO;
 
     private static NotificationManager notificationManager;
 
@@ -55,6 +57,14 @@ public class NotificationManager : Singleton<NotificationManager> {
                     if (grandchild.name == "PanelBorder")
                     {
                          panelBorderGO = grandchild.gameObject;
+                    }
+                    else if(grandchild.name == "NextButtonBorder")
+                    {
+                        nextButtonGO = grandchild.gameObject;
+                    }
+                    else if (grandchild.name == "BackButtonBorder")
+                    {
+                        backButtonGO = grandchild.gameObject;
                     }
                 }
             }
@@ -132,6 +142,7 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     public static void DisplayMenu(Menu menu)
     {
+        Debug.Log("button next button: " + menu.NextButton);
         if (newMenu != null)
         {
             canvas.enabled = true;
@@ -158,6 +169,32 @@ public class NotificationManager : Singleton<NotificationManager> {
                 expiration = menu.Expiration;
             }
             coroutine = notificationManager.StartCoroutine(NotificationExpiration(expiration));
+        }
+
+        // if a next button is needed, we will display it below the menu main content panel
+        if (menu.NextButton)
+        {
+            nextButtonGO.SetActive(true);
+            RectTransform nextRt = nextButtonGO.GetComponent<RectTransform>();
+            nextRt.localPosition = new Vector3(nextRt.localPosition.x, menu.ButtonPosY, nextRt.localPosition.z);
+        }
+        else
+        {
+            // this ensures the previous menu's next button does not carry over
+            nextButtonGO.SetActive(false);
+        }
+
+        // if a back button is needed, we will display it below the menu main content panel
+        if (menu.BackButton)
+        {
+            backButtonGO.SetActive(true);
+            RectTransform backRt = backButtonGO.GetComponent<RectTransform>();
+            backRt.localPosition = new Vector3(backRt.localPosition.x, menu.ButtonPosY, backRt.localPosition.z);
+        }
+        else
+        {
+            // this ensures the previous menu's back button does not carry over
+            backButtonGO.SetActive(false);
         }
     }
 

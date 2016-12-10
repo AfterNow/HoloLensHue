@@ -193,9 +193,11 @@ public class HueBridgeManager : MonoBehaviour {
                 {
                     // TODO remove all menus except PressLink when done testing!!!
 
-                    Menu menu = new Menu("PressLink", 400, 240, false, 30f);
-                    //Menu menu = new Menu("Great", 400, 100, false, 30f);
-                    //Menu menu = new Menu("IdentifyLight", 400, 280, false, 30f);
+                    //Menu menu = new Menu("PressLink", 400, 240, false, 30f);
+                    //Menu menu = new Menu("Great", 400, 100, false, 30f, true, false, -90f);
+                    //Menu menu = new Menu("IdentifyLight", 400, 280, false, 30f, true, true, -180f);
+                    //Menu menu = new Menu("TapDragAlign", 400, 240, false, 30f, false, true, -160f);
+                    Menu menu = new Menu("SetupDone", 200, 120, false, 30f);
 
                     NotificationManager.DisplayMenu(menu);
 
