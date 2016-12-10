@@ -24,6 +24,8 @@ public class NotificationManager : Singleton<NotificationManager> {
     private static GameObject panelBorderGO;
     private static GameObject nextButtonGO;
     private static GameObject backButtonGO;
+    private static GameObject saveButtonGO;
+    private static GameObject finishButtonGO;
 
     private static NotificationManager notificationManager;
 
@@ -65,6 +67,14 @@ public class NotificationManager : Singleton<NotificationManager> {
                     else if (grandchild.name == "BackButtonBorder")
                     {
                         backButtonGO = grandchild.gameObject;
+                    }
+                    else if (grandchild.name == "SaveButtonBorder")
+                    {
+                        saveButtonGO = grandchild.gameObject;
+                    }
+                    else if (grandchild.name == "FinishButtonBorder")
+                    {
+                        finishButtonGO = grandchild.gameObject;
                     }
                 }
             }
@@ -142,7 +152,7 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     public static void DisplayMenu(Menu menu)
     {
-        Debug.Log("button next button: " + menu.NextButton);
+        Debug.Log("button back button: " + menu.BackButton);
         if (newMenu != null)
         {
             canvas.enabled = true;
@@ -195,6 +205,32 @@ public class NotificationManager : Singleton<NotificationManager> {
         {
             // this ensures the previous menu's back button does not carry over
             backButtonGO.SetActive(false);
+        }
+
+        // if a save button is needed, we will display it below the menu main content panel
+        if (menu.SaveButton)
+        {
+            saveButtonGO.SetActive(true);
+            RectTransform saveRt = saveButtonGO.GetComponent<RectTransform>();
+            saveRt.localPosition = new Vector3(saveRt.localPosition.x, menu.ButtonPosY, saveRt.localPosition.z);
+        }
+        else
+        {
+            // this ensures the previous menu's back button does not carry over
+            saveButtonGO.SetActive(false);
+        }
+
+        // if a finish button is needed, we will display it below the menu main content panel
+        if (menu.FinishButton)
+        {
+            finishButtonGO.SetActive(true);
+            RectTransform finishRt = finishButtonGO.GetComponent<RectTransform>();
+            finishRt.localPosition = new Vector3(finishRt.localPosition.x, menu.ButtonPosY, finishRt.localPosition.z);
+        }
+        else
+        {
+            // this ensures the previous menu's back button does not carry over
+            finishButtonGO.SetActive(false);
         }
     }
 

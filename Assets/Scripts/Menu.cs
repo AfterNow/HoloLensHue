@@ -3,6 +3,35 @@
 [System.Serializable]
 public class Menu
 {
+    public Menu(string name, int width, int height, bool requiresAction, float expiration, bool nextButton, bool backButton, bool saveButton, bool finishButton, float buttonPosY)
+    {
+        this.name = name;
+        this.width = width;
+        this.height = height;
+        this.requiresAction = requiresAction;
+        this.expiration = expiration;
+        this.nextButton = nextButton;
+        this.backButton = backButton;
+        this.saveButton = saveButton;
+        this.finishButton = finishButton;
+        this.buttonPosY = buttonPosY;
+    }
+
+    // Mutator Functions
+
+    public Menu(string name, int width, int height, bool requiresAction, float expiration, bool nextButton, bool backButton, bool saveButton, float buttonPosY)
+    {
+        this.name = name;
+        this.width = width;
+        this.height = height;
+        this.requiresAction = requiresAction;
+        this.expiration = expiration;
+        this.nextButton = nextButton;
+        this.backButton = backButton;
+        this.saveButton = saveButton;
+        this.buttonPosY = buttonPosY;
+    }
+
     public Menu(string name, int width, int height, bool requiresAction, float expiration, bool nextButton, bool backButton, float buttonPosY)
     {
         this.name = name;
@@ -15,7 +44,6 @@ public class Menu
         this.buttonPosY = buttonPosY;
     }
 
-    // Mutator Functions
     public Menu(string name, int width, int height, bool requiresAction, float expiration)
     {
         this.name = name;
@@ -124,6 +152,30 @@ public class Menu
         }
     }
 
+    public bool SaveButton
+    {
+        get
+        {
+            return saveButton;
+        }
+        set
+        {
+            saveButton = value;
+        }
+    }
+
+    public bool FinishButton
+    {
+        get
+        {
+            return finishButton;
+        }
+        set
+        {
+            finishButton = value;
+        }
+    }
+
     public float ButtonPosY
     {
         get
@@ -143,5 +195,7 @@ public class Menu
     private float expiration;
     private bool nextButton;
     private bool backButton;
+    private bool saveButton;
+    private bool finishButton;
     private float buttonPosY;
 }
