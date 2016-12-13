@@ -42,6 +42,17 @@ public class NotificationManager : Singleton<NotificationManager> {
         notificationManager = this;
     }
 
+    void OnEnable()
+    {
+        Debug.Log("HueBridgeMgr OnEnable");
+        MenuStateManager.onMenuChanged += DisplayMenu;
+    }
+
+    void OnDisable()
+    {
+        MenuStateManager.onMenuChanged -= DisplayMenu;
+    }
+
     void Start () {
         Debug.Log("NotifMgr Start");
 
@@ -152,7 +163,6 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     public static void DisplayMenu(Menu menu)
     {
-        Debug.Log("button back button: " + menu.BackButton);
         if (newMenu != null)
         {
             canvas.enabled = true;

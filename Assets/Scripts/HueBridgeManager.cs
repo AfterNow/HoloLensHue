@@ -191,20 +191,8 @@ public class HueBridgeManager : MonoBehaviour {
 
                 if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
                 {
-                    // TODO remove all menus except PressLink when done testing!!!
-
-                    //Menu menu = new Menu("PressLink", 400, 240, false, 30f);
-                    //Menu menu = new Menu("Great", 400, 100, false, 30f, true, false, -90f);
-                    //Menu menu = new Menu("IdentifyLight", 400, 280, false, 30f, true, true, -180f);
-                    //Menu menu = new Menu("TapDragAlign", 400, 240, false, 30f, false, true, true, -160f);
-                    //Menu menu = new Menu("SetupDone", 200, 120, false, 30f);
-                    //Menu menu = new Menu("TT_Interactions", 400, 250, false, 30f, true, false, false, -165f);
-                    //Menu menu = new Menu("TT_Voice", 400, 298, false, 30f, true, true, false, -192f);
-                    //Menu menu = new Menu("TT_Gesture", 400, 190, false, 30f, true, true, false, -132f);
-                    Menu menu = new Menu("TT_Hotspot", 400, 190, false, 30f, false, true, false, true, -132f);
-
-                    NotificationManager.DisplayMenu(menu);
-
+                    MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.TT_Hotspot;
+                    
                     // while true, a request to the bridge will be sent during specified intervals
                     awaitingBridgeLink = true;
 
