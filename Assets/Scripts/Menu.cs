@@ -67,6 +67,18 @@ public class Menu
         backButton = false;
     }
 
+    public Menu(string name, float expiration, bool requiresAction)
+    {
+        this.name = name;
+        this.expiration = expiration;
+        this.requiresAction = requiresAction;
+    }
+
+    public Menu(string name)
+    {
+        this.name = name;
+    }
+
     //Accessor Functions
     public string Name
     {

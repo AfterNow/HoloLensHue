@@ -34,7 +34,6 @@ public class UIMenuPanel : MonoBehaviour
             if (child.name == menu.Name)
             {
                 child.gameObject.SetActive(true);
-                Debug.Log("i was the child found: " + child.name);
             }
             
         }

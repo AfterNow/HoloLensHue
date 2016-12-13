@@ -64,6 +64,10 @@ public class HueBridgeManager : MonoBehaviour {
         Debug.Log("HueBridgeMgr Start");
     }
 
+    public void InitMainMenu()
+    {
+        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
+    }
     public void InitHueBridgeManager()
     {
         // MOCK smart lights for testing
@@ -163,7 +167,7 @@ public class HueBridgeManager : MonoBehaviour {
         if (username == null || username == "newdeveloper" || username == "")
         {
             // check if this Hue Bridge already has a valid username
-            StartCoroutine(GetUsername("cats"));
+            StartCoroutine(GetUsername(ip));
             // if a valid username is saved to the device, set as current user
             if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
             {
@@ -191,7 +195,8 @@ public class HueBridgeManager : MonoBehaviour {
 
                 if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
                 {
-                    MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.TT_Hotspot;
+                    // Alerts user to push the Hue Bridge link button
+                    MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.LinkButton;
                     
                     // while true, a request to the bridge will be sent during specified intervals
                     awaitingBridgeLink = true;
@@ -220,6 +225,7 @@ public class HueBridgeManager : MonoBehaviour {
     private void bridgeReady()
     {
         StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
+        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.Hidden;
         StartCoroutine(DiscoverLights());
     }
 
