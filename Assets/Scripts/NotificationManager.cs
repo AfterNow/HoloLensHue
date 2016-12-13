@@ -39,13 +39,11 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     void Awake()
     {
-        Debug.Log("NotifMgr Awake");
         notificationManager = this;
     }
 
     void OnEnable()
     {
-        Debug.Log("HueBridgeMgr OnEnable");
         MenuStateManager.onMenuChanged += DisplayMenu;
     }
 
@@ -55,9 +53,7 @@ public class NotificationManager : Singleton<NotificationManager> {
     }
 
     void Start () {
-        Debug.Log("NotifMgr Start");
 
-        // TODO search through children for name. Don't rely on Canvas being first 
         foreach (Transform child in transform)
         {
             if (child.name == "Canvas")
@@ -66,6 +62,7 @@ public class NotificationManager : Singleton<NotificationManager> {
                 canvas = canvasGO.GetComponent<Canvas>();
                 canvas.enabled = false;
 
+                // assign UI elements to gameObjects for activating/deactivating
                 foreach (Transform grandchild in canvasGO.transform)
                 {
                     if (grandchild.name == "PanelBorder")
@@ -299,6 +296,13 @@ public class NotificationManager : Singleton<NotificationManager> {
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.TT_Interactions;
     }
 
+    public void FinishAction()
+    {
+        panelBorderGO.SetActive(false);
+
+        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
+    }
+
     public void NextAction()
     {
         MenuStateManager.Instance.CurrentState++;
@@ -307,5 +311,19 @@ public class NotificationManager : Singleton<NotificationManager> {
     public void BackAction()
     {
         MenuStateManager.Instance.CurrentState--;
+    }
+
+    public void SetupAction()
+    {
+        mainMenuGO.SetActive(false);
+        StateManager.Instance.CurrentState = StateManager.HueAppState.SetupMode;
+        //MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.LinkButton;
+        hueBridgeManager.InitHueBridgeManager();
+    }
+
+    public void SaveAction()
+    {
+        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.SetupFinished;
+        StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
     }
 }

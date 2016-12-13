@@ -25,7 +25,7 @@ public class VoiceManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("VoiceMgr Start");
+        Debug.Log("VoiceMgr Started");
         if (GameObject.Find("HologramCollection") != null)
         {
             hologramCollection = GameObject.Find("HologramCollection");

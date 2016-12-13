@@ -25,7 +25,6 @@ public class SoundManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad(gameObject);
-        Debug.Log("SoundMgr Awake");
     }
 
     //Main function to play single, non spatialized notification sound clips

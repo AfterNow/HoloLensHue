@@ -22,6 +22,8 @@ public class StateManager : Singleton<StateManager>
         Starting,
         Ready,
         Configuring,
+        // Walks through setup menu with user
+        SetupMode,
         // IoT Devices values
         ConnectedDevices_Initializing,
         ConnectedDevices_Initialized,
@@ -94,6 +96,14 @@ public class StateManager : Singleton<StateManager>
         }
     }
 
+    public bool SetupMode
+    {
+        get
+        {
+            return currentState == HueAppState.SetupMode;
+        }
+    }
+
     void Start()
     {
         appState = CurrentStateName;
@@ -101,7 +111,7 @@ public class StateManager : Singleton<StateManager>
 
     private void OnStateChanged(HueAppState state)
     {
-        if (state == HueAppState.Configuring)
+        if (state == HueAppState.Configuring || state == HueAppState.SetupMode)
         {
             if (onConfiguration != null)
             {

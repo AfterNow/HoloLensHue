@@ -37,7 +37,6 @@ public class SmartLightManager : Singleton<SmartLightManager> {
 
     void Start()
     {
-        Debug.Log("StateMgr Start");
         hueMgr = GetComponent<HueBridgeManager>();
         hueAPI = appManager.GetComponent<PhilipsHueAPI>();
     }
@@ -107,7 +106,14 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             //hueAPI.UpdateLight(light);
         }
         EventManager.TriggerEvent("SmartLightManagerReady");
-        StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        if (StateManager.Instance.SetupMode)
+        {
+
+        }
+        else
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        }    
     }
 
     public static void UpdateLightState(int arrayId)

@@ -17,7 +17,6 @@ public class PhilipsHueAPI : MonoBehaviour {
 
     void Start()
     {
-        Debug.Log("HueAPI Start");
         bridgeValues = GetComponent<HueBridgeManager>();
         if (GameObject.Find("HologramCollection") != null)
         {
