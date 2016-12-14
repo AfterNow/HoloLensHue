@@ -43,13 +43,16 @@ public class SmartLightManager : Singleton<SmartLightManager> {
 
     void OnEnable()
     {
-        StateManager.onConfiguration += configureLights;
         StateManager.onReady += saveConfiguration;
+        StateManager.onConfiguration += configureLights;
+        StateManager.onSetup += configureLights;
     }
 
     void OnDisable()
     {
         StateManager.onReady -= saveConfiguration;
+        StateManager.onConfiguration -= configureLights;
+        StateManager.onSetup -= configureLights;
     }
 
     // called when bridge has been found and lights are available
@@ -94,11 +97,12 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             Renderer rend = currentLight.GetComponent<Renderer>();
             Vector4 ledColor = ColorService.GetColorByHue(light.State.Hue);
             rend.material.color = ledColor;
-            // TODO commented out while testing. This hides spawned prefabs.
-            if (!StateManager.Instance.Configuring)
+
+            if (!StateManager.Instance.Configuring && !StateManager.Instance.SetupMode)
             {
                 rend.enabled = false;
             }
+
             // increments x value to space out spawned prefabs that have no Anchor Store entry.
             pos += new Vector3(0.5f, 0, 0);
 

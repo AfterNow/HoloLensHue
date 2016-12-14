@@ -13,6 +13,9 @@ public class StateManager : Singleton<StateManager>
     public delegate void OnReady();
     public static event OnReady onReady;
 
+    public delegate void OnSetup();
+    public static event OnSetup onSetup;
+
     [Tooltip("Current state of the application")]
     public string appState;
 
@@ -111,11 +114,19 @@ public class StateManager : Singleton<StateManager>
 
     private void OnStateChanged(HueAppState state)
     {
-        if (state == HueAppState.Configuring || state == HueAppState.SetupMode)
+        if (state == HueAppState.Configuring || SetupMode)
         {
             if (onConfiguration != null)
             {
                 onConfiguration();
+            }
+
+            if (SetupMode)
+            {
+                if (onSetup != null)
+                {
+                    onSetup();
+                }
             }
         }
 

@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 31379411}
   - component: {fileID: 31379410}
   - component: {fileID: 31379409}
+  - component: {fileID: 31379412}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -147,8 +148,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
-    m_HighlightedColor: {r: 0.28627452, g: 0.20784314, b: 0.72156864, a: 1}
+    m_NormalColor: {r: 0, g: 0.047058824, b: 0.23529412, a: 1}
+    m_HighlightedColor: {r: 0.827451, g: 0.48235294, b: 0.7254902, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -213,6 +214,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 31379407}
+--- !u!65 &31379412
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 31379407}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 400, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &123511199
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,6 +882,7 @@ GameObject:
   - component: {fileID: 386575559}
   - component: {fileID: 386575558}
   - component: {fileID: 386575557}
+  - component: {fileID: 386575560}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -914,8 +928,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
-    m_HighlightedColor: {r: 0.28627452, g: 0.20784314, b: 0.72156864, a: 1}
+    m_NormalColor: {r: 0, g: 0.047058824, b: 0.23529412, a: 1}
+    m_HighlightedColor: {r: 0.827451, g: 0.48235294, b: 0.7254902, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -980,6 +994,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 386575555}
+--- !u!65 &386575560
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 386575555}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 200, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &403550009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,6 +1467,7 @@ GameObject:
   - component: {fileID: 647800281}
   - component: {fileID: 647800280}
   - component: {fileID: 647800279}
+  - component: {fileID: 647800282}
   m_Layer: 5
   m_Name: PanelBorder
   m_TagString: Untagged
@@ -1521,6 +1548,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 647800277}
+--- !u!65 &647800282
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 647800277}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &661634619
 Prefab:
   m_ObjectHideFlags: 0
@@ -2179,6 +2218,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d95946c49e419e8469fa56a1c39cae58, type: 3}
   - {fileID: 8300000, guid: f5e894908d099094581796bd26cbcf63, type: 3}
   - {fileID: 8300000, guid: a6b45fe459c73c1469ec31179e98484d, type: 3}
+  - {fileID: 8300000, guid: 2279e68ff6618474ca689d90c9b73173, type: 3}
 --- !u!82 &1022827894
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3040,6 +3080,7 @@ GameObject:
   - component: {fileID: 1422690110}
   - component: {fileID: 1422690112}
   - component: {fileID: 1422690111}
+  - component: {fileID: 1422690113}
   m_Layer: 5
   m_Name: TextPanel
   m_TagString: Untagged
@@ -3099,6 +3140,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1422690109}
+--- !u!65 &1422690113
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1422690109}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1457427433
 GameObject:
   m_ObjectHideFlags: 0
@@ -3621,7 +3674,7 @@ Prefab:
     - target: {fileID: 223269120680672134, guid: f8b50db8037811e40a2ffd0b4c56af90,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114124540363433406, guid: f8b50db8037811e40a2ffd0b4c56af90,
         type: 2}
@@ -3640,7 +3693,7 @@ Prefab:
     - target: {fileID: 224959787013594162, guid: f8b50db8037811e40a2ffd0b4c56af90,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224959787013594162, guid: f8b50db8037811e40a2ffd0b4c56af90,
         type: 2}
@@ -3690,7 +3743,7 @@ Prefab:
     - target: {fileID: 114821128691150514, guid: f8b50db8037811e40a2ffd0b4c56af90,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f8b50db8037811e40a2ffd0b4c56af90, type: 2}
@@ -3712,6 +3765,7 @@ GameObject:
   - component: {fileID: 1817895855}
   - component: {fileID: 1817895854}
   - component: {fileID: 1817895853}
+  - component: {fileID: 1817895856}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -3757,8 +3811,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
-    m_HighlightedColor: {r: 0.28627452, g: 0.20784314, b: 0.72156864, a: 1}
+    m_NormalColor: {r: 0, g: 0.045864023, b: 0.234, a: 1}
+    m_HighlightedColor: {r: 0.828, g: 0.48056474, b: 0.7240941, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -3823,6 +3877,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1817895851}
+--- !u!65 &1817895856
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1817895851}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 400, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1828355739
 GameObject:
   m_ObjectHideFlags: 0
@@ -4199,6 +4265,7 @@ GameObject:
   - component: {fileID: 1966353351}
   - component: {fileID: 1966353350}
   - component: {fileID: 1966353349}
+  - component: {fileID: 1966353352}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -4244,8 +4311,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
-    m_HighlightedColor: {r: 0.28627452, g: 0.20784314, b: 0.72156864, a: 1}
+    m_NormalColor: {r: 0, g: 0.047058824, b: 0.23529412, a: 1}
+    m_HighlightedColor: {r: 0.827451, g: 0.48235294, b: 0.7254902, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -4299,6 +4366,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1966353347}
+--- !u!65 &1966353352
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1966353347}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 400, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2003094674
 GameObject:
   m_ObjectHideFlags: 0

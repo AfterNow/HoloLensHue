@@ -267,11 +267,7 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
-            if (StateManager.Instance.SetupMode)
-            {
-
-            }
-            else
+            if (!StateManager.Instance.SetupMode)
             {
                 StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
 
@@ -279,8 +275,7 @@ public class HueBridgeManager : MonoBehaviour {
                 notification.SendToConsole = false;
                 NotificationManager.DisplayNotification(notification);
             }
-            
-            //GetComponent<VoiceManager>().RegisterPhrases();
+
             convertLightData(json);
         }
     }

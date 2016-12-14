@@ -186,6 +186,8 @@ public class NotificationManager : Singleton<NotificationManager> {
                 RectTransform rt = panelBorderGO.GetComponent<RectTransform>();
                 rt.sizeDelta = new Vector2(menu.Width, menu.Height);
 
+                BoxCollider col = panelBorderGO.GetComponent<BoxCollider>();
+                col.size = new Vector3(menu.Width, menu.Height, 1);
                 // displays the proper menu content in the panelBorder
                 foreach (Transform child in panelBorderGO.transform)
                 {
@@ -201,7 +203,7 @@ public class NotificationManager : Singleton<NotificationManager> {
                 }
             }
 
-            SoundManager.instance.PlayNotificationPopup("beepup");
+            //SoundManager.instance.PlayNotificationPopup("click1");
             //newMenu(menu);
         }
 
@@ -287,6 +289,8 @@ public class NotificationManager : Singleton<NotificationManager> {
 
         //TODO tie this to StateManager to abstract out direct function calls
         hueBridgeManager.InitHueBridgeManager();
+
+        SoundManager.instance.PlayNotificationPopup("click1");
     }
 
     public void TutorialAction()
@@ -294,6 +298,8 @@ public class NotificationManager : Singleton<NotificationManager> {
         mainMenuGO.SetActive(false);
 
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.TT_Interactions;
+
+        SoundManager.instance.PlayNotificationPopup("click1");
     }
 
     public void FinishAction()
@@ -301,16 +307,22 @@ public class NotificationManager : Singleton<NotificationManager> {
         panelBorderGO.SetActive(false);
 
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
+
+        SoundManager.instance.PlayNotificationPopup("click1");
     }
 
     public void NextAction()
     {
         MenuStateManager.Instance.CurrentState++;
+
+        SoundManager.instance.PlayNotificationPopup("click1");
     }
 
     public void BackAction()
     {
         MenuStateManager.Instance.CurrentState--;
+
+        SoundManager.instance.PlayNotificationPopup("click1");
     }
 
     public void SetupAction()
@@ -319,11 +331,15 @@ public class NotificationManager : Singleton<NotificationManager> {
         StateManager.Instance.CurrentState = StateManager.HueAppState.SetupMode;
         //MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.LinkButton;
         hueBridgeManager.InitHueBridgeManager();
+
+        SoundManager.instance.PlayNotificationPopup("click1");
     }
 
     public void SaveAction()
     {
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.SetupFinished;
         StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+
+        SoundManager.instance.PlayNotificationPopup("click1");
     }
 }
