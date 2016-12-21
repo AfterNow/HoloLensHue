@@ -277,6 +277,11 @@ public class NotificationManager : Singleton<NotificationManager> {
         }
     }
 
+    public static void DetachMenu()
+    {
+        canvas.GetComponent<Tagalong>().enabled = false;
+    }
+
     private static IEnumerator NotificationExpiration(float seconds)
     {    
         yield return new WaitForSeconds(seconds);

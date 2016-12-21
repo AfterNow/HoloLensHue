@@ -112,7 +112,7 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         EventManager.TriggerEvent("SmartLightManagerReady");
         if (StateManager.Instance.SetupMode)
         {
-
+            configureLights();
         }
         else
         {

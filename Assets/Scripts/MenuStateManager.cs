@@ -21,7 +21,8 @@ public class MenuStateManager : Singleton<MenuStateManager> {
         LinkButton,
         LinkSuccess,
         Identify,
-        TapDragAlign,
+        //TapDragAlign,
+        Repeat,
         SetupFinished,
         // Tutorial states - menu flow
         TT_Interactions,
@@ -114,11 +115,18 @@ public class MenuStateManager : Singleton<MenuStateManager> {
         }
         else if (state == MenuState.Identify)
         {
+            // detach menu to prevent interfering with user's hologram placement
+            NotificationManager.DetachMenu();
+
             return new Menu("IdentifyLight", 400, 280, true, 0f, true, true, -180f);
         }
-        else if (state == MenuState.TapDragAlign)
+        //else if (state == MenuState.TapDragAlign)
+        //{
+        //    return new Menu("TapDragAlign", 400, 240, true, 0f, true, true, false, -160f);
+        //}
+        else if (state == MenuState.Repeat)
         {
-            return new Menu("TapDragAlign", 400, 240, true, 0f, false, true, true, -160f);
+            return new Menu("Repeat", 400, 280, true, 0f, false, true, true, -180f);
         }
         else if (state == MenuState.SetupFinished)
         {

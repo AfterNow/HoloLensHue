@@ -123,6 +123,7 @@ public class StateManager : Singleton<StateManager>
 
             if (SetupMode)
             {
+                Debug.Log("i am in setup mode yo!!!");
                 if (onSetup != null)
                 {
                     onSetup();
