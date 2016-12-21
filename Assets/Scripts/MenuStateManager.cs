@@ -8,6 +8,9 @@ public class MenuStateManager : Singleton<MenuStateManager> {
     public delegate void OnMenuChanged(Menu menu);
     public static event OnMenuChanged onMenuChanged;
 
+    public delegate void OnSetupFinished();
+    public static event OnSetupFinished onSetupFinished;
+
     [Tooltip("Current state of the menu")]
     public string menuState;
 
@@ -82,6 +85,24 @@ public class MenuStateManager : Singleton<MenuStateManager> {
         }
     }
 
+    public bool SetupFinished
+    {
+        get
+        {
+            return currentState == MenuState.SetupFinished;
+        }
+    }
+
+    void OnEnable()
+    {
+        NotificationManager.notificationCanceled += MenuCanceled;
+    }
+
+    void OnDisable()
+    {
+        NotificationManager.notificationCanceled -= MenuCanceled;
+    }
+
     void Start()
     {
         menuState = MenuStateName;
@@ -92,6 +113,19 @@ public class MenuStateManager : Singleton<MenuStateManager> {
         if (onMenuChanged != null)
         {
             onMenuChanged(newMenu);
+        }
+    }
+
+    private void MenuCanceled()
+    {
+        if (Instance.SetupFinished)
+        {
+            NotificationManager.HideSubMenuPanel();
+            // brings user back to initial menu state after setup
+            Instance.CurrentState = MenuState.MainMenu;
+
+            // sets app back to initial menu state
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Starting;
         }
     }
 
@@ -120,16 +154,21 @@ public class MenuStateManager : Singleton<MenuStateManager> {
 
             return new Menu("IdentifyLight", 400, 280, true, 0f, true, true, -180f);
         }
-        //else if (state == MenuState.TapDragAlign)
-        //{
-        //    return new Menu("TapDragAlign", 400, 240, true, 0f, true, true, false, -160f);
-        //}
         else if (state == MenuState.Repeat)
         {
             return new Menu("Repeat", 400, 280, true, 0f, false, true, true, -180f);
         }
         else if (state == MenuState.SetupFinished)
         {
+            // reattach menu for next time the menu is used - detached during the Identify and Repeat steps
+            NotificationManager.AttachMenu();
+
+            // notifies all subcribers to SetupFinished
+            if (onSetupFinished != null)
+            {
+                onSetupFinished();
+            }
+
             return new Menu("SetupFinished", 200, 120, false, 4f);
         }
         else if (state == MenuState.TT_Interactions)

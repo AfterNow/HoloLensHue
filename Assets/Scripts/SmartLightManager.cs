@@ -46,6 +46,8 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         StateManager.onReady += saveConfiguration;
         StateManager.onConfiguration += configureLights;
         StateManager.onSetup += configureLights;
+
+        MenuStateManager.onSetupFinished += saveConfiguration;
     }
 
     void OnDisable()
@@ -53,6 +55,8 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         StateManager.onReady -= saveConfiguration;
         StateManager.onConfiguration -= configureLights;
         StateManager.onSetup -= configureLights;
+
+        MenuStateManager.onSetupFinished -= saveConfiguration;
     }
 
     // called when bridge has been found and lights are available

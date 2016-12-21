@@ -1177,7 +1177,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 1, y: -16}
-  m_SizeDelta: {x: 320, y: 240}
+  m_SizeDelta: {x: 320, y: 280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &432144672
 MonoBehaviour:
@@ -3972,7 +3972,7 @@ Prefab:
     - target: {fileID: 223269120680672134, guid: f8b50db8037811e40a2ffd0b4c56af90,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114124540363433406, guid: f8b50db8037811e40a2ffd0b4c56af90,
         type: 2}
@@ -4335,8 +4335,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "GESTURE: \tYou can interact with objects with an air-tap gesture. You can
-    also tap-and-hold to adjust lights, controls, and other elements"
+  m_Text: "GESTURE: \tYou can interact with holographic orbs using the air-tap gesture.
+    You can also tap-and-hold to adjust lights, controls, and other elements of the
+    UI."
 --- !u!222 &1859321717
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4901,8 +4902,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000000692904}
-  m_SizeDelta: {x: 8, y: 8}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 8, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2078519322
 MonoBehaviour:

@@ -66,6 +66,7 @@ public class HueBridgeManager : MonoBehaviour {
     {
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
     }
+
     public void InitHueBridgeManager()
     {
         // MOCK smart lights for testing
