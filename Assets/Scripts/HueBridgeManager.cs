@@ -35,7 +35,6 @@ public class HueBridgeManager : MonoBehaviour {
 
     void Awake()
     {
-        Debug.Log("HueBridgeMgr Awake");
         smartLights = new List<SmartLight>();
         if (GameObject.Find("HologramCollection") != null)
         {
@@ -50,7 +49,6 @@ public class HueBridgeManager : MonoBehaviour {
 
     void OnEnable()
     {
-        Debug.Log("HueBridgeMgr OnEnable");
         NotificationManager.notificationCanceled += NotificationExpired;
     }
 
@@ -61,7 +59,12 @@ public class HueBridgeManager : MonoBehaviour {
 
     void Start()
     {
-        Debug.Log("HueBridgeMgr Start");
+     
+    }
+
+    public void InitMainMenu()
+    {
+        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
     }
 
     public void InitHueBridgeManager()
@@ -77,6 +80,7 @@ public class HueBridgeManager : MonoBehaviour {
         {
             if (StateManager.Instance.Starting)
             {
+                
                 bridgeReady();
             }
             else
@@ -191,10 +195,9 @@ public class HueBridgeManager : MonoBehaviour {
 
                 if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
                 {
-                    Notification notification = new Notification("alert", "Please press the link button on your Bridge and try again.");
-                    notification.Expiration = 30f;
-                    NotificationManager.DisplayNotification(notification);
-
+                    // Alerts user to push the Hue Bridge link button
+                    MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.LinkButton;
+                    
                     // while true, a request to the bridge will be sent during specified intervals
                     awaitingBridgeLink = true;
 
@@ -221,7 +224,16 @@ public class HueBridgeManager : MonoBehaviour {
 
     private void bridgeReady()
     {
-        StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
+        if (StateManager.Instance.SetupMode)
+        {
+            MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.LinkSuccess;
+        }
+        else
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
+            MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.Hidden;
+        }
+        
         StartCoroutine(DiscoverLights());
     }
 
@@ -256,19 +268,22 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
-            StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
+            if (!StateManager.Instance.SetupMode)
+            {
+                StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;
 
-            Notification notification = new Notification("alert", "Lights have been discovered! To configure setup, say \"Configure Room.\" Otherwise, enjoy!");
-            notification.SendToConsole = false;
-            NotificationManager.DisplayNotification(notification);
-            //GetComponent<VoiceManager>().RegisterPhrases();
+                Notification notification = new Notification("alert", "Lights have been discovered! To configure setup, say \"Configure Room.\" Otherwise, enjoy!");
+                notification.SendToConsole = false;
+                NotificationManager.DisplayNotification(notification);
+            }
+
             convertLightData(json);
         }
     }
 
     private void convertLightData(string json)
     {
-        if (StateManager.Instance.ConnectedDevices_Initialized && json != null)
+        if ((StateManager.Instance.ConnectedDevices_Initialized || StateManager.Instance.SetupMode) && json != null)
         {
             var lights = (Dictionary<string, object>)Json.Deserialize(json);
 

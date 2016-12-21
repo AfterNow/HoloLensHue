@@ -25,7 +25,7 @@ public class VoiceManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("VoiceMgr Start");
+        Debug.Log("VoiceMgr Started");
         if (GameObject.Find("HologramCollection") != null)
         {
             hologramCollection = GameObject.Find("HologramCollection");
@@ -67,6 +67,16 @@ public class VoiceManager : MonoBehaviour {
         /// <summary>
         /// Global systemwide voice commands
         /// </summary>
+        /// 
+        // opens the main menu of the app
+        keywords.Add("Main Menu", () =>
+        {
+            SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Show Main Menu", () =>
+        {
+            SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
+        });
         // runs a search function to discover Hue Bridges on the same network.
         keywords.Add("Search For Bridge", () =>
         {

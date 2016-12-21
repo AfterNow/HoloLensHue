@@ -37,20 +37,26 @@ public class SmartLightManager : Singleton<SmartLightManager> {
 
     void Start()
     {
-        Debug.Log("StateMgr Start");
         hueMgr = GetComponent<HueBridgeManager>();
         hueAPI = appManager.GetComponent<PhilipsHueAPI>();
     }
 
     void OnEnable()
     {
-        StateManager.onConfiguration += configureLights;
         StateManager.onReady += saveConfiguration;
+        StateManager.onConfiguration += configureLights;
+        StateManager.onSetup += configureLights;
+
+        MenuStateManager.onSetupFinished += saveConfiguration;
     }
 
     void OnDisable()
     {
         StateManager.onReady -= saveConfiguration;
+        StateManager.onConfiguration -= configureLights;
+        StateManager.onSetup -= configureLights;
+
+        MenuStateManager.onSetupFinished -= saveConfiguration;
     }
 
     // called when bridge has been found and lights are available
@@ -95,11 +101,12 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             Renderer rend = currentLight.GetComponent<Renderer>();
             Vector4 ledColor = ColorService.GetColorByHue(light.State.Hue);
             rend.material.color = ledColor;
-            // TODO commented out while testing. This hides spawned prefabs.
-            if (!StateManager.Instance.Configuring)
+
+            if (!StateManager.Instance.Configuring && !StateManager.Instance.SetupMode)
             {
                 rend.enabled = false;
             }
+
             // increments x value to space out spawned prefabs that have no Anchor Store entry.
             pos += new Vector3(0.5f, 0, 0);
 
@@ -107,7 +114,14 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             //hueAPI.UpdateLight(light);
         }
         EventManager.TriggerEvent("SmartLightManagerReady");
-        StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        if (StateManager.Instance.SetupMode)
+        {
+            configureLights();
+        }
+        else
+        {
+            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
+        }    
     }
 
     public static void UpdateLightState(int arrayId)
