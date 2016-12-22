@@ -84,6 +84,9 @@ public class SelectorComponent : MonoBehaviour {
 
                 if (currentLight != null)
                 {
+                    // auto sets saturation to full to show vibrant colors. Will replace when Saturation UI is added in another version
+                    currentLight.State.Sat = 254;
+
                     currentLight.State.Hue = hue;
                     SmartLightManager.UpdateLightState(arrayId);
                 }

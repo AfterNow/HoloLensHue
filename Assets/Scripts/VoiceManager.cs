@@ -148,7 +148,47 @@ public class VoiceManager : MonoBehaviour {
         // resets all lights back to default hue, full saturation, and full brightness.
         keywords.Add("Normal Lights", () =>
         {
-            slm.SetLightsToDefault();
+            SmartLightManager.Instance.SetLightsToDefault();
+        });
+        keywords.Add("Normal Lighting", () =>
+        {
+            SmartLightManager.Instance.SetLightsToDefault();
+        });
+        keywords.Add("Reset Lights", () =>
+        {
+            SmartLightManager.Instance.SetLightsToDefault();
+        });
+        keywords.Add("Reset Lighting", () =>
+        {
+            SmartLightManager.Instance.SetLightsToDefault();
+        });
+        keywords.Add("Regular Lights", () =>
+        {
+            SmartLightManager.Instance.SetLightsToDefault();
+        });
+        keywords.Add("Regular Lighting", () =>
+        {
+            SmartLightManager.Instance.SetLightsToDefault();
+        });
+        
+        // turns off all available lights
+        keywords.Add("Turn Off All Light", () =>
+        {
+            SmartLightManager.Instance.TurnOffAllLights();
+        });
+        keywords.Add("Turn Off The Lights", () =>
+        {
+            SmartLightManager.Instance.TurnOffAllLights();
+        });
+
+        // turns on all available lights
+        keywords.Add("Turn On All Light", () =>
+        {
+            SmartLightManager.Instance.TurnOnAllLights();
+        });
+        keywords.Add("Turn On The Lights", () =>
+        {
+            SmartLightManager.Instance.TurnOnAllLights();
         });
 
         /// <summary>
@@ -160,8 +200,16 @@ public class VoiceManager : MonoBehaviour {
         {
             buildUpdateCall("On", 0);
         });
+        keywords.Add("Turn On", () =>
+        {
+            buildUpdateCall("On", 0);
+        });
 
         keywords.Add("Light Off", () =>
+        {
+            buildUpdateCall("Off", 0);
+        });
+        keywords.Add("Turn Off", () =>
         {
             buildUpdateCall("Off", 0);
         });
@@ -258,6 +306,14 @@ public class VoiceManager : MonoBehaviour {
         {
             buildUpdateCall("alert", 0);
         });
+        keywords.Add("That's Enough", () =>
+        {
+            buildUpdateCall("alert", 0);
+        });
+        keywords.Add("Stop Blinking", () =>
+        {
+            buildUpdateCall("alert", 0);
+        });
 
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
@@ -308,7 +364,10 @@ public class VoiceManager : MonoBehaviour {
                         currentLight.State.On = false;
                     }
                     else if (param == "hue")
-                    { 
+                    {
+                        // auto sets saturation to full to show vibrant colors. Will replace when Saturation UI is added in another version
+                        currentLight.State.Sat = 254;
+
                         currentLight.State.Hue = value;
                     }
                     else if (param == "bri")
