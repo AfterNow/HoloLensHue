@@ -69,11 +69,11 @@ public class LightUIManager : Singleton<LightUIManager> {
             toggleUIChanged();
         }
 
-        foreach (LightUI ui in lightUIs)
-        {
-           Debug.Log("light: " + ui.LightID + "with a show status of: " + ui.Show);
+        //foreach (LightUI ui in lightUIs)
+        //{
+        //   Debug.Log("light: " + ui.LightID + "with a show status of: " + ui.Show);
 
-        }
+        //}
     }
 
     private void updateLightUI(int id, State state)

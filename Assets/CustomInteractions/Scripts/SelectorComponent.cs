@@ -28,14 +28,20 @@ public class SelectorComponent : MonoBehaviour {
 
     string previousHitTag;
 
+    private bool isInitialColor;
+    private string initialHue;
+
     void OnEnable()
     {
         EventManager.StartListening("SmartLightManagerReady", initSelector);
+        isInitialColor = true;
+        performRayCast();
     }
 
     void OnDisable()
     {
         EventManager.StopListening("SmartLightManagerReady", initSelector);
+        isInitialColor = false;
     }
 
     private void initSelector()
@@ -74,7 +80,7 @@ public class SelectorComponent : MonoBehaviour {
             0.1f, layerMask))
         {
             // Only call update if the color has changed
-            if (previousHitTag != hitInfo.collider.tag)
+            if (previousHitTag != hitInfo.collider.tag && !isInitialColor && hitInfo.collider.tag != initialHue)
             {
                 previousHitTag = hitInfo.collider.tag;
 
@@ -90,6 +96,13 @@ public class SelectorComponent : MonoBehaviour {
                     currentLight.State.Hue = hue;
                     SmartLightManager.UpdateLightState(arrayId);
                 }
+
+                initialHue = "";
+            }
+            else if (isInitialColor)
+            {
+                initialHue = hitInfo.collider.tag;
+                isInitialColor = false;
             }
         }
     }
