@@ -39,6 +39,9 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     private bool bridgeInited;
 
+    // Add an audio clip to the Popup Clips in SoundManager and specify name here 
+    private string buttonClickedSound = "click1";
+
     void Awake()
     {
         notificationManager = this;
@@ -313,7 +316,7 @@ public class NotificationManager : Singleton<NotificationManager> {
             hueBridgeManager.InitHueBridgeManager();
         }
 
-        SoundManager.instance.PlayNotificationPopup("click1");
+        SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
     }
 
     public void TutorialAction()
@@ -322,7 +325,7 @@ public class NotificationManager : Singleton<NotificationManager> {
 
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.TT_Interactions;
 
-        SoundManager.instance.PlayNotificationPopup("click1");
+        SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
     }
 
     public void FinishAction()
@@ -331,21 +334,21 @@ public class NotificationManager : Singleton<NotificationManager> {
 
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
 
-        SoundManager.instance.PlayNotificationPopup("click1");
+        SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
     }
 
     public void NextAction()
     {
         MenuStateManager.Instance.CurrentState++;
 
-        SoundManager.instance.PlayNotificationPopup("click1");
+        SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
     }
 
     public void BackAction()
     {
         MenuStateManager.Instance.CurrentState--;
 
-        SoundManager.instance.PlayNotificationPopup("click1");
+        SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
     }
 
     public void SetupAction()
@@ -364,7 +367,7 @@ public class NotificationManager : Singleton<NotificationManager> {
         }
         bridgeInited = true;
 
-        SoundManager.instance.PlayNotificationPopup("click1");
+        SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
     }
 
     public void SaveAction()
@@ -372,6 +375,6 @@ public class NotificationManager : Singleton<NotificationManager> {
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.SetupFinished;
         StateManager.Instance.CurrentState = StateManager.HueAppState.Starting;
 
-        SoundManager.instance.PlayNotificationPopup("click1");
+        SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
     }
 }

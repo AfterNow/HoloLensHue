@@ -115,6 +115,14 @@ public class HueBridgeManager : MonoBehaviour {
 
             StateManager.Instance.CurrentState = StateManager.HueAppState.Configuring;
         }
+        if (Input.GetKeyDown("x"))
+        {
+            foreach (SmartLight sl in SmartLightManager.lights)
+            {
+                Debug.Log("smartLight name: " + sl.Name);
+                Debug.Log("smartLight hue: " + sl.State.Hue);
+            }
+        }
     }
 
     public IEnumerator CheckOrGetBridgeIP()
