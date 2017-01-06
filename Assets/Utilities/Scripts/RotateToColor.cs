@@ -15,48 +15,56 @@ public class RotateToColor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
     void OnEnable()
     {
         grandparentTag = gameObject.transform.parent.transform.parent.tag;
+        Debug.Log("HERE IS CAMERAL EULER ANGLE Y: " + Camera.main.transform.eulerAngles.y);
+        var cameraAngle = Camera.main.transform.eulerAngles.y;
 
         if (grandparentTag != "Untagged")
         {
             int tagId = int.Parse(grandparentTag);
             int currentHue = SmartLightManager.lights[tagId].State.Hue;
             Debug.Log("here is currentHue: " + currentHue);
-            if (currentHue == 0)
+            if (currentHue >= 0 && currentHue <= 4500)
             {
-                transform.Rotate(Vector3.up, -12);
+                //transform.Rotate(Vector3.up, -12);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, -12 + cameraAngle, transform.eulerAngles.z);
             }
-            else if (currentHue == 9000)
+            else if (currentHue > 4500 && currentHue <= 14000)
             {
-                transform.Rotate(Vector3.up, 39.428f);
+                //transform.Rotate(Vector3.up, 39.428f);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 39.428f + cameraAngle, transform.eulerAngles.z);
             }
-            else if (currentHue == 19000)
+            else if (currentHue > 14000 && currentHue <= 21000)
             {
-                transform.Rotate(Vector3.up, 90.91f);
+                //transform.Rotate(Vector3.up, 90.91f);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 90.91f + cameraAngle, transform.eulerAngles.z);
             }
-            else if (currentHue == 23500)
+            else if (currentHue > 21000 && currentHue <= 35000)
             {
-                transform.Rotate(Vector3.up, 142.37f);
+                //transform.Rotate(Vector3.up, 142.37f);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 142.37f + cameraAngle, transform.eulerAngles.z);
             }
-            else if (currentHue == 46950)
+            else if (currentHue > 35000 && currentHue <= 48000)
             {
-                transform.Rotate(Vector3.up, 193.764f);
+                //transform.Rotate(Vector3.up, 193.764f);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 193.764f + cameraAngle, transform.eulerAngles.z);
             }
-            else if (currentHue == 50500)
+            else if (currentHue > 48000 && currentHue <= 53500)
             {
-                transform.Rotate(Vector3.up, 245.192f);
+                //transform.Rotate(Vector3.up, 245.192f);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 245.192f + cameraAngle, transform.eulerAngles.z);
             }
-            else if (currentHue == 57100)
+            else if (currentHue > 53500)
             {
-                transform.Rotate(Vector3.up, 296.62f);
+                //transform.Rotate(Vector3.up, 296.62f);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, 296.62f + cameraAngle, transform.eulerAngles.z);
             }
         }
-        
+        Debug.Log("rotation after enable: " + transform.rotation.y);
     }
 
     void OnDisable()

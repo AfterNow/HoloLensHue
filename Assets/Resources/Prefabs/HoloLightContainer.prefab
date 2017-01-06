@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 4625634616243538}
   - component: {fileID: 114162558940008082}
   - component: {fileID: 114819200687695588}
+  - component: {fileID: 114162213953739610}
   m_Layer: 8
   m_Name: ColorWheel
   m_TagString: Untagged
@@ -1429,6 +1430,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PositionScale: {x: 10, y: 2, z: 4}
+--- !u!114 &114162213953739610
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160583055212310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb0aad02ef40794b9ad7d1382795c7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114162558940008082
 MonoBehaviour:
   m_ObjectHideFlags: 1
