@@ -63,17 +63,21 @@ public class LightUIManager : Singleton<LightUIManager> {
     {
         // ajustment needed to compensate for difference in light.ID and array index
         int adjustedId = id + 1;
-        foreach (LightUI ui in lightUIs)
+        
+        if (!StateManager.Instance.SetupMode)
         {
-            // toggles selected light on/off
-            if (ui.LightID == adjustedId)
+            foreach (LightUI ui in lightUIs)
             {
-                ui.Show = !ui.Show;
+                // toggles selected light on/off
+                if (ui.LightID == adjustedId)
+                {
+                    ui.Show = !ui.Show;
+                }
+                else // all other lights will always be off
+                {
+                    ui.Show = false;
+                }
             }
-            else // all other lights will always be off
-            {
-                ui.Show = false;
-            }      
         }
 
         if (toggleUIChanged != null)
