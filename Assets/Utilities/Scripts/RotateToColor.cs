@@ -63,6 +63,6 @@ public class RotateToColor : MonoBehaviour {
 
     void OnDisable()
     {
-        Debug.Log("on disable rotatetocolor");
+
     }
 }

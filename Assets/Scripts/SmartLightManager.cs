@@ -35,6 +35,9 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     [Tooltip("The height offset above or below a SmartBulb a HoloLightContainer will be spawned")]
     public float lightContainerOffset = 1.25f;
 
+    // used for setup mode default color coded guide
+    ColorService.Colors currentColor;
+
     void Start()
     {
         hueMgr = GetComponent<HueBridgeManager>();
@@ -143,10 +146,15 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             currentLight.GetComponent<GestureManipulator>().enabled = true;
 
             // Only display SmartLight orb when the app is in configuration mode
-            Renderer rend = currentLight.GetComponent<Renderer>();  
+            Renderer rend = currentLight.GetComponent<Renderer>();
             rend.enabled = true;
             //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
             //rend.material.color = ledColor;
+        }
+        Debug.Log("is in setup mode?: " + StateManager.Instance.SetupMode);
+        if (StateManager.Instance.SetupMode)
+        {
+            setLightsToColorCodeMode();
         }
     }
 
@@ -203,6 +211,33 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             currentState = lights[i].State;
             currentState.On = true;
 
+            hueAPI.UpdateLight(lights[i]);
+        }
+    }
+
+    private void setLightsToColorCodeMode()
+    {
+        currentColor = ColorService.Colors.Red;
+        for (int i = 0; i < lights.Count; i++)
+        {
+            State currentState;
+
+            // adjusts all found lights to on, full brightness, and color coded to help simplify setup
+            currentState = lights[i].State;
+            currentState.On = true;
+            currentState.Sat = 254;
+            currentState.Bri = 254;
+            
+            if (currentColor == ColorService.Colors.Violet)
+            {
+                currentColor = ColorService.Colors.Red;
+            }
+            else
+            {
+                currentColor++;
+            }
+            currentState.Hue = ColorService.GetHueByColorEnum(currentColor);
+            Debug.Log("curretne state hue: " + currentState.Hue);
             hueAPI.UpdateLight(lights[i]);
         }
     }

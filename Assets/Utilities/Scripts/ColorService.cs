@@ -7,6 +7,17 @@ public static class ColorService
     static Vector4 color;
     static int hueValue;
 
+    public enum Colors
+    {
+        Red,
+        Orange,
+        Yellow,
+        Green,
+        Blue,
+        Indigo,
+        Violet
+    }
+
     public static Vector4 GetColorByHue(int hue)
     {
         // red
@@ -103,6 +114,46 @@ public static class ColorService
         }
 
         return hueValue;
+    }
 
+    public static int GetHueByColorEnum(Colors color)
+    {
+        // red
+        if (color == Colors.Red)
+        {
+            hueValue = 0;
+        }
+        // orange
+        if (color == Colors.Orange)
+        {
+            hueValue = 9000;
+        }
+        // yellow
+        else if (color == Colors.Yellow)
+        {
+            hueValue = 19000;
+        }
+        // green
+        else if (color == Colors.Green)
+        {
+            hueValue = 23500;
+        }
+        // blue
+        else if (color == Colors.Blue)
+        {
+            hueValue = 46950;
+        }
+        // indigo
+        else if (color == Colors.Indigo)
+        {
+            hueValue = 50500;
+        }
+        // pink
+        else if (color == Colors.Violet)
+        {
+            hueValue = 57100;
+        }
+
+        return hueValue;
     }
 }
