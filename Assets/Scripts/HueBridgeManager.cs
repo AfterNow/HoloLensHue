@@ -10,6 +10,9 @@ using System.Text;
 
 public class HueBridgeManager : MonoBehaviour {
 
+    public delegate void SmartLightsReady(List<SmartLight> smartLights);
+    public static event SmartLightsReady smartLightsReady;
+
     [Tooltip("IP address of the hue bridge: https://www.meethue.com/api/nupnp")]
     public string bridgeip = "127.0.0.1";
     public int portNumber = 8000;
@@ -333,11 +336,22 @@ public class HueBridgeManager : MonoBehaviour {
             {
                 Debug.LogError("No SmartLightManager was found. Please check inspector and be sure the correct GameObject is set on the HueBridgeManager");
             }
+
+            // sends notification to all subscribers
+            smartLightsReady(smartLights);
         }
         else
         {
             Notification notification = new Notification("alert", "No lights can be found. Please ensure the Bridge IP is set and your lighting system is functioning properly.");
             NotificationManager.DisplayNotification(notification);
+        }
+    }
+
+    public static void LightsReady(List<SmartLight> sls)
+    {
+        if (smartLightsReady != null)
+        {
+            smartLightsReady(sls);
         }
     }
 

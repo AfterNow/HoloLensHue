@@ -16,7 +16,6 @@ public class RotateToColor : MonoBehaviour {
     void OnEnable()
     {
         grandparentTag = gameObject.transform.parent.transform.parent.tag;
-        Debug.Log("rotatatat script: " + grandparentTag);
         float cameraAngle = Camera.main.transform.eulerAngles.y;
 
         if (grandparentTag != "Untagged")
