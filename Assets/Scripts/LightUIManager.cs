@@ -30,11 +30,13 @@ public class LightUIManager : Singleton<LightUIManager> {
 
     void OnEnable()
     {
+        HueBridgeManager.smartLightsReady += initColors;
         SmartLightManager.stateChanged += updateLightUI;
     }
 
     void OnDisable()
     {
+        HueBridgeManager.smartLightsReady -= initColors;
         SmartLightManager.stateChanged -= updateLightUI;
     }
 
@@ -47,9 +49,19 @@ public class LightUIManager : Singleton<LightUIManager> {
         }
     }
 
+    public void initColors(List<SmartLight> sls)
+    {
+        foreach (SmartLight sl in sls)
+        {
+            lightUIs.Add(new LightUI(sl.ID, false, ColorService.GetColorByHue(sl.State.Hue), sl.State.Bri, sl.Name));
+            updateLightUI(sl.ID, sl.State);
+        }
+    }
+
     // updates LightUI.Show bool, adjusts all others accordingly, and 
     private void ToggleUI(int id)
     {
+        // ajustment needed to compensate for difference in light.ID and array index
         int adjustedId = id + 1;
         foreach (LightUI ui in lightUIs)
         {

@@ -8,11 +8,7 @@ public class RotateToColor : MonoBehaviour {
 
     private float wheelOffset = -12;
     private float toNextPanel = 51.428f;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	}
@@ -20,14 +16,13 @@ public class RotateToColor : MonoBehaviour {
     void OnEnable()
     {
         grandparentTag = gameObject.transform.parent.transform.parent.tag;
-        Debug.Log("HERE IS CAMERAL EULER ANGLE Y: " + Camera.main.transform.eulerAngles.y);
-        var cameraAngle = Camera.main.transform.eulerAngles.y;
+        float cameraAngle = Camera.main.transform.eulerAngles.y;
 
         if (grandparentTag != "Untagged")
         {
             int tagId = int.Parse(grandparentTag);
             int currentHue = SmartLightManager.lights[tagId].State.Hue;
-            Debug.Log("here is currentHue: " + currentHue);
+
             if (currentHue >= 0 && currentHue <= 4500)
             {
                 //transform.Rotate(Vector3.up, -12);
@@ -64,7 +59,6 @@ public class RotateToColor : MonoBehaviour {
                 transform.eulerAngles = new Vector3(transform.eulerAngles.x, 296.62f + cameraAngle, transform.eulerAngles.z);
             }
         }
-        Debug.Log("rotation after enable: " + transform.rotation.y);
     }
 
     void OnDisable()
