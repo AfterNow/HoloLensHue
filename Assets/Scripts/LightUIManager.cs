@@ -90,7 +90,6 @@ public class LightUIManager : Singleton<LightUIManager> {
 
     private void updateLightUI(int id, State state)
     {
-        Debug.Log("update light ui called");
         // ajustment needed to compensate for difference in light.ID and array index
         int adjustedId = id - 1;
         LightUI currentUI = lightUIs[adjustedId];
@@ -104,7 +103,6 @@ public class LightUIManager : Singleton<LightUIManager> {
             currentUI.OrbColor = ColorService.GetColorByHue(state.Hue);
             if (colorChanged != null)
             {
-                Debug.Log("was colorChanged event triggered???");
                 colorChanged(currentUI.LightID, currentUI.OrbColor);
             }
         }

@@ -80,7 +80,6 @@ public class UIColorUpdater : MonoBehaviour {
 
     IEnumerator LerpColor(Color colorTarget, float tTime)
     {
-        Debug.Log("Lerp that color was callede!!!!!!!");
         float progress = 0; //This float will serve as the 3rd parameter of the lerp function.
         float increment = smoothness / tTime; //The amount of change to apply.
         while (progress < 1)
