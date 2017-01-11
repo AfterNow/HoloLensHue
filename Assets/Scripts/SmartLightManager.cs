@@ -227,7 +227,10 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             currentState.On = true;
             currentState.Sat = 254;
             currentState.Bri = 254;
-            
+
+            currentState.Hue = ColorService.GetHueByColorEnum(currentColor);
+            hueAPI.UpdateLight(lights[i]);
+
             if (currentColor == ColorService.Colors.Violet)
             {
                 currentColor = ColorService.Colors.Red;
@@ -235,10 +238,13 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             else
             {
                 currentColor++;
+
+                // bypass setting a light to green as v1 and v2 of Philip's Hue lights don't reproduce green well
+                if (currentColor == ColorService.Colors.Green)
+                {
+                    currentColor++;
+                }
             }
-            currentState.Hue = ColorService.GetHueByColorEnum(currentColor);
-            Debug.Log("curretne state hue: " + currentState.Hue);
-            hueAPI.UpdateLight(lights[i]);
         }
     }
 }

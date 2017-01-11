@@ -49,12 +49,11 @@ public class SmartLightUI : MonoBehaviour {
 
     private void UpdateSmartLightUI(SmartLight sl)
     {
+        Debug.Log("update smart light ui was called");
         if (sl.Name == gameObject.name)
         {
             Renderer rend = gameObject.GetComponent<Renderer>();
-            //Debug.Log(sl.State.Hue);
             Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
-            //Debug.Log(ledColor);
             rend.material.color = ledColor;
         }
     }
