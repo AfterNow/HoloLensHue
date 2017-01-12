@@ -50,14 +50,16 @@ public class NotificationManager : Singleton<NotificationManager> {
     void OnEnable()
     {
         MenuStateManager.onMenuChanged += DisplayMenu;
+        HueBridgeManager.restartSearchForBridge += ResetBridgeInited;
     }
 
     void OnDisable()
     {
         MenuStateManager.onMenuChanged -= DisplayMenu;
+        HueBridgeManager.restartSearchForBridge -= ResetBridgeInited;
     }
 
-    void Start () {
+    void Start() {
 
         foreach (Transform child in transform)
         {
@@ -72,9 +74,9 @@ public class NotificationManager : Singleton<NotificationManager> {
                 {
                     if (grandchild.name == "PanelBorder")
                     {
-                         panelBorderGO = grandchild.gameObject;
+                        panelBorderGO = grandchild.gameObject;
                     }
-                    else if(grandchild.name == "NextButtonBorder")
+                    else if (grandchild.name == "NextButtonBorder")
                     {
                         nextButtonGO = grandchild.gameObject;
                     }
@@ -97,7 +99,7 @@ public class NotificationManager : Singleton<NotificationManager> {
                 }
             }
         }
-        
+
         if (!canvas)
         {
             Debug.Log("No child Canvas was found. Please add one to use notification system.");
@@ -111,7 +113,7 @@ public class NotificationManager : Singleton<NotificationManager> {
         // hueBridgeManager.InitHueBridgeManager();
         hueBridgeManager.InitMainMenu();
     }
-	
+
     public static void DisplayNotification(Notification notification)
     {
         if (newNotification != null)
@@ -192,14 +194,12 @@ public class NotificationManager : Singleton<NotificationManager> {
             }
             else // displays the common panel board if not the main menu
             {
-                panelBorderGO.SetActive(true);
-                panelBorderGO.GetComponent<Image>().enabled = true;
-
                 RectTransform rt = panelBorderGO.GetComponent<RectTransform>();
                 rt.sizeDelta = new Vector2(menu.Width, menu.Height);
 
                 BoxCollider col = panelBorderGO.GetComponent<BoxCollider>();
                 col.size = new Vector3(menu.Width, menu.Height, 1);
+
                 // displays the proper menu content in the panelBorder
                 foreach (Transform child in panelBorderGO.transform)
                 {
@@ -209,9 +209,13 @@ public class NotificationManager : Singleton<NotificationManager> {
                     }
                     else
                     {
-                        // ensures only one submenu panel is open at a time
-                        child.gameObject.SetActive(false);
-                    }            
+                        // TextPanel should always be active for general notifications. Hiding/showing this object done through Image Component
+                        if (child.name != "TextPanel")
+                        {
+                            // ensures only one submenu panel is open at a time
+                            child.gameObject.SetActive(false);
+                        }               
+                    }
                 }
             }
 
@@ -307,7 +311,7 @@ public class NotificationManager : Singleton<NotificationManager> {
     }
 
     private static IEnumerator NotificationExpiration(float seconds)
-    {    
+    {
         yield return new WaitForSeconds(seconds);
         CancelNotification();
     }
@@ -337,8 +341,20 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     public void FinishAction()
     {
-        panelBorderGO.SetActive(false);
+        if (notificationCanceled != null)
+        {
+            notificationCanceled();
+        }
 
+        foreach (Transform child in panelBorderGO.transform)
+        {
+            // TextPanel should always be active for general notifications. Hiding/showing this object done through Image Component
+            if (child.name != "TextPanel")
+            {
+                child.gameObject.SetActive(false);
+            }         
+        }
+        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.TTFinished;
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
 
         SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
@@ -363,7 +379,6 @@ public class NotificationManager : Singleton<NotificationManager> {
         mainMenuGO.SetActive(false);
 
         StateManager.Instance.CurrentState = StateManager.HueAppState.SetupMode;
-
         if (!bridgeInited)
         {
             hueBridgeManager.InitHueBridgeManager();
@@ -383,5 +398,10 @@ public class NotificationManager : Singleton<NotificationManager> {
         StateManager.Instance.CurrentState = StateManager.HueAppState.Starting;
 
         SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
+    }
+
+    private void ResetBridgeInited()
+    {
+        bridgeInited = false;
     }
 }

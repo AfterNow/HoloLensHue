@@ -41,6 +41,8 @@ public class UIPanelBorder : MonoBehaviour {
         {
             panelImage.enabled = true;
             panelImage.material = gradientMaterial;
+
+            col.enabled = true;
         }     
     }
 
