@@ -25,11 +25,6 @@ public class SmartLightUI : MonoBehaviour {
                 holoLightContainer = child.gameObject;
             }
         }
-        //if (gameObject.transform.GetChild(0))
-        //{
-        //    holoLightContainer = gameObject.transform.GetChild(0).gameObject;
-        //}
-        // hides HoloLightContainer visual UI immediately after instantiation
         
         if (holoLightContainer)
         {
@@ -52,9 +47,7 @@ public class SmartLightUI : MonoBehaviour {
         if (sl.Name == gameObject.name)
         {
             Renderer rend = gameObject.GetComponent<Renderer>();
-            //Debug.Log(sl.State.Hue);
             Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
-            //Debug.Log(ledColor);
             rend.material.color = ledColor;
         }
     }

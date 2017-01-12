@@ -18,6 +18,14 @@ public class LightUIManager : Singleton<LightUIManager> {
     public delegate void ToggleUIChanged();
     public static event ToggleUIChanged toggleUIChanged;
 
+    public float blinkFrequency = 0.5f;
+    private bool blinking;
+
+    private int arrayId;
+
+    private Coroutine coroutine;
+    private bool blinkInProgress;
+
     void Awake()
     {
         lightUIManager = this;
@@ -63,17 +71,21 @@ public class LightUIManager : Singleton<LightUIManager> {
     {
         // ajustment needed to compensate for difference in light.ID and array index
         int adjustedId = id + 1;
-        foreach (LightUI ui in lightUIs)
+        
+        if (!StateManager.Instance.SetupMode)
         {
-            // toggles selected light on/off
-            if (ui.LightID == adjustedId)
+            foreach (LightUI ui in lightUIs)
             {
-                ui.Show = !ui.Show;
+                // toggles selected light on/off
+                if (ui.LightID == adjustedId)
+                {
+                    ui.Show = !ui.Show;
+                }
+                else // all other lights will always be off
+                {
+                    ui.Show = false;
+                }
             }
-            else // all other lights will always be off
-            {
-                ui.Show = false;
-            }      
         }
 
         if (toggleUIChanged != null)
@@ -105,6 +117,8 @@ public class LightUIManager : Singleton<LightUIManager> {
             {
                 colorChanged(currentUI.LightID, currentUI.OrbColor);
             }
+            UpdateOrbColor(id, state);
+
         }
 
         if (currentUI.Brightness == state.Bri)
@@ -114,10 +128,85 @@ public class LightUIManager : Singleton<LightUIManager> {
         else
         {
             currentUI.Brightness = state.Bri;
-            if (colorChanged != null)
+            if (brightnessChanged != null)
             {
                 brightnessChanged(currentUI.LightID, currentUI.Brightness);
             }
+        }
+
+        Debug.Log("here is current state.Alert: " + state.Alert);
+        if (state.Alert == "lselect")
+        {
+            MakeOrbBlink(id);
+        }
+    }
+
+    // sets color of light prefab based on current light hue state
+    public void UpdateOrbColor(int id, State state)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.tag != "Untagged")
+            {
+                var idTag = child.tag;
+
+                // Ignores objects that do not have a valid id assigned to tag
+                if (int.TryParse(idTag, out arrayId))
+                {
+                    
+                    // adjusted arrayId to compensate for Hue starting index at 1
+                    if ((arrayId + 1) == id)
+                    {
+                        Renderer rend = child.GetComponent<Renderer>();
+                        Vector4 ledColor = ColorService.GetColorByHue(state.Hue);
+                        rend.material.color = ledColor;
+                    }
+                }
+            }
+        }
+    }
+
+    public void MakeOrbBlink(int id)
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.tag != "Untagged")
+            {
+                var idTag = child.tag;
+
+                // Ignores objects that do not have a valid id assigned to tag
+                if (int.TryParse(idTag, out arrayId))
+                {
+
+                    // adjusted arrayId to compensate for Hue starting index at 1
+                    if ((arrayId + 1) == id)
+                    {
+                        Renderer rend = child.GetComponent<Renderer>();
+                        
+                        // if transition is already active, we discard the previous transition before we start a new one
+                        if (blinkInProgress)
+                        {
+                            StopCoroutine(coroutine);
+                        }
+                        blinkInProgress = true;
+
+                        coroutine = StartCoroutine(Blink(rend));
+                    }
+                }
+            }
+        }
+    }
+
+    private IEnumerator Blink(Renderer rend)
+    {
+        int blinkTime = 10;
+
+        while (blinkTime > 0)
+        {
+            rend.enabled = blinking;
+            yield return new WaitForSeconds(blinkFrequency);
+            blinking = !blinking;
+            blinkTime--;
         }
     }
 }

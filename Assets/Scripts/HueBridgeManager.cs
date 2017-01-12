@@ -168,6 +168,7 @@ public class HueBridgeManager : MonoBehaviour {
         else
         {
             Notification notification = new Notification("error", "No bridge was discovered on the current network. Refer to https://www.meethue.com/api/nupnp");
+            notification.RequiresAction = true;
             NotificationManager.DisplayNotification(notification);
         }
     }
@@ -435,7 +436,6 @@ public class HueBridgeManager : MonoBehaviour {
     {
         if (StateManager.Instance.Starting && !awaitingBridgeLink)
         {
-            Debug.Log("rechdck bridge cond met");
             StartCoroutine(CheckOrGetBridgeIP());
         }
     }
@@ -444,7 +444,6 @@ public class HueBridgeManager : MonoBehaviour {
     {
         if (StateManager.Instance.Starting && !awaitingBridgeLink)
         {
-            Debug.Log("rechdck username cond met");
             StartCoroutine(CheckOrCreateBridgeUser(bridgeip));
         }
     }

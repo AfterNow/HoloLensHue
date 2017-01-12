@@ -5,25 +5,34 @@ using UnityEngine.UI;
 
 public class UIText : MonoBehaviour {
 
-    private Text message;
+    private Text text;
 
     void Start()
     {
-        message = GetComponent<Text>();
+        text = GetComponent<Text>();
     }
 
     void OnEnable()
     {
         NotificationManager.newNotification += UpdateMessage;
+        NotificationManager.notificationCanceled += CancelMessage;
     }
 
     void OnDisable()
     {
         NotificationManager.newNotification -= UpdateMessage;
+        NotificationManager.notificationCanceled -= CancelMessage;
     }
 
     private void UpdateMessage(Notification notification, Color color)
     {
-        message.text = notification.Message;
+        text.enabled = true;
+        text.text = notification.Message;
+    }
+
+    private void CancelMessage()
+    {
+        text.enabled = false;
+        text.text = "";
     }
 }

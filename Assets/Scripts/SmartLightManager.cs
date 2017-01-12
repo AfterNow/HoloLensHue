@@ -35,6 +35,9 @@ public class SmartLightManager : Singleton<SmartLightManager> {
     [Tooltip("The height offset above or below a SmartBulb a HoloLightContainer will be spawned")]
     public float lightContainerOffset = 1.25f;
 
+    // used for setup mode default color coded guide
+    ColorService.Colors currentColor;
+
     void Start()
     {
         hueMgr = GetComponent<HueBridgeManager>();
@@ -143,10 +146,14 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             currentLight.GetComponent<GestureManipulator>().enabled = true;
 
             // Only display SmartLight orb when the app is in configuration mode
-            Renderer rend = currentLight.GetComponent<Renderer>();  
+            Renderer rend = currentLight.GetComponent<Renderer>();
             rend.enabled = true;
             //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
             //rend.material.color = ledColor;
+        }
+        if (StateManager.Instance.SetupMode)
+        {
+            setLightsToColorCodeMode();
         }
     }
 
@@ -204,6 +211,39 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             currentState.On = true;
 
             hueAPI.UpdateLight(lights[i]);
+        }
+    }
+
+    private void setLightsToColorCodeMode()
+    {
+        currentColor = ColorService.Colors.Red;
+        for (int i = 0; i < lights.Count; i++)
+        {
+            State currentState;
+
+            // adjusts all found lights to on, full brightness, and color coded to help simplify setup
+            currentState = lights[i].State;
+            currentState.On = true;
+            currentState.Sat = 254;
+            currentState.Bri = 254;
+
+            currentState.Hue = ColorService.GetHueByColorEnum(currentColor);
+            hueAPI.UpdateLight(lights[i]);
+
+            if (currentColor == ColorService.Colors.Violet)
+            {
+                currentColor = ColorService.Colors.Red;
+            }
+            else
+            {
+                currentColor++;
+
+                // bypass setting a light to green as v1 and v2 of Philip's Hue lights don't reproduce green well
+                if (currentColor == ColorService.Colors.Green)
+                {
+                    currentColor++;
+                }
+            }
         }
     }
 }

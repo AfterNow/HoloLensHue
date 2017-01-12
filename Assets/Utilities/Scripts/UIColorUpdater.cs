@@ -26,7 +26,7 @@ public class UIColorUpdater : MonoBehaviour {
         {
             updateMaterial(arrayId, currentColor);
         }
-	}
+    }
 
     void OnEnable()
     {
