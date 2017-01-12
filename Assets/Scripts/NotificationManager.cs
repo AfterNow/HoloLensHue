@@ -175,6 +175,12 @@ public class NotificationManager : Singleton<NotificationManager> {
     {
         if (menu != null)
         {
+
+            if (newMenu != null)
+            {
+                newMenu(menu);
+            }
+
             canvas.enabled = true;
             if (menu.Name == "MainMenu")
             {
@@ -187,7 +193,8 @@ public class NotificationManager : Singleton<NotificationManager> {
             else // displays the common panel board if not the main menu
             {
                 panelBorderGO.SetActive(true);
-                
+                panelBorderGO.GetComponent<Image>().enabled = true;
+
                 RectTransform rt = panelBorderGO.GetComponent<RectTransform>();
                 rt.sizeDelta = new Vector2(menu.Width, menu.Height);
 

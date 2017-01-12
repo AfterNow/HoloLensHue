@@ -151,7 +151,6 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
             //rend.material.color = ledColor;
         }
-        Debug.Log("is in setup mode?: " + StateManager.Instance.SetupMode);
         if (StateManager.Instance.SetupMode)
         {
             setLightsToColorCodeMode();

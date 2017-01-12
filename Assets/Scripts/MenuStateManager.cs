@@ -133,10 +133,11 @@ public class MenuStateManager : Singleton<MenuStateManager> {
     {
         if (state == MenuState.Hidden)
         {
-            return new Menu("HideMenu");
+            return new Menu("HideMenu", 0f, true);
         }
         else if (state == MenuState.MainMenu)
         {
+            NotificationManager.CancelNotification();
             return new Menu("MainMenu", 0f, true);
         }
         else if (state == MenuState.LinkButton)
