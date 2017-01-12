@@ -24,7 +24,6 @@ public class UIColorUpdater : MonoBehaviour {
 
         if (currentColor != null)
         {
-            Debug.Log("how many times am i calledssss????");
             updateMaterial(arrayId, currentColor);
         }
     }

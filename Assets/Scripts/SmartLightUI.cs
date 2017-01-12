@@ -25,11 +25,6 @@ public class SmartLightUI : MonoBehaviour {
                 holoLightContainer = child.gameObject;
             }
         }
-        //if (gameObject.transform.GetChild(0))
-        //{
-        //    holoLightContainer = gameObject.transform.GetChild(0).gameObject;
-        //}
-        // hides HoloLightContainer visual UI immediately after instantiation
         
         if (holoLightContainer)
         {
@@ -49,7 +44,6 @@ public class SmartLightUI : MonoBehaviour {
 
     private void UpdateSmartLightUI(SmartLight sl)
     {
-        Debug.Log("update smart light ui was called");
         if (sl.Name == gameObject.name)
         {
             Renderer rend = gameObject.GetComponent<Renderer>();
