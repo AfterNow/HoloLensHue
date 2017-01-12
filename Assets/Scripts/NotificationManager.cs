@@ -307,9 +307,14 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     public static void HideSubMenuPanel()
     {
-        panelBorderGO.SetActive(false);
+        foreach (Transform child in panelBorderGO.transform)
+        {
+            if (child.name == "SetupFinished")
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
     }
-
     private static IEnumerator NotificationExpiration(float seconds)
     {
         yield return new WaitForSeconds(seconds);

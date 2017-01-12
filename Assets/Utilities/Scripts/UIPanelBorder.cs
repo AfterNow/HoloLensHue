@@ -60,5 +60,6 @@ public class UIPanelBorder : MonoBehaviour {
     private void CancelNotification()
     {
         panelImage.enabled = false;
+        col.enabled = false;
     }
 }
