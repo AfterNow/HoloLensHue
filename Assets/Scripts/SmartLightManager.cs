@@ -148,8 +148,6 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             // Only display SmartLight orb when the app is in configuration mode
             Renderer rend = currentLight.GetComponent<Renderer>();
             rend.enabled = true;
-            //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
-            //rend.material.color = ledColor;
         }
         if (StateManager.Instance.SetupMode)
         {
@@ -169,8 +167,6 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             // Hides the SmartLight orb when not in configuration mode
             Renderer rend = currentLight.GetComponent<Renderer>();
             rend.enabled = false;
-            //Vector4 ledColor = ColorService.GetColorByHue(sl.State.Hue);
-            //rend.material.color = ledColor;
         }
     }
 
