@@ -31,7 +31,8 @@ public class MenuStateManager : Singleton<MenuStateManager> {
         TT_Interactions,
         TT_Voice,
         TT_Gesture,
-        TT_Hotspot
+        TT_Hotspot,
+        TTFinished
     }
 
     private MenuState currentState = MenuState.Hidden;
@@ -187,6 +188,10 @@ public class MenuStateManager : Singleton<MenuStateManager> {
         else if (state == MenuState.TT_Hotspot)
         {
             return new Menu("TT_Hotspot", 400, 190, true, 0f, false, true, false, true, -132f);
+        }
+        else if (state == MenuState.TTFinished)
+        {
+            return new Menu("Default", 400, 250, true, 0f);
         }
 
         return null;

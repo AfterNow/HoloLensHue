@@ -67,13 +67,20 @@ public class VoiceManager : MonoBehaviour {
         /// <summary>
         /// Global systemwide voice commands
         /// </summary>
-        /// 
+        ///
+
+        // reset app back to starting state
+        keywords.Add("Check For Bridge", () =>
+        {
+            SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
+        });
+
         // opens the main menu of the app
-        keywords.Add("Main Menu", () =>
+        keywords.Add("Show Main Menu", () =>
         {
             SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
         });
-        keywords.Add("Show Main Menu", () =>
+        keywords.Add("Show The Main Menu", () =>
         {
             SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
         });

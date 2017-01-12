@@ -13,6 +13,9 @@ public class HueBridgeManager : MonoBehaviour {
     public delegate void SmartLightsReady(List<SmartLight> smartLights);
     public static event SmartLightsReady smartLightsReady;
 
+    public delegate void RestartSearchForBridge();
+    public static event RestartSearchForBridge restartSearchForBridge;
+
     [Tooltip("IP address of the hue bridge: https://www.meethue.com/api/nupnp")]
     public string bridgeip = "127.0.0.1";
     public int portNumber = 8000;
@@ -67,6 +70,18 @@ public class HueBridgeManager : MonoBehaviour {
 
     public void InitMainMenu()
     {
+        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
+    }
+
+    public void RetrySetup()
+    {
+        // notify subscribers the bridge search has been restarted
+        if (restartSearchForBridge != null)
+        {
+            restartSearchForBridge();
+        }
+
+        StateManager.Instance.CurrentState = StateManager.HueAppState.Starting;
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
     }
 
