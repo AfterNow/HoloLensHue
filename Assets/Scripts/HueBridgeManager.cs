@@ -87,6 +87,7 @@ public class HueBridgeManager : MonoBehaviour {
 
     public void InitHueBridgeManager()
     {
+        Debug.Log("InitHueBridgeManager called");
         // MOCK smart lights for testing
         //mockLights = new MockSmartLights();
         //smartLights = mockLights.getLights();
@@ -96,9 +97,9 @@ public class HueBridgeManager : MonoBehaviour {
 
         if ((bridgeip != "127.0.0.1" && bridgeip != "") && (username != "newdeveloper" && username != ""))
         {
+            Debug.Log("Bridge and username not default");
             if (StateManager.Instance.Starting)
             {
-                
                 bridgeReady();
             }
             else
@@ -109,6 +110,7 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
+            Debug.Log("Co Started CheckOrGetBridgeIP");
             StartCoroutine(CheckOrGetBridgeIP());
         }
     }
@@ -117,11 +119,12 @@ public class HueBridgeManager : MonoBehaviour {
     {
         if (Input.GetKeyDown("q"))
         {
-            SmartLightManager.lights[0].State.Bri = 200;
-            SmartLightManager.UpdateLightState(0);
+            StartCoroutine(TestPut());
+            //SmartLightManager.lights[0].State.Bri = 200;
+            //SmartLightManager.UpdateLightState(0);
 
-            Notification notification = new Notification("error", "There was an error with the app startup state.");
-            NotificationManager.DisplayNotification(notification);
+            //Notification notification = new Notification("error", "There was an error with the app startup state.");
+            //NotificationManager.DisplayNotification(notification);
         }
         if (Input.GetKeyDown("w"))
         {
@@ -151,6 +154,7 @@ public class HueBridgeManager : MonoBehaviour {
 
         if (request.isError)
         {
+            Debug.Log("CheckOrGetBridgeIP request.isError");
             Notification notification = new Notification("error", "There was an error attempting to discover bridge ip.");
             NotificationManager.DisplayNotification(notification);
             yield break;
@@ -173,6 +177,22 @@ public class HueBridgeManager : MonoBehaviour {
                 // TODO - only sending the ip of the first bridge found. Will need to handle multiple briges found cases
                 string firstBridgeIP = devices[0].internalipaddress;
                 bridgeip = firstBridgeIP;
+
+                // In the rare case a user has the bridge data cached, make a general request to the bridge to validate
+                string getFullStateUrl = "http://" + bridgeip + "/api/" + username;
+                UnityWebRequest stateRequest = UnityWebRequest.Get(getFullStateUrl);
+
+                yield return stateRequest.Send();
+
+                if (stateRequest.isError)
+                {
+                    Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and internet connection.");
+                    NotificationManager.DisplayNotification(notification);
+                    yield break;
+                }
+
+                Debug.Log(request.downloadHandler.text);
+
                 StartCoroutine(CheckOrCreateBridgeUser(bridgeip));
             }
             else
@@ -463,8 +483,25 @@ public class HueBridgeManager : MonoBehaviour {
         }
     }
 
-    public void TestPut()
+    IEnumerator TestPut()
     {
+        string url = "http://" + bridgeip + "/api/" + username;
+        //string json = JsonUtility.ToJson(testState);
+        //JsonUtility.FromJson<State>(json);
+
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        Debug.Log("Send triggered to " + request);
+
+        yield return request.Send();
+
+        if (request.isError)
+        {
+            Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and internet connection.");
+            NotificationManager.DisplayNotification(notification);
+            yield break;
+        }
+        Debug.Log(request.downloadHandler.text);
+
         //State testState = smartLights[0].getState();
         //testState.isOn(false);
         //string request = "http://" + bridgeip + "/api/" + username + "/lights/1/state";

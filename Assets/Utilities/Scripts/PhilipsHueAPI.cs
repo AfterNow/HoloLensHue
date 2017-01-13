@@ -6,7 +6,7 @@ using HoloToolkit.Unity;
 using MiniJSON;
 using System;
 
-public class PhilipsHueAPI : MonoBehaviour {
+public class PhilipsHueAPI : Singleton<PhilipsHueAPI> {
 
     private HueBridgeManager bridgeValues;
     private GameObject hologramCollection;
@@ -117,5 +117,14 @@ public class PhilipsHueAPI : MonoBehaviour {
             Debug.Log("updating light isDone: " + www.isDone);
             //hologramCollection.BroadcastMessage("UpdateSmartLightUI", sl);
         }
+    }
+
+    public IEnumerator GetFullState(string ip, string username)
+    {
+        string getFullStateUrl = "http://" + ip + "/api/" + username;
+
+        UnityWebRequest stateRequest = UnityWebRequest.Get(getFullStateUrl);
+
+        yield return stateRequest.Send();
     }
 }
