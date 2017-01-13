@@ -1173,12 +1173,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'VOICE: You can use general voice commands at anytime, like <color=#C035Fc>"Turn
+  m_Text: 'VOICE: You can use general voice commands at any time, like <color=#C035Fc>"turn
     off all lights"</color> and specific commands by gazing at a light and saying,
-    <color=#C035Fc>"turn light on"</color> and <color=#C035Fc>"turn light blue"</color>.
+    <color=#C035Fc>"turn light on"</color> and <color=#C035Fc>"turn light blue."</color>.
 
 
-    You can see the full list of commands by saying <color=#C035Fc>voice commands"</color>
+    You can see the full list of commands by saying <color=#C035Fc>"show voice commands"</color>
     at any time.'
 --- !u!222 &432144674
 CanvasRenderer:
@@ -2071,7 +2071,7 @@ MonoBehaviour:
   m_Text: 'Gaze at any holographic orb and say,  <color=#C035Fc>"Identify Light."</color>
 
 
-    Drag and align the orb on the blinking light.'
+    Drag and align the blinking orb onto the blinking light.'
 --- !u!222 &821910141
 CanvasRenderer:
   m_ObjectHideFlags: 0
