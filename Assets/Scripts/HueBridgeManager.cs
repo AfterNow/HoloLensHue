@@ -110,7 +110,6 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
-            Debug.Log("Co Started CheckOrGetBridgeIP");
             StartCoroutine(CheckOrGetBridgeIP());
         }
     }
@@ -182,11 +181,16 @@ public class HueBridgeManager : MonoBehaviour {
                 string getFullStateUrl = "http://" + bridgeip + "/api/" + username;
                 UnityWebRequest stateRequest = UnityWebRequest.Get(getFullStateUrl);
 
+                Notification searchNotif = new Notification("alert", "Searching for Bridge...", false, true, 0f);
+                NotificationManager.DisplayNotification(searchNotif);
+
                 yield return stateRequest.Send();
+
+                NotificationManager.CancelNotification();
 
                 if (stateRequest.isError)
                 {
-                    Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and internet connection.");
+                    Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and Internet connection. When ready to search for the Bridge again, say \"check for Bridge.\"", false, true, 0f);
                     NotificationManager.DisplayNotification(notification);
                     yield break;
                 }

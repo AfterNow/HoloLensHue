@@ -199,7 +199,8 @@ public class LightUIManager : Singleton<LightUIManager> {
 
     private IEnumerator Blink(Renderer rend)
     {
-        int blinkTime = 10;
+        // value of 20 is equal to 10 seconds - matches the time the Hue hardware blinks
+        int blinkTime = 20;
 
         while (blinkTime > 0)
         {

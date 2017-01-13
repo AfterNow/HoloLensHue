@@ -16,7 +16,7 @@ public class NotificationManager : Singleton<NotificationManager> {
     public static event NotificationCanceled notificationCanceled;
 
     // Time notification should be displayed. Void if notification requires user action
-    private static float TimeTillExpiration = 6f;
+    private static float TimeTillExpiration = 8f;
 
     private static Canvas canvas;
     private static Color color;
@@ -141,6 +141,7 @@ public class NotificationManager : Singleton<NotificationManager> {
 
             if (!notification.RequiresAction)
             {
+                Debug.Log("Does other notif not require action???");
                 // if notification is active, we discard the previous expiration timer before we start a new one
                 if (notificationActive)
                 {
@@ -225,6 +226,7 @@ public class NotificationManager : Singleton<NotificationManager> {
 
         if (!menu.RequiresAction)
         {
+            Debug.Log("does menu not require action???");
             // if menu is active, we discard the previous expiration timer before we start a new one
             if (menuActive)
             {
