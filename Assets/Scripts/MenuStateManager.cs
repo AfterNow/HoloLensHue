@@ -143,7 +143,7 @@ public class MenuStateManager : Singleton<MenuStateManager> {
         }
         else if (state == MenuState.LinkButton)
         {
-            return new Menu("PressLink", 400, 240, false, 30f);
+            return new Menu("PressLink", 400, 240, true, 30f);
         }
         else if (state == MenuState.LinkSuccess)
         {

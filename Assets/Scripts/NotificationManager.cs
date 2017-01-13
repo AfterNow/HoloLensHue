@@ -175,7 +175,7 @@ public class NotificationManager : Singleton<NotificationManager> {
     }
 
     public static void DisplayMenu(Menu menu)
-    {
+    {   
         if (menu != null)
         {
 
@@ -226,7 +226,6 @@ public class NotificationManager : Singleton<NotificationManager> {
 
         if (!menu.RequiresAction)
         {
-            Debug.Log("does menu not require action???");
             // if menu is active, we discard the previous expiration timer before we start a new one
             if (menuActive)
             {
