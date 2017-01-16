@@ -134,7 +134,6 @@ public class LightUIManager : Singleton<LightUIManager> {
             }
         }
 
-        Debug.Log("here is current state.Alert: " + state.Alert);
         if (state.Alert == "lselect")
         {
             MakeOrbBlink(id);

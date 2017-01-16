@@ -325,14 +325,13 @@ public class NotificationManager : Singleton<NotificationManager> {
     public void DismissAction()
     {
         MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.Hidden;
-
         // prevents instantiated duplicate orbs
         if (!bridgeInited)
         {
             //TODO tie this to StateManager to abstract out direct function calls
             hueBridgeManager.InitHueBridgeManager();
         }
-
+        StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
         SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
     }
 
