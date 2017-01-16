@@ -177,7 +177,15 @@ public class VoiceManager : MonoBehaviour {
         {
             SmartLightManager.Instance.SetLightsToDefault();
         });
-        
+        keywords.Add("Natural Lights", () =>
+        {
+            SmartLightManager.Instance.SetLightsToDefault();
+        });
+        keywords.Add("Natural Lighting", () =>
+        {
+            SmartLightManager.Instance.SetLightsToDefault();
+        });
+
         // turns off all available lights
         keywords.Add("Turn Off All Light", () =>
         {

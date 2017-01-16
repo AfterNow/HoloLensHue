@@ -87,7 +87,6 @@ public class HueBridgeManager : MonoBehaviour {
 
     public void InitHueBridgeManager()
     {
-        Debug.Log("InitHueBridgeManager called");
         // MOCK smart lights for testing
         //mockLights = new MockSmartLights();
         //smartLights = mockLights.getLights();
@@ -185,7 +184,7 @@ public class HueBridgeManager : MonoBehaviour {
                 NotificationManager.DisplayNotification(searchNotif);
 
                 yield return stateRequest.Send();
-
+                
                 NotificationManager.CancelNotification();
 
                 if (stateRequest.isError)
@@ -421,7 +420,6 @@ public class HueBridgeManager : MonoBehaviour {
                 yield break;
             }
 
-            NotificationManager.CancelNotification();
             storeHueUser(ip, request.downloadHandler.text);
         }
         else
