@@ -59,8 +59,11 @@ namespace HoloToolkit
         {
             foreach (SmartLight sl in SmartLightManager.lights)
             {
+                // gets each light's current color for use on indicator arrow
                 var currentColor = ColorService.GetColorByHue(sl.State.Hue);
                 directionIndicatorColor = currentColor;
+                
+                // set the arrow to the current light color
                 updateArrowColor(sl.ID, currentColor);
             }
         }
@@ -122,6 +125,8 @@ namespace HoloToolkit
 
         public void Update()
         { 
+            // This update should only apply during setup. Script is also disable to prevent unnecessary checking
+            // In future versions, can add voice command to locate specific orbs using this functionality
             if (StateManager.Instance.SetupMode) {
                 if (DirectionIndicatorObject == null)
                 {
@@ -199,7 +204,6 @@ namespace HoloToolkit
 
         private void updateArrowColor(int id, Color color)
         {
-            Debug.Log("update called?");
             if (transform.parent.tag != "Untagged")
             {
                 var idTag = transform.parent.tag;

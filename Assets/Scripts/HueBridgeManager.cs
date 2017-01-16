@@ -420,7 +420,6 @@ public class HueBridgeManager : MonoBehaviour {
                 yield break;
             }
 
-            //NotificationManager.CancelNotification();
             storeHueUser(ip, request.downloadHandler.text);
         }
         else

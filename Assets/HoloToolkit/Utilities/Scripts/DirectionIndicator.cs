@@ -51,8 +51,7 @@ namespace HoloToolkit.Unity
 
             // Instantiate the direction indicator.
             DirectionIndicatorObject = InstantiateDirectionIndicator(DirectionIndicatorObject);
-            Debug.Log("di Object: " + DirectionIndicatorObject);
-            //transform.parent = GameObject.Find("DirectionalIndicator(Clone)").transform;
+
             if (DirectionIndicatorObject == null)
             {
                 Debug.LogError("Direction Indicator failed to instantiate.");
