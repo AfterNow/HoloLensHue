@@ -75,7 +75,6 @@ public class SelectorComponent : MonoBehaviour {
 
     void LateUpdate()
     {
-        Debug.Log("state of rtc.rotation: " + rTC.IsRotating);
         if (!rTC.IsRotating)
         {
             performRayCast();
