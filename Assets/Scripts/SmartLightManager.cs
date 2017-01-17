@@ -132,6 +132,7 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         SmartLight light = lights[arrayId];
         if (stateChanged != null)
         {
+            Debug.Log("statechanged broadcastd");
             stateChanged(light.ID, light.State);
         }
     }

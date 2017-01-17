@@ -156,4 +156,48 @@ public static class ColorService
 
         return hueValue;
     }
+
+    public static int GetHueByRGBA(Color color)
+    {
+        // convert the RGBA into a Vector4 so we can compare properly
+        Vector4 colorVector4 = new Vector4(color.r, color.g, color.b, color.a);
+
+        // red
+        if (colorVector4.Equals(new Vector4(1, 0, 0, 1)))
+        {
+            hueValue = 0;
+        }
+        // orange
+        else if (colorVector4.Equals(new Vector4(1, 0.65f, 0, 1)))
+        {
+            hueValue = 9000;
+        }
+        // yellow
+        else if (colorVector4.Equals(new Vector4(1, 1, 0, 1)))
+        {
+            hueValue = 19000;
+        }
+        // green
+        else if (colorVector4.Equals(new Vector4(0, 1, 0, 1)))
+        {
+            hueValue = 23500;
+        }
+        // blue
+        else if (colorVector4.Equals(new Vector4(0, 0, 1, 1)))
+        {
+            hueValue = 46950;
+        }
+        // indigo
+        else if (colorVector4.Equals(new Vector4(0.3f, 0, 0.5f, 1)))
+        {
+            hueValue = 50500;
+        }
+        // violet
+        else if (colorVector4.Equals(new Vector4(1, 0.42f, 0.7f, 1)))
+        {
+            hueValue = 57100;
+        }
+
+        return hueValue;
+    }
 }

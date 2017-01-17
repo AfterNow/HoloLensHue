@@ -50,7 +50,7 @@ public class HueBridgeManager : MonoBehaviour {
         else
         {
             Debug.LogError("No GameObject name HologramCollection can be found. This object should contain all holograms and the SmartLightManager");
-        }   
+        }
     }
 
     void OnEnable()
@@ -65,7 +65,7 @@ public class HueBridgeManager : MonoBehaviour {
 
     void Start()
     {
-     
+
     }
 
     public void InitMainMenu()
@@ -117,12 +117,17 @@ public class HueBridgeManager : MonoBehaviour {
     {
         if (Input.GetKeyDown("q"))
         {
-            StartCoroutine(TestPut());
+            //StartCoroutine(TestPut());
+            TestChangeLightV1();
             //SmartLightManager.lights[0].State.Bri = 200;
             //SmartLightManager.UpdateLightState(0);
 
             //Notification notification = new Notification("error", "There was an error with the app startup state.");
             //NotificationManager.DisplayNotification(notification);
+        }
+        if (Input.GetKeyDown("r"))
+        {
+            TestChangeLightV2();
         }
         if (Input.GetKeyDown("w"))
         {
@@ -184,7 +189,7 @@ public class HueBridgeManager : MonoBehaviour {
                 NotificationManager.DisplayNotification(searchNotif);
 
                 yield return stateRequest.Send();
-                
+
                 NotificationManager.CancelNotification();
 
                 if (stateRequest.isError)
@@ -247,7 +252,7 @@ public class HueBridgeManager : MonoBehaviour {
                 {
                     // Alerts user to push the Hue Bridge link button
                     MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.LinkButton;
-                    
+
                     // while true, a request to the bridge will be sent during specified intervals
                     awaitingBridgeLink = true;
 
@@ -255,7 +260,7 @@ public class HueBridgeManager : MonoBehaviour {
                     yield break;
                 }
                 storeHueUser(ip, request.downloadHandler.text);
-            }          
+            }
         }
         // Bridgeid and username are both found and valid. Ready to make lighting requests
         bridgeReady();
@@ -283,7 +288,7 @@ public class HueBridgeManager : MonoBehaviour {
             StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initializing;
             MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.Hidden;
         }
-        
+
         StartCoroutine(DiscoverLights());
     }
 
@@ -515,4 +520,34 @@ public class HueBridgeManager : MonoBehaviour {
         //setLight.Send();
     }
 
+    void TestChangeLightV1()
+    {
+        State testState = smartLights[0].State;
+        testState.On = true;
+        //testState.Hue = 57100;
+        testState.Hue = 23500;
+        string request = "http://" + bridgeip + "/api/" + username + "/lights/1/state";
+        string json = JsonUtility.ToJson(testState);
+        JsonUtility.FromJson<State>(json);
+
+        UnityWebRequest setLight = UnityWebRequest.Put(request, json);
+        Debug.Log("Send triggered to " + request);
+        setLight.Send();
+        SmartLightManager.UpdateLightState(1);
+    }
+
+    void TestChangeLightV2()
+    {
+        State testState = smartLights[0].State;
+        testState.On = true;
+        testState.Hue = 57100;
+        string request = "http://" + bridgeip + "/api/" + username + "/lights/1/state";
+        string json = JsonUtility.ToJson(testState);
+        JsonUtility.FromJson<State>(json);
+
+        UnityWebRequest setLight = UnityWebRequest.Put(request, json);
+        Debug.Log("Send triggered to " + request);
+        setLight.Send();
+        SmartLightManager.UpdateLightState(1);
+    }
 }

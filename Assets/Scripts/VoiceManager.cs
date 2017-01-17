@@ -10,6 +10,9 @@ public class VoiceManager : MonoBehaviour {
     Dictionary<string, System.Action> keywords;
     KeywordRecognizer keywordRecognizer = null;
 
+    public delegate void VoiceChangedColor(int id, Color color);
+    public static event VoiceChangedColor voiceChangedColor;
+
     private GameObject hologramCollection;
     private SmartLightManager slm;
 
@@ -384,6 +387,12 @@ public class VoiceManager : MonoBehaviour {
                         currentLight.State.Sat = 254;
 
                         currentLight.State.Hue = value;
+
+                        if (voiceChangedColor != null)
+                        {
+                            // arrayID is adjusted to compensate for diff in Hue id
+                            voiceChangedColor(arrayId + 1, ColorService.GetColorByHue(value));
+                        }
                     }
                     else if (param == "bri")
                     {
