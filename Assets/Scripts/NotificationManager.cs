@@ -141,7 +141,6 @@ public class NotificationManager : Singleton<NotificationManager> {
 
             if (!notification.RequiresAction)
             {
-                Debug.Log("Does other notif not require action???");
                 // if notification is active, we discard the previous expiration timer before we start a new one
                 if (notificationActive)
                 {

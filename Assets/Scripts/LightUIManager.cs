@@ -108,7 +108,7 @@ public class LightUIManager : Singleton<LightUIManager> {
 
         if (currentUI.OrbColor.Equals(ColorService.GetColorByHue(state.Hue)))
         {
-            
+
         }
         else
         {

@@ -19,6 +19,8 @@ public class SelectorComponent : MonoBehaviour {
     [Tooltip("Attach the object that the selector should always face.")]
     public GameObject colorWheel;
 
+    private RotateToColor rTC;
+
     private int layerMask = 1 << 8;
 
     // assigned upon initialization of initBrightness call from SmartLightManager
@@ -30,6 +32,11 @@ public class SelectorComponent : MonoBehaviour {
 
     private bool isInitialColor;
     private string initialHue;
+
+    void Start()
+    {
+        rTC = colorWheel.GetComponent<RotateToColor>();
+    }
 
     void OnEnable()
     {
@@ -68,7 +75,11 @@ public class SelectorComponent : MonoBehaviour {
 
     void LateUpdate()
     {
-        performRayCast();
+        Debug.Log("state of rtc.rotation: " + rTC.IsRotating);
+        if (!rTC.IsRotating)
+        {
+            performRayCast();
+        }
     }
 
     void performRayCast()
