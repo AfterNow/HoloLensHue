@@ -59,6 +59,7 @@ public class LightUIManager : Singleton<LightUIManager> {
 
     public void initColors(List<SmartLight> sls)
     {
+        Debug.Log("was initColors called???");
         foreach (SmartLight sl in sls)
         {
             lightUIs.Add(new LightUI(sl.ID, false, ColorService.GetColorByHue(sl.State.Hue), sl.State.Bri, sl.Name));
@@ -102,19 +103,24 @@ public class LightUIManager : Singleton<LightUIManager> {
 
     private void updateLightUI(int id, State state)
     {
+        Debug.Log("UALUI claled");
         // ajustment needed to compensate for difference in light.ID and array index
         int adjustedId = id - 1;
         LightUI currentUI = lightUIs[adjustedId];
 
         if (currentUI.OrbColor.Equals(ColorService.GetColorByHue(state.Hue)))
         {
-
+            Debug.Log("do i equalsss???");
+            Debug.Log("cur orb color is: " + currentUI.OrbColor);
         }
         else
         {
+            Debug.Log("make it to this else???");
             currentUI.OrbColor = ColorService.GetColorByHue(state.Hue);
+            Debug.Log("cur orb color is: " + currentUI.OrbColor);
             if (colorChanged != null)
             {
+                Debug.Log("what is the color here???: " + currentUI.OrbColor);
                 colorChanged(currentUI.LightID, currentUI.OrbColor);
             }
             UpdateOrbColor(id, state);

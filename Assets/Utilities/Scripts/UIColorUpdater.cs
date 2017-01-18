@@ -18,19 +18,27 @@ public class UIColorUpdater : MonoBehaviour {
     // position of light in lights array. Needed as Hue API starts light array at '1'.
     private int arrayId;
 
-    // Use this for initialization
-    void Start () {
-        rend = GetComponent<Renderer>();
+    private string parentTag;
 
-        if (currentColor != null)
-        {
-            updateMaterial(arrayId, currentColor);
-        }
+    // script does not start until this light UI is opened
+    void Start () {
+
     }
 
     void OnEnable()
     {
+        rend = GetComponent<Renderer>();
+
         LightUIManager.colorChanged += updateMaterial;
+
+        parentTag = transform.parent.tag;
+        if (parentTag != "Untagged")
+        {
+            int tagId = int.Parse(parentTag);
+            int currentHue = SmartLightManager.lights[tagId].State.Hue;
+
+            updateMaterial(tagId, ColorService.GetColorByHue(currentHue));
+        }
     }
 
     void OnDisable()

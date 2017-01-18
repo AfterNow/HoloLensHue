@@ -36,6 +36,7 @@ public class RotateToColor : MonoBehaviour {
         if (grandparentTag != "Untagged")
         {
             int tagId = int.Parse(grandparentTag);
+            Debug.Log("what is my ROttoCO id??: " + tagId);
             int currentHue = SmartLightManager.lights[tagId].State.Hue;
 
             Color currentColor = ColorService.GetColorByHue(currentHue);
@@ -56,8 +57,6 @@ public class RotateToColor : MonoBehaviour {
 
     public void PerformRotation(int id, Color color)
     {
-        Debug.Log("was perf rot called after ui changed called???");
-
         grandparentTag = gameObject.transform.parent.transform.parent.tag;
         float cameraAngle = Camera.main.transform.eulerAngles.y;
 
