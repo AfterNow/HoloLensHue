@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 136398067959745278}
   - component: {fileID: 114450255540898556}
   - component: {fileID: 114672153184362732}
+  - component: {fileID: 114684560182740350}
   m_Layer: 10
   m_Name: BrightnessCone_v1_coil
   m_TagString: Untagged
@@ -451,7 +452,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4064720756798536
 Transform:
   m_ObjectHideFlags: 1
@@ -938,7 +939,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: fef042995dd1ae6499107a186c3db1a4, type: 2}
+  - {fileID: 2100000, guid: 50d8645d33b6dfa46b8031709f1a36e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1455,6 +1456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceb0aad02ef40794b9ad7d1382795c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsRotating: 0
+  smoothness: 0.02
 --- !u!114 &114162558940008082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1691,6 +1694,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PositionScale: {x: 10, y: 2, z: 4}
+--- !u!114 &114684560182740350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1581553134075542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e480020cb47d96458e4538c22f113f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionTime: 0.2
+  smoothness: 0.02
+  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &114724759080669524
 MonoBehaviour:
   m_ObjectHideFlags: 1

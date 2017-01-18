@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public class BrightnessComponent : MonoBehaviour
@@ -45,21 +46,27 @@ public class BrightnessComponent : MonoBehaviour
 
     void OnEnable()
     {
-        EventManager.StartListening("SmartLightManagerReady", initBrightness);
+        HueBridgeManager.smartLightsReady += initBrightness;
+
+        // ensures only attempt to set lights if lights are found
+        if (SmartLightManager.lights.Count > 0)
+        {
+            initBrightness(SmartLightManager.lights);
+        }
     }
 
     void OnDisable()
     {
-        EventManager.StopListening("SmartLightManagerReady", initBrightness);
+        HueBridgeManager.smartLightsReady -= initBrightness;
     }
 
-    private void initBrightness()
+    private void initBrightness(List<SmartLight> smartLights)
     {
         var idTag = holoLightContainer.tag;
         // Ignores HoloLightContainers that do not have a valid id assigned to tag
         if (int.TryParse(idTag, out arrayId))
         {
-            currentLight = SmartLightManager.lights[arrayId];
+            currentLight = smartLights[arrayId];
         }
 
         // Calculates ranges for BrightnessIndicator public vars 

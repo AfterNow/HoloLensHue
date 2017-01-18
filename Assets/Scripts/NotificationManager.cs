@@ -114,6 +114,15 @@ public class NotificationManager : Singleton<NotificationManager> {
         hueBridgeManager.InitMainMenu();
     }
 
+    // updating for testing only
+    void Update()
+    {
+        if (Input.GetKeyDown("t"))
+        {
+            DismissAction();
+        }
+    }
+
     public static void DisplayNotification(Notification notification)
     {
         if (newNotification != null)
