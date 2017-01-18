@@ -63,7 +63,7 @@ public class RotateToColor : MonoBehaviour {
         if (grandparentTag != "Untagged")
         {
             var idTag = grandparentTag;
-            Debug.Log("idTag is: " + idTag);
+
             // Ignores objects that do not have a valid id assigned to tag
             if (int.TryParse(idTag, out arrayId))
             {
@@ -75,46 +75,32 @@ public class RotateToColor : MonoBehaviour {
                     currentHue = ColorService.GetHueByRGBA(color);
 
                     if (currentHue >= 0 && currentHue <= 4500)
-                    {
-                        //transform.Rotate(Vector3.up, -12);              
+                    {        
                         targetAngle = new Vector3(transform.eulerAngles.x, -12 + cameraAngle, transform.eulerAngles.z);
-                        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, -12 + cameraAngle, transform.eulerAngles.z);
                     }
                     else if (currentHue > 4500 && currentHue <= 14000)
                     {
-                        //transform.Rotate(Vector3.up, 39.428f);
                         targetAngle = new Vector3(transform.eulerAngles.x, 39.428f + cameraAngle, transform.eulerAngles.z);
-                        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 39.428f + cameraAngle, transform.eulerAngles.z);
                     }
                     else if (currentHue > 14000 && currentHue <= 21000)
                     {
-                        //transform.Rotate(Vector3.up, 90.91f);
                         targetAngle = new Vector3(transform.eulerAngles.x, 90.91f + cameraAngle, transform.eulerAngles.z);
-                        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 90.91f + cameraAngle, transform.eulerAngles.z);
                     }
                     else if (currentHue > 21000 && currentHue <= 35000)
                     {
-                        //transform.Rotate(Vector3.up, 142.37f);
                         targetAngle = new Vector3(transform.eulerAngles.x, 142.37f + cameraAngle, transform.eulerAngles.z);
-                        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 142.37f + cameraAngle, transform.eulerAngles.z);
                     }
                     else if (currentHue > 35000 && currentHue <= 48000)
                     {
-                        //transform.Rotate(Vector3.up, 193.764f);
                         targetAngle = new Vector3(transform.eulerAngles.x, 193.764f + cameraAngle, transform.eulerAngles.z);
-                        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 193.764f + cameraAngle, transform.eulerAngles.z);
                     }
                     else if (currentHue > 48000 && currentHue <= 53500)
                     {
-                        //transform.Rotate(Vector3.up, 245.192f);
                         targetAngle = new Vector3(transform.eulerAngles.x, 245.192f + cameraAngle, transform.eulerAngles.z);
-                        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 245.192f + cameraAngle, transform.eulerAngles.z);
                     }
                     else if (currentHue > 53500)
                     {
-                        //transform.Rotate(Vector3.up, 296.62f);
                         targetAngle = new Vector3(transform.eulerAngles.x, 296.62f + cameraAngle, transform.eulerAngles.z);
-                        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 296.62f + cameraAngle, transform.eulerAngles.z);
                     }
 
                     if (bypassTransition)
@@ -144,24 +130,19 @@ public class RotateToColor : MonoBehaviour {
 
     IEnumerator LerpRotation(Vector3 target, float tTime)
     {
-        Debug.Log("target y is: " + target.y);
-        //currentAngle = transform.rotation;
-        //var fromAngle = transform.rotation.eulerAngles;
-        //var toAngle = Quaternion.Euler(transform.eulerAngles + target);
-
-        var fromAngle = transform.eulerAngles.y;
-        var toAngle = target.y;
+        float fromAngle = transform.eulerAngles.y;
+        float toAngle = target.y;
 
         float progress = 0; //This float will serve as the 3rd parameter of the lerp function.
         float increment = 0.02f / tTime; //The amount of change to apply.
+
         while (progress < 1)
         {
-            //transform.rotation = Quaternion.Lerp(fromAngle, toAngle, progress);
             float angle = Mathf.LerpAngle(fromAngle, toAngle, progress);
             transform.eulerAngles = new Vector3(0, angle, 0);
 
             progress += increment;
-            Debug.Log("here is current progress: " + progress);
+
             yield return new WaitForSeconds(smoothness);
         }
         yield return null;

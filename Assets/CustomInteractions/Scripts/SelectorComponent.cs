@@ -40,14 +40,15 @@ public class SelectorComponent : MonoBehaviour {
 
     void OnEnable()
     {
-        EventManager.StartListening("SmartLightManagerReady", initSelector);
+        // sets each instance to the proper gameObject
+        initSelector();
+
         isInitialColor = true;
         performRayCast();
     }
 
     void OnDisable()
     {
-        EventManager.StopListening("SmartLightManagerReady", initSelector);
         isInitialColor = false;
     }
 
@@ -83,8 +84,6 @@ public class SelectorComponent : MonoBehaviour {
 
     void performRayCast()
     {
-        var rayDirection = gameObject;
-
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, transform.forward, out hitInfo,
             0.1f, layerMask))
