@@ -2128,7 +2128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &613334238
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2177,7 +2177,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 613334237}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -2936,7 +2936,7 @@ Prefab:
     - target: {fileID: 224461383233433168, guid: 790032207fbd16345905299e46bb9090,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 160
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 224461383233433168, guid: 790032207fbd16345905299e46bb9090,
         type: 2}
@@ -4064,6 +4064,15 @@ Prefab:
       propertyPath: subModules.Array.data[1].action
       value: Attempts a bridge search. Be sure a Bridge is connected and on the same
         network as your HoloLens.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1073407053404018, guid: ad6a248943ed95c48bbeea889795772a, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114758700500531930, guid: ad6a248943ed95c48bbeea889795772a,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ad6a248943ed95c48bbeea889795772a, type: 2}
