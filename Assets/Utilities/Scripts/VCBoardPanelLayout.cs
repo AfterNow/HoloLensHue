@@ -81,7 +81,6 @@ public class VCBoardPanelLayout : MonoBehaviour {
         {
             // calculates previous board position and height, this sub panel height, and margins to find proper position
             subPanelOnePos = subPanelPos - (subPanelHeight / 2) - (subPanelOneHeight / 2) - (subPanelsMarginBottom * 2);
-            Debug.Log("subPanPos: " + subPanelOnePos);
             VCSubPanelOne.GetComponent<RectTransform>().localPosition = new Vector3(0, subPanelOnePos, -0.002f);
         }
 
@@ -89,7 +88,6 @@ public class VCBoardPanelLayout : MonoBehaviour {
         {
             // calculates previous board position and height, this sub panel height, and margins to find proper position
             subPanelTwoPos = subPanelOnePos - (subPanelOneHeight / 2) - (subPanelTwoHeight / 2);
-            Debug.Log("subPanelTwo: " + subPanelTwoPos);
             VCSubPanelTwo.GetComponent<RectTransform>().localPosition = new Vector3(0, subPanelTwoPos, -0.002f);
 
             VCSubPanelTwo.GetComponent<RectTransform>().sizeDelta = new Vector2(1200, subPanelTwoHeight);

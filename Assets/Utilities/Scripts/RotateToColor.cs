@@ -147,6 +147,5 @@ public class RotateToColor : MonoBehaviour {
         }
         yield return null;
         rotateInProgress = false;
-
     }
 }
