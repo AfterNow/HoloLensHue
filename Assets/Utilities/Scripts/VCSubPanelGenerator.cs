@@ -17,14 +17,17 @@ public class VCSubPanelGenerator : MonoBehaviour {
     [Tooltip("Add a keyPhrase and action to the VCSubModule will automatically generate the proper windows and placement")]
     public VCSubModule[] subModules;
 
-    private float positionAdjustment = 40f;
+    private float positionAdjustment;
 
     // dynamic sizing of background image. Starts with the VCTitlePanel height
-    private float panelBackingSize = 120f;
+    //private float panelBackingSize = 120f;
 
     // Use this for initialization
     void Start () {
         VCSubTitleText.GetComponent<Text>().text = VCSubTitle;
+
+        // adjusts where the submodules should be positions. Compensates for rectTransform
+        positionAdjustment = 20f * subModules.Length;
 
         var subModulePrefab = (GameObject)Resources.Load("Prefabs/VCSubModule");
 
@@ -53,7 +56,7 @@ public class VCSubPanelGenerator : MonoBehaviour {
 
             // gets module height to allow placement just below the previous module
             positionAdjustment -= rect.sizeDelta.y;
-            panelBackingSize += rect.sizeDelta.y;
+            // += rect.sizeDelta.y;
         }
     }
 	
