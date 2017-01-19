@@ -318,6 +318,10 @@ public class VoiceManager : MonoBehaviour {
         {
             buildUpdateCall("bri", dimValue);
         });
+        keywords.Add("Dim The Light", () =>
+        {
+            buildUpdateCall("bri", dimValue);
+        });
 
         keywords.Add("Dim Light More", () =>
         {
@@ -325,6 +329,10 @@ public class VoiceManager : MonoBehaviour {
         });
 
         keywords.Add("Full Brightness", () =>
+        {
+            buildUpdateCall("bri", 254);
+        });
+        keywords.Add("Undim the light", () =>
         {
             buildUpdateCall("bri", 254);
         });
