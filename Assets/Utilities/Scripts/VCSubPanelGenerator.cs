@@ -27,7 +27,23 @@ public class VCSubPanelGenerator : MonoBehaviour {
         VCSubTitleText.GetComponent<Text>().text = VCSubTitle;
 
         // adjusts where the submodules should be positions. Compensates for rectTransform
-        positionAdjustment = 20f * subModules.Length;
+        // need to find more flexible way to calculate when sub panels sizing is generated dynamically
+        if (subModules.Length == 2)
+        {
+            positionAdjustment = -22f;
+        }
+        else if (subModules.Length == 4)
+        {
+            positionAdjustment = 78f;
+        }
+        else if (subModules.Length == 5)
+        {
+            positionAdjustment = 99f;
+        }
+        else
+        {
+            positionAdjustment = subModules.Length * 20f;
+        }
 
         var subModulePrefab = (GameObject)Resources.Load("Prefabs/VCSubModule");
 

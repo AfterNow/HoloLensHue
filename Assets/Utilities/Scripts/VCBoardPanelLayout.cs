@@ -91,6 +91,8 @@ public class VCBoardPanelLayout : MonoBehaviour {
             subPanelTwoPos = subPanelOnePos - (subPanelOneHeight / 2) - (subPanelTwoHeight / 2);
             Debug.Log("subPanelTwo: " + subPanelTwoPos);
             VCSubPanelTwo.GetComponent<RectTransform>().localPosition = new Vector3(0, subPanelTwoPos, -0.002f);
+
+            VCSubPanelTwo.GetComponent<RectTransform>().sizeDelta = new Vector2(1200, subPanelTwoHeight);
         }
     }
 	
