@@ -77,6 +77,22 @@ public class VoiceManager : MonoBehaviour {
         {
             SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
         });
+        keywords.Add("Check For A Bridge", () =>
+        {
+            SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Search For Bridge", () =>
+        {
+            SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Search For A Bridge", () =>
+        {
+            SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Try Searching Again", () =>
+        {
+            SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
+        });
 
         // opens the main menu of the app
         keywords.Add("Show Main Menu", () =>
@@ -88,7 +104,7 @@ public class VoiceManager : MonoBehaviour {
             SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
         });
         // runs a search function to discover Hue Bridges on the same network.
-        keywords.Add("Search For Bridge", () =>
+        keywords.Add("Get Bridge IP", () =>
         {
             SendMessage("RecheckOrGetBridgeIP", SendMessageOptions.DontRequireReceiver);
         });
@@ -302,6 +318,10 @@ public class VoiceManager : MonoBehaviour {
         {
             buildUpdateCall("bri", dimValue);
         });
+        keywords.Add("Dim The Light", () =>
+        {
+            buildUpdateCall("bri", dimValue);
+        });
 
         keywords.Add("Dim Light More", () =>
         {
@@ -309,6 +329,10 @@ public class VoiceManager : MonoBehaviour {
         });
 
         keywords.Add("Full Brightness", () =>
+        {
+            buildUpdateCall("bri", 254);
+        });
+        keywords.Add("Undim the light", () =>
         {
             buildUpdateCall("bri", 254);
         });
