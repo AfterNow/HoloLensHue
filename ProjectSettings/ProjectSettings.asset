@@ -40,9 +40,10 @@ PlayerSettings:
   m_SplashScreenLogos: []
   m_SplashScreenBackgroundLandscape: {fileID: 0}
   m_SplashScreenBackgroundPortrait: {fileID: 0}
-  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: d9f23630f5a114f4d9e22db2e88b6b13,
+  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: afc531c92584aa840ace7ff8a46a83a5,
     type: 3}
-  m_HolographicTrackingLossScreen: {fileID: 0}
+  m_HolographicTrackingLossScreen: {fileID: 2800000, guid: d9f23630f5a114f4d9e22db2e88b6b13,
+    type: 3}
   defaultScreenWidth: 1024
   defaultScreenHeight: 768
   defaultScreenWidthWeb: 960
@@ -452,11 +453,27 @@ PlayerSettings:
   metroApplicationDescription: 'Move past the switch: Change the color and brightness
     of your Philips Hue lights with a fluid holographic interface.'
   wsaImages:
+    65661: Assets/Images/CompanyAssets/63.png
     65686: Assets/Images/CompanyAssets/75x75 store logo.png
+    65736: Assets/Images/CompanyAssets/100.png
+    65936: Assets/Images/CompanyAssets/200.png
+    131172: Assets/Images/CompanyAssets/620x300 .png
+    131272: Assets/Images/CompanyAssets/1240x600.png
+    131472: Assets/Images/CompanyAssets/2480X1200 splash screen.png
+    2031716: Assets/Images/CompanyAssets/44.png
+    2031816: Assets/Images/CompanyAssets/88.png
+    2032016: Assets/Images/CompanyAssets/176.png
     2097252: Assets/Images/CompanyAssets/71x71 logo.png
+    2097352: Assets/Images/CompanyAssets/142.png
+    2097552: Assets/Images/CompanyAssets/284.png
     2162788: Assets/Images/CompanyAssets/150x150 logo.png
+    2162888: Assets/Images/CompanyAssets/300.png
     2228324: Assets/Images/CompanyAssets/310x310 logo.png
+    2228424: Assets/Images/CompanyAssets/620.png
+    2228624: Assets/Images/CompanyAssets/1240.png
     2293860: Assets/Images/CompanyAssets/310x150 logo.png
+    2293960: Assets/Images/CompanyAssets/620x300 .png
+    2294160: Assets/Images/CompanyAssets/1240x600.png
   metroTileShortName: Hue Lights
   metroCommandLineArgsFile: 
   metroTileShowName: 0

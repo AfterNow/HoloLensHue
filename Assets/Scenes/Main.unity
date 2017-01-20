@@ -463,6 +463,10 @@ Prefab:
       propertyPath: subModules.Array.data[4].keyPhrase
       value: <b>What light am I  <color=#6670E3>+  Gaze</color></b>
       objectReference: {fileID: 0}
+    - target: {fileID: 1784744064509514, guid: 1c8ebb7fe66514946967ae430004cf98, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c8ebb7fe66514946967ae430004cf98, type: 2}
   m_IsPrefabParent: 0
@@ -2613,6 +2617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vcBoard: {fileID: 596501039}
+  resetBoardDistance: 2
 --- !u!1 &1032399441
 GameObject:
   m_ObjectHideFlags: 0

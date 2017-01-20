@@ -37,7 +37,7 @@ public class NotificationManager : Singleton<NotificationManager> {
     private GameObject hueBridgeGO;
     private HueBridgeManager hueBridgeManager;
 
-    private bool bridgeInited;
+    public bool bridgeInited;
 
     // Add an audio clip to the Popup Clips in SoundManager and specify name here 
     private string buttonClickedSound = "click1";

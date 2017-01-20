@@ -75,6 +75,7 @@ public class HueBridgeManager : MonoBehaviour {
 
     public void RetrySetup()
     {
+        Debug.Log("was retry Setup called?");
         // notify subscribers the bridge search has been restarted
         if (restartSearchForBridge != null)
         {
@@ -96,11 +97,12 @@ public class HueBridgeManager : MonoBehaviour {
 
         if ((bridgeip != "127.0.0.1" && bridgeip != "") && (username != "newdeveloper" && username != ""))
         {
-            Debug.Log("Bridge and username not default");
-            if (StateManager.Instance.Starting)
+            Debug.Log("BridgeInited?: " + NotificationManager.Instance.bridgeInited);
+            if (StateManager.Instance.Starting || NotificationManager.Instance.bridgeInited)
             {
                 bridgeReady();
-            }
+                NotificationManager.Instance.bridgeInited = true;
+            } 
             else
             {
                 Notification notification = new Notification("error", "There was an error with the app startup state.");
@@ -323,6 +325,8 @@ public class HueBridgeManager : MonoBehaviour {
         }
         else
         {
+            NotificationManager.Instance.bridgeInited = true;
+
             if (!StateManager.Instance.SetupMode)
             {
                 StateManager.Instance.CurrentState = StateManager.HueAppState.ConnectedDevices_Initialized;

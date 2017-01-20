@@ -210,6 +210,18 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         }
     }
 
+    public void TurnAllLightsToColor(int hue)
+    {
+        for (int i = 0; i < lights.Count; i++)
+        {
+            State currentState;
+            currentState = lights[i].State;
+            currentState.Hue = hue;
+
+            hueAPI.UpdateLight(lights[i]);
+        }
+    }
+
     private void setLightsToColorCodeMode()
     {
         currentColor = ColorService.Colors.Red;
