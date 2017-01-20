@@ -1806,8 +1806,8 @@ GameObject:
   - component: {fileID: 596501040}
   - component: {fileID: 596501041}
   - component: {fileID: 596501044}
-  - component: {fileID: 596501045}
   - component: {fileID: 596501046}
+  - component: {fileID: 596501045}
   m_Layer: 11
   m_Name: VoiceCommandsBoard
   m_TagString: Untagged
@@ -1892,7 +1892,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 596501039}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c2dda147f5bb494f9be2f88e4bffcb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dd5f853e7f1b844ba4d940f79620906, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &596501046
@@ -4426,6 +4426,7 @@ GameObject:
   - component: {fileID: 1700362975}
   - component: {fileID: 1700362976}
   - component: {fileID: 1700362977}
+  - component: {fileID: 1700362978}
   m_Layer: 11
   m_Name: FlipArrow
   m_TagString: Untagged
@@ -4473,6 +4474,21 @@ MonoBehaviour:
   RotationDegrees: 180
   TransitionTime: 0.5
   ObjectToRotate: {fileID: 596501039}
+--- !u!114 &1700362978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1700362974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e480020cb47d96458e4538c22f113f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectToHighlight: {fileID: 1812014711}
+  transitionTime: 0.2
+  smoothness: 0.02
+  highlightColor: {r: 0.14509805, g: 0.21960784, b: 0.5137255, a: 1}
 --- !u!1 &1701150940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5698,6 +5714,7 @@ GameObject:
   - component: {fileID: 1994975953}
   - component: {fileID: 1994975954}
   - component: {fileID: 1994975955}
+  - component: {fileID: 1994975956}
   m_Layer: 11
   m_Name: FlipArrow (1)
   m_TagString: Untagged
@@ -5745,6 +5762,21 @@ MonoBehaviour:
   RotationDegrees: 180
   TransitionTime: 0.5
   ObjectToRotate: {fileID: 596501039}
+--- !u!114 &1994975956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1994975952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e480020cb47d96458e4538c22f113f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectToHighlight: {fileID: 1812014711}
+  transitionTime: 0.2
+  smoothness: 0.02
+  highlightColor: {r: 0.14509805, g: 0.21960784, b: 0.5137255, a: 1}
 --- !u!1 &2003094674
 GameObject:
   m_ObjectHideFlags: 0
