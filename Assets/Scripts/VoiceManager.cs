@@ -72,20 +72,52 @@ public class VoiceManager : MonoBehaviour {
         /// </summary>
         ///
 
+        // shows and hides the Voice Command Board with keyPhrases and associated actions
+        keywords.Add("Show Voice Commands", () =>
+        {
+            SendMessage("OpenVCBoard", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Show The Voice Commands", () =>
+        {
+            SendMessage("OpenVCBoard", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Show Voice Command Menu", () =>
+        {
+            SendMessage("OpenVCBoard", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Show Voice Menu", () =>
+        {
+            SendMessage("OpenVCBoard", SendMessageOptions.DontRequireReceiver);
+        });
+        // Hides Voice Command Board
+        keywords.Add("Hide Voice Commands", () =>
+        {
+            SendMessage("CloseVCBoard", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Hide The Voice Commands", () =>
+        {
+            SendMessage("CloseVCBoard", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Hide Voice Command Menu", () =>
+        {
+            SendMessage("CloseVCBoard", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Hide Voice Menu", () =>
+        {
+            SendMessage("CloseVCBoard", SendMessageOptions.DontRequireReceiver);
+        });
+        // Repositions the Voice Command Board in front of user 
+        keywords.Add("Reposition Voice Commands", () =>
+        {
+            SendMessage("ResetVCBoardPosition", SendMessageOptions.DontRequireReceiver);
+        });
+
         // reset app back to starting state
-        keywords.Add("Check For Bridge", () =>
+        keywords.Add("Reset And Search For Bridge", () =>
         {
             SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
         });
-        keywords.Add("Check For A Bridge", () =>
-        {
-            SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
-        });
-        keywords.Add("Search For Bridge", () =>
-        {
-            SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
-        });
-        keywords.Add("Search For A Bridge", () =>
+        keywords.Add("Reset And Search For A Bridge", () =>
         {
             SendMessage("RetrySetup", SendMessageOptions.DontRequireReceiver);
         });
@@ -104,7 +136,7 @@ public class VoiceManager : MonoBehaviour {
             SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
         });
         // runs a search function to discover Hue Bridges on the same network.
-        keywords.Add("Get Bridge IP", () =>
+        keywords.Add("Check For A Bridge", () =>
         {
             SendMessage("RecheckOrGetBridgeIP", SendMessageOptions.DontRequireReceiver);
         });
@@ -153,18 +185,6 @@ public class VoiceManager : MonoBehaviour {
         keywords.Add("Hide All Lights", () =>
         {
             StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
-        });
-
-        // Displays panel of available voice commands
-        keywords.Add("Show Voice Menu", () =>
-        {
-            //showVCMenu(true);
-        });
-        
-        // Hides panel of availalbe voice commands
-        keywords.Add("Hide Voice Menu", () =>
-        {
-            //showVCMenu(false);
         });
 
         /// <summary>
@@ -342,6 +362,10 @@ public class VoiceManager : MonoBehaviour {
         {
             buildUpdateCall("alert", 1);
         });
+        keywords.Add("What Light Am I", () =>
+        {
+            buildUpdateCall("alert", 1);
+        });
 
         // stops flashing of light prior to 15 second default time
         keywords.Add("OK That's Enough", () =>
@@ -363,9 +387,6 @@ public class VoiceManager : MonoBehaviour {
         // Register a callback for the KeywordRecognizer and start recognizing!
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
         keywordRecognizer.Start();
-
-        // populates voice control help menu with available commands
-        //buildMenu(keywords);
     }
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)

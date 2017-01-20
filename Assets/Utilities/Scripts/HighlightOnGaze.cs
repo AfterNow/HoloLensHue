@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class HighlightOnGaze : MonoBehaviour {
 
+    [Tooltip("GameObject to highlight. Defaults to GameObject this script is attached to.")]
+    public GameObject ObjectToHighlight;
+
     private GameObject helix;
 
     private Shader defaultShader;
@@ -28,15 +31,23 @@ public class HighlightOnGaze : MonoBehaviour {
         storedTime = transitionTime;
 
         //highlightShader = Shader.Find("Custom/Highlighted");
-        foreach (Transform child in transform)
+        //foreach (Transform child in transform)
+        //{
+        //    if (child.name == "pHelix1")
+        //    {
+        //        helix = child.gameObject;
+        //        rend = helix.GetComponent<Renderer>();
+        //        defaultColor = rend.material.color;
+        //    }
+        //}
+
+        if (ObjectToHighlight == null)
         {
-            if (child.name == "pHelix1")
-            {
-                helix = child.gameObject;
-                rend = helix.GetComponent<Renderer>();
-                defaultColor = rend.material.color;
-            }
+            ObjectToHighlight = this.gameObject;
         }
+
+        rend = ObjectToHighlight.GetComponent<Renderer>();
+        defaultColor = rend.material.color;
     }
 	
 	// Update is called once per frame

@@ -1705,6 +1705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e480020cb47d96458e4538c22f113f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectToHighlight: {fileID: 1352031817663116}
   transitionTime: 0.2
   smoothness: 0.02
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

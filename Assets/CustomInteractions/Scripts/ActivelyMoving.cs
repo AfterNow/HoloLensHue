@@ -13,7 +13,7 @@ public class ActivelyMoving : MonoBehaviour {
 
     private GameObject activeGameObject;
 
-    private CustomLookAt lookAt;
+    private ActivelyMovingLookAtEffect lookAt;
 
     private GestureManager gestureManager;
     private bool manipulating;
@@ -42,7 +42,7 @@ public class ActivelyMoving : MonoBehaviour {
         // if selected in the Inspector, we will use LookAt as our action to being moved.
         if (FaceWhileMoving)
         {
-            lookAt = GetComponent<CustomLookAt>();
+            lookAt = GetComponent<ActivelyMovingLookAtEffect>();
         }
 	}
 
@@ -72,8 +72,6 @@ public class ActivelyMoving : MonoBehaviour {
         // Check if the gesture manager is not null, we're currently focused on this Game Object, and a current manipulation is in progress.
         if (gestureManager != null && gestureManager.FocusedObject != null && gestureManager.FocusedObject == gameObject && gestureManager.ManipulationInProgress)
         {
-            //manipulating = true;
-            
             if (FaceWhileMoving)
             {
                 lookAt.enabled = true;
@@ -83,8 +81,6 @@ public class ActivelyMoving : MonoBehaviour {
 
     private void EndManipulation(InteractionSourceKind sourceKind)
     {
-        //manipulating = false;
-
         if (FaceWhileMoving)
         {
             lookAt.enabled = false;
