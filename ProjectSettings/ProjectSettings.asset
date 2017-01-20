@@ -10,8 +10,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: HoloLensHue
+  companyName: AfterNow
+  productName: Hue Lights
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21176471, a: 1}
@@ -441,16 +441,17 @@ PlayerSettings:
   additionalIl2CppArgs: 
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: HoloLensHue
+  metroPackageName: HueLights
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: Assets\WSATestCertificate.pfx
-  metroCertificatePassword: 
-  metroCertificateSubject: DefaultCompany
-  metroCertificateIssuer: DefaultCompany
-  metroCertificateNotAfter: 00970b610c2ad301
-  metroApplicationDescription: HoloLensHue
+  metroCertificatePath: Assets/WSATestCertificate.pfx
+  metroCertificatePassword: dxa`Jy9=<b
+  metroCertificateSubject: AfterNow
+  metroCertificateIssuer: AfterNow
+  metroCertificateNotAfter: 00fd67434a92d301
+  metroApplicationDescription: 'Move past the switch: Change the color and brightness
+    of your Philips Hue lights with a fluid holographic interface.'
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: HoloLensHue
   metroCommandLineArgsFile: 
   metroTileShowName: 0
   metroMediumTileShowName: 0
