@@ -36,7 +36,7 @@ public class RotateToColor : MonoBehaviour {
         if (grandparentTag != "Untagged")
         {
             int tagId = int.Parse(grandparentTag);
-            Debug.Log("what is my ROttoCO id??: " + tagId);
+
             int currentHue = SmartLightManager.lights[tagId].State.Hue;
 
             Color currentColor = ColorService.GetColorByHue(currentHue);
@@ -125,7 +125,6 @@ public class RotateToColor : MonoBehaviour {
                 }
             }    
         }
-        Debug.Log("late state of isRot is: " + IsRotating);
     }
 
     IEnumerator LerpRotation(Vector3 target, float tTime)

@@ -38,9 +38,9 @@ TagManager:
   - SmartBulb
   - BrightnessLever
   - VCMenu
-  - 
-  - 
-  - 
+  - HotspotTrigger
+  - Hotspot
+  - HotspotMover
   - 
   - 
   - 

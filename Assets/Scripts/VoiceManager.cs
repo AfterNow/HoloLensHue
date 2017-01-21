@@ -26,9 +26,14 @@ public class VoiceManager : MonoBehaviour {
     // position of light in lights array. Needed as Hue API starts light array at '1'.
     private int arrayId;
 
+    private List<string> colorList;
+
     // Use this for initialization
     void Start () {
         Debug.Log("VoiceMgr Started");
+
+        initColorList();
+
         if (GameObject.Find("HologramCollection") != null)
         {
             hologramCollection = GameObject.Find("HologramCollection");
@@ -58,6 +63,19 @@ public class VoiceManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void initColorList()
+    {
+        colorList = new List<string>();
+        colorList.Add("Red");
+        colorList.Add("Orange");
+        colorList.Add("Yellow");
+        colorList.Add("Green");
+        colorList.Add("Blue");
+        colorList.Add("Indigo");
+        colorList.Add("Violet");
+        colorList.Add("White");
     }
 
     public void RegisterPhrases()
@@ -134,6 +152,17 @@ public class VoiceManager : MonoBehaviour {
         keywords.Add("Show The Main Menu", () =>
         {
             SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
+        });
+        // closes the main menu of the app
+        keywords.Add("Hide Main Menu", () =>
+        {
+            NotificationManager.Instance.DismissAction();
+            //SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
+        });
+        keywords.Add("Hide The Main Menu", () =>
+        {
+            NotificationManager.Instance.DismissAction();
+            //SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
         });
         // runs a search function to discover Hue Bridges on the same network.
         keywords.Add("Check For A Bridge", () =>
@@ -245,6 +274,19 @@ public class VoiceManager : MonoBehaviour {
             SmartLightManager.Instance.TurnOnAllLights();
         });
 
+        foreach (string color in colorList)
+        {
+            string colorCommand = "Turn All Lights " + color;
+
+            keywords.Add(colorCommand, () =>
+            {
+                int hue;
+                hue = ColorService.GetHueByColor(color);
+
+                SmartLightManager.Instance.TurnAllLightsToColor(hue);
+            });
+        }
+
         /// <summary>
         /// Individual light voice commands
         /// </summary>
@@ -268,70 +310,31 @@ public class VoiceManager : MonoBehaviour {
             buildUpdateCall("Off", 0);
         });
 
-        // color change commands
-        keywords.Add("Set To Red", () =>
+        // color change commands 
+        foreach (string color in colorList)
         {
-            int hue;
-            hue = ColorService.GetHueByColor("Red");
+            string colorCommand = "Turn Light " + color;
 
-            buildUpdateCall("hue", hue);
-        });
+            keywords.Add(colorCommand, () =>
+            {
+                int hue;
+                hue = ColorService.GetHueByColor(color);
 
-        keywords.Add("Set To Orange", () =>
+                buildUpdateCall("hue", hue);
+            });
+        }
+        foreach (string color in colorList)
         {
-            int hue;
-            hue = ColorService.GetHueByColor("Orange");
+            string colorCommand = "Set To " + color;
 
-            buildUpdateCall("hue", hue);
-        });
+            keywords.Add(colorCommand, () =>
+            {
+                int hue;
+                hue = ColorService.GetHueByColor(color);
 
-        keywords.Add("Set To Yellow", () =>
-        {
-            int hue;
-            hue = ColorService.GetHueByColor("Yellow");
-
-            buildUpdateCall("hue", hue);
-        });
-
-        keywords.Add("Set To Green", () =>
-        {
-            int hue;
-            hue = ColorService.GetHueByColor("Green");
-
-            buildUpdateCall("hue", hue);
-        });
-
-        keywords.Add("Set To White", () =>
-        {
-            int hue;
-            hue = ColorService.GetHueByColor("White");
-
-            buildUpdateCall("hue", hue);
-        });
-
-        keywords.Add("Set To Blue", () =>
-        {
-            int hue;
-            hue = ColorService.GetHueByColor("Blue");
-
-            buildUpdateCall("hue", hue);
-        });
-
-        keywords.Add("Set To Purple", () =>
-        {
-            int hue;
-            hue = ColorService.GetHueByColor("Purple");
-
-            buildUpdateCall("hue", hue);
-        });
-
-        keywords.Add("Set To Pink", () =>
-        {
-            int hue;
-            hue = ColorService.GetHueByColor("Pink");
-
-            buildUpdateCall("hue", hue);
-        });
+                buildUpdateCall("hue", hue);
+            });
+        }
 
         // Brightness adjustment commands
         keywords.Add("Dim Light", () =>
@@ -379,6 +382,34 @@ public class VoiceManager : MonoBehaviour {
         keywords.Add("Stop Blinking", () =>
         {
             buildUpdateCall("alert", 0);
+        });
+
+        /// <summary>
+        /// Hotspots Commands
+        /// </summary>
+        /// 
+
+        keywords.Add("Easter Egg", () =>
+        {
+            HotspotManager.Instance.EnableHotspots();
+        });
+
+        // Deactivates hotspots and removes all hotspot gameObjects
+        keywords.Add("Destroy Easter Egg", () =>
+        {
+            HotspotManager.Instance.DisableHotspots();
+        });
+
+        // Shows all hotspots by enabling their mesh
+        keywords.Add("Show All Hot Spots", () =>
+        {
+            HotspotManager.Instance.ShowAllHotspots();
+        });
+
+        // Hides all hotspots by disabling their mesh
+        keywords.Add("Hide All Hot Spots", () =>
+        {
+            HotspotManager.Instance.HideAllHotspots();
         });
 
         // Tell the KeywordRecognizer about our keywords.

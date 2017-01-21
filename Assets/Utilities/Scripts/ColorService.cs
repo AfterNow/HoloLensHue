@@ -200,4 +200,46 @@ public static class ColorService
 
         return hueValue;
     }
+
+    public static Vector4 GetRGBAbyColor(string colorName)
+    {
+        // convert the RGBA into a Vector4 so we can compare properly
+        // red
+        if (colorName == "Red")
+        {
+            color = new Vector4(1, 0, 0, 1);
+        }
+        // orange
+        if (colorName == "Orange")
+        {
+            color = new Vector4(1, 0.65f, 0, 1);
+        }
+        // yellow
+        else if (colorName == "Yellow")
+        {
+            color = new Vector4(1, 1, 0, 1);
+        }
+        // green
+        else if (colorName == "Green")
+        {
+            color = new Vector4(0, 1, 0, 1);
+        }
+        // blue
+        else if (colorName == "Blue")
+        {
+            color = new Vector4(0, 0, 1, 1);
+        }
+        // indigo
+        else if (colorName == "Purple" || colorName == "Indigo")
+        {
+            color = new Vector4(0.3f, 0, 0.5f, 1);
+        }
+        // pink
+        else if (colorName == "Pink" || colorName == "Violet")
+        {
+            color = new Vector4(1, 0.42f, 0.7f, 1);
+        }
+        return color;
+    }
+
 }

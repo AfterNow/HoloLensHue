@@ -59,7 +59,6 @@ public class LightUIManager : Singleton<LightUIManager> {
 
     public void initColors(List<SmartLight> sls)
     {
-        Debug.Log("was initColors called???");
         foreach (SmartLight sl in sls)
         {
             lightUIs.Add(new LightUI(sl.ID, false, ColorService.GetColorByHue(sl.State.Hue), sl.State.Bri, sl.Name));
