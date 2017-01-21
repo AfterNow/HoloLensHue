@@ -24,6 +24,8 @@ public class HotspotManager : Singleton<HotspotManager> {
 
     private Mood currentMood;
 
+    private Material mat;
+
     // distance to spawn hotspot in front of user
     private float distanceFromUser;
 
@@ -168,10 +170,42 @@ public class HotspotManager : Singleton<HotspotManager> {
             var hotspotGO = Instantiate(hotspotPrefab, spawnPos, camRotation);
             hotspotGO.name = name;
 
+            Vector4 matColor = SetHotspotColor(name);
+            hotspotGO.GetComponent<Renderer>().material.color = matColor;
+
             GameObject currentHotspot = GameObject.Find(hotspotGO.name);
             currentHotspot.transform.parent = gameObject.transform;
 
             distanceFromUser += hotspotSpacing;
         }
+    }
+
+    // TODO make less redundant V2 and not hardcoded - for demo
+    public Vector4 SetHotspotColor(string moodName)
+    {
+        Vector4 currentMat;
+
+        if (moodName == "Relax" || moodName == "Default")
+        {
+            currentMat = ColorService.GetRGBAbyColor("Blue");
+        }
+        else if (moodName == "Funky")
+        {
+            currentMat = ColorService.GetRGBAbyColor("Pink");
+        }
+        else if (moodName == "Hot")
+        {
+            currentMat = ColorService.GetRGBAbyColor("Red");
+        }
+        else if (moodName == "Boring")
+        {
+            currentMat = ColorService.GetRGBAbyColor("Yellow");
+        }
+        else
+        {
+            currentMat = ColorService.GetRGBAbyColor("Red");
+        }
+
+        return currentMat;
     }
 }

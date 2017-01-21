@@ -217,6 +217,8 @@ public class SmartLightManager : Singleton<SmartLightManager> {
             State currentState;
             currentState = lights[i].State;
             currentState.Hue = hue;
+            currentState.Bri = 254;
+            currentState.Sat = 254;
 
             hueAPI.UpdateLight(lights[i]);
         }
