@@ -384,6 +384,34 @@ public class VoiceManager : MonoBehaviour {
             buildUpdateCall("alert", 0);
         });
 
+        /// <summary>
+        /// Hotspots Commands
+        /// </summary>
+        /// 
+
+        keywords.Add("Easter Egg", () =>
+        {
+            HotspotManager.Instance.EnableHotspots();
+        });
+
+        // Deactivates hotspots and removes all hotspot gameObjects
+        keywords.Add("Destroy Easter Egg", () =>
+        {
+            HotspotManager.Instance.DisableHotspots();
+        });
+
+        // Shows all hotspots by enabling their mesh
+        keywords.Add("Show All Hot Spots", () =>
+        {
+            HotspotManager.Instance.ShowAllHotspots();
+        });
+
+        // Hides all hotspots by disabling their mesh
+        keywords.Add("Hide All Hot Spots", () =>
+        {
+            HotspotManager.Instance.HideAllHotspots();
+        });
+
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 

@@ -449,7 +449,7 @@ PlayerSettings:
   metroCertificatePassword: dxa`Jy9=<b
   metroCertificateSubject: AfterNow
   metroCertificateIssuer: AfterNow
-  metroCertificateNotAfter: 00fd67434a92d301
+  metroCertificateNotAfter: 001409d16d92d301
   metroApplicationDescription: 'Move past the switch: Change the color and brightness
     of your Philips Hue lights with a fluid holographic interface.'
   wsaImages:

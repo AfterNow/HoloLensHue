@@ -222,6 +222,14 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         }
     }
 
+    public void ChangeAllLights(List<SmartLight> sls)
+    {
+        foreach (SmartLight sl in sls)
+        {
+            hueAPI.UpdateLight(sl);
+        }
+    }
+
     private void setLightsToColorCodeMode()
     {
         currentColor = ColorService.Colors.Red;
