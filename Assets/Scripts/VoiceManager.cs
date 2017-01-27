@@ -198,14 +198,6 @@ public class VoiceManager : MonoBehaviour {
         });
 
         // Changes current state of app. Saves configuration and switches back into main mode - Ready
-        keywords.Add("Save Configuration", () =>
-        {
-            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
-        });
-        keywords.Add("Save The Configuration", () =>
-        {
-            StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
-        });
         keywords.Add("Save The Room", () =>
         {
             StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
@@ -413,6 +405,78 @@ public class VoiceManager : MonoBehaviour {
         keywords.Add("Hide All Hot Spots", () =>
         {
             HotspotManager.Instance.HideAllHotspots();
+        });
+
+        /// <summary>
+        /// "Gaze it say it" commands
+        /// </summary>
+        /// 
+
+        keywords.Add("Tutorial", () =>
+        {
+            var focusedObject = GestureManager.Instance.FocusedObject;
+            if (focusedObject != null)
+            {
+                if (focusedObject.tag == "Tutorial")
+                {
+                    NotificationManager.Instance.TutorialAction();
+                }
+            }
+        });
+        keywords.Add("Next", () =>
+        {
+            var focusedObject = GestureManager.Instance.FocusedObject;
+            if (focusedObject != null)
+            {
+                if (focusedObject.tag == "NextButton")
+                {
+                    NotificationManager.Instance.NextAction();
+                }
+            }
+        });
+        keywords.Add("Back", () =>
+        {
+            var focusedObject = GestureManager.Instance.FocusedObject;
+            if (focusedObject != null)
+            {
+                if (focusedObject.tag == "BackButton")
+                {
+                    NotificationManager.Instance.BackAction();
+                }
+            }
+        });
+        keywords.Add("Finish Tutorial", () =>
+        {
+            var focusedObject = GestureManager.Instance.FocusedObject;
+            if (focusedObject != null)
+            {
+                if (focusedObject.tag == "FinishButton")
+                {
+                    NotificationManager.Instance.FinishAction();
+                }
+            }
+        });
+        keywords.Add("Setup", () =>
+        {
+            var focusedObject = GestureManager.Instance.FocusedObject;
+            if (focusedObject != null)
+            {
+                if (focusedObject.tag == "SetupButton")
+                {
+                    NotificationManager.Instance.SetupAction();
+                }
+            }
+        });
+        keywords.Add("Save Configuration", () =>
+        {
+            var focusedObject = GestureManager.Instance.FocusedObject;
+            if (focusedObject != null)
+            {
+                if (focusedObject.tag == "SaveButton")
+                {
+                    NotificationManager.Instance.SaveAction();
+                }
+            }
         });
 
         // Tell the KeywordRecognizer about our keywords.
