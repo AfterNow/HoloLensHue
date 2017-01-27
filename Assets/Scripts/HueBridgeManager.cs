@@ -220,52 +220,56 @@ public class HueBridgeManager : MonoBehaviour {
 
     public IEnumerator CheckOrCreateBridgeUser(string ip)
     {
-        // checks that a username has not been manually added to the inspector. If one has, we want to bypass creating a new one
-        if (username == null || username == "newdeveloper" || username == "")
+        // we only want to run this function if no lights are instantiated yet. This will prevent duplicates.
+        if (SmartLightManager.lights.Count < 1)
         {
-            // check if this Hue Bridge already has a valid username
-            StartCoroutine(GetUsername(ip));
-            // if a valid username is saved to the device, set as current user
-            if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
+            // checks that a username has not been manually added to the inspector. If one has, we want to bypass creating a new one
+            if (username == null || username == "newdeveloper" || username == "")
             {
-                username = bridgeIpUsername;
-                Debug.Log("An existing username has been retrieved from the device");
-            }
-            // if no username was associated with the Hue Bridge, create and store one
-            else
-            {
-                string url = "http://" + ip + "/api";
-                UnityWebRequest request = new UnityWebRequest(url, "POST");
-                byte[] bodyRaw = Encoding.UTF8.GetBytes("{\"devicetype\": \"hololenshue#hololens\"}");
-                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
-
-                yield return request.Send();
-
-                if (request.isError)
+                // check if this Hue Bridge already has a valid username
+                StartCoroutine(GetUsername(ip));
+                // if a valid username is saved to the device, set as current user
+                if (bridgeIpUsername != null && bridgeIpUsername != "newdeveloper" && bridgeIpUsername != "")
                 {
-                    Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and internet connection.");
-                    NotificationManager.DisplayNotification(notification);
-                    yield break;
+                    username = bridgeIpUsername;
+                    Debug.Log("An existing username has been retrieved from the device");
                 }
-
-                if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
+                // if no username was associated with the Hue Bridge, create and store one
+                else
                 {
-                    // Alerts user to push the Hue Bridge link button
-                    MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.LinkButton;
+                    string url = "http://" + ip + "/api";
+                    UnityWebRequest request = new UnityWebRequest(url, "POST");
+                    byte[] bodyRaw = Encoding.UTF8.GetBytes("{\"devicetype\": \"hololenshue#hololens\"}");
+                    request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+                    request.downloadHandler = new DownloadHandlerBuffer();
+                    request.SetRequestHeader("Content-Type", "application/json");
 
-                    // while true, a request to the bridge will be sent during specified intervals
-                    awaitingBridgeLink = true;
+                    yield return request.Send();
 
-                    StartCoroutine(AwaitingBridgeButtonPress(ip));
-                    yield break;
+                    if (request.isError)
+                    {
+                        Notification notification = new Notification("error", "The request timed out. Please check your Bridge IP and internet connection.");
+                        NotificationManager.DisplayNotification(notification);
+                        yield break;
+                    }
+
+                    if (request.downloadHandler.text.Contains("\"error\":{\"type\":101"))
+                    {
+                        // Alerts user to push the Hue Bridge link button
+                        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.LinkButton;
+
+                        // while true, a request to the bridge will be sent during specified intervals
+                        awaitingBridgeLink = true;
+
+                        StartCoroutine(AwaitingBridgeButtonPress(ip));
+                        yield break;
+                    }
+                    storeHueUser(ip, request.downloadHandler.text);
                 }
-                storeHueUser(ip, request.downloadHandler.text);
             }
-        }
-        // Bridgeid and username are both found and valid. Ready to make lighting requests
-        bridgeReady();
+            // Bridgeid and username are both found and valid. Ready to make lighting requests
+            bridgeReady();
+        }       
     }
 
     private void storeHueUser(string ip, string json)

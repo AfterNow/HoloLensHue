@@ -151,7 +151,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.06666667, g: 0.09411765, b: 0.20392157, a: 1}
     m_HighlightedColor: {r: 0.14509805, g: 0.21960784, b: 0.5137255, a: 1}
     m_PressedColor: {r: 0.24313726, g: 0.3764706, b: 0.90588236, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.1764706, g: 0.18039216, b: 0.18039216, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -430,13 +430,13 @@ Prefab:
         type: 2}
       propertyPath: subModules.Array.data[0].action
       value: resets app to the initial state and attempts to find a Bridge again.
-        Only use this is you are having issues with setup.
+        <color=#AA0000>Only use this is you are having issues with setup</color>.
       objectReference: {fileID: 0}
     - target: {fileID: 114306984609728536, guid: 1c8ebb7fe66514946967ae430004cf98,
         type: 2}
       propertyPath: subModules.Array.data[1].action
-      value: attempts a bridge search. Be sure a Bridge is connected and on the same
-        network as your HoloLens.
+      value: attempts a bridge search. <color=#59EF91>Be sure a Bridge is connected
+        and on the same network as your HoloLens</color>.
       objectReference: {fileID: 0}
     - target: {fileID: 114896392249855242, guid: 1c8ebb7fe66514946967ae430004cf98,
         type: 2}
@@ -466,6 +466,11 @@ Prefab:
     - target: {fileID: 1784744064509514, guid: 1c8ebb7fe66514946967ae430004cf98, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114762277971156972, guid: 1c8ebb7fe66514946967ae430004cf98,
+        type: 2}
+      propertyPath: subModules.Array.data[2].keyPhrase
+      value: <b>Turns all lights <color=#59EF91> +  <i>color</i></color></b>
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c8ebb7fe66514946967ae430004cf98, type: 2}
@@ -1240,7 +1245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: -16}
+  m_AnchoredPosition: {x: 1, y: -8}
   m_SizeDelta: {x: 320, y: 280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &432144673
@@ -1275,13 +1280,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'VOICE: You can use general voice commands at any time, like <color=#C035Fc>"turn
-    off all lights"</color> and specific commands by gazing at a light and saying,
-    <color=#C035Fc>"turn light on"</color> and <color=#C035Fc>"turn light blue."</color>.
-
-
-    You can see the full list of commands by saying <color=#C035Fc>"show voice commands"</color>
-    at any time.'
+  m_Text: "VOICE: You can use general voice commands at any time, like <color=#59EF91>\"turn
+    off all lights\"</color> and specific commands by gazing at a light and saying,
+    <color=#59EF91>\"turn light blue.\"</color> <i><color=#999999>Disabled until lights
+    are discovered.</color></i>\r\n\r\nYou can see the full list of commands by saying
+    <color=#59EF91>\"show voice commands\"</color> at any time."
 --- !u!222 &432144674
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2175,7 +2178,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Gaze at any holographic orb and say,  <color=#C035Fc>"What light am I?"</color>
+  m_Text: 'Gaze at any holographic orb and say, <color=#59EF91>"What light am I?"</color>
 
 
     Drag and align the blinking orb onto the blinking light.'
@@ -2486,7 +2489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d5b622b3baa564ca01a237011bac35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenRequests: 0.15
+  timeBetweenRequests: 0.12
 --- !u!114 &1022827892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3456,7 +3459,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1381427155}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -3819,7 +3822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1666070484
 RectTransform:
   m_ObjectHideFlags: 0
