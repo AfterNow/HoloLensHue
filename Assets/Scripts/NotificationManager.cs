@@ -339,8 +339,13 @@ public class NotificationManager : Singleton<NotificationManager> {
             //TODO tie this to StateManager to abstract out direct function calls
             hueBridgeManager.InitHueBridgeManager();
         }
+
         StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
         SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
+
+        hideTutorialItems();
+        panelBorderGO.GetComponent<Image>().enabled = false;
+        panelBorderGO.GetComponent<BoxCollider>().enabled = false;
     }
 
     public void TutorialAction()
@@ -416,5 +421,17 @@ public class NotificationManager : Singleton<NotificationManager> {
     private void ResetBridgeInited()
     {
         bridgeInited = false;
+    }
+
+    private void hideTutorialItems()
+    {
+        foreach (Transform child in panelBorderGO.transform)
+        {
+            // TextPanel should always be active for general notifications. Hiding/showing this object done through Image Component
+            if (child.name != "TextPanel")
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
     }
 }
