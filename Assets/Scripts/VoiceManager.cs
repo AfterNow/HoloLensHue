@@ -156,14 +156,17 @@ public class VoiceManager : MonoBehaviour {
         // closes the main menu of the app
         keywords.Add("Hide Main Menu", () =>
         {
-            NotificationManager.Instance.DismissAction();
-            //SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
+            NotificationManager.Instance.DismissAction();;
         });
         keywords.Add("Hide The Main Menu", () =>
         {
             NotificationManager.Instance.DismissAction();
-            //SendMessage("InitMainMenu", SendMessageOptions.DontRequireReceiver);
         });
+        keywords.Add("Dismiss Menu", () =>
+        {
+            NotificationManager.Instance.DismissAction();
+        });
+
         // runs a search function to discover Hue Bridges on the same network.
         keywords.Add("Check For A Bridge", () =>
         {
