@@ -173,6 +173,12 @@ public class NotificationManager : Singleton<NotificationManager> {
 
     public static void CancelNotification()
     {
+        // if an expiration timer is running, we want to cancel it first so it does not affect the next menu/notif
+        if (notificationActive)
+        {
+            notificationManager.StopCoroutine(coroutine);
+        }
+
         canvas.enabled = false;
         notificationActive = false;
 
@@ -180,6 +186,7 @@ public class NotificationManager : Singleton<NotificationManager> {
         {
             notificationCanceled();
         }
+
     }
 
     public static void DisplayMenu(Menu menu)

@@ -138,6 +138,8 @@ public class MenuStateManager : Singleton<MenuStateManager> {
         }
         else if (state == MenuState.MainMenu)
         {
+            Debug.Log("main menu opened");
+            // TODO need to cancel expiration prior to reopening
             NotificationManager.CancelNotification();
             return new Menu("MainMenu", 0f, true);
         }
