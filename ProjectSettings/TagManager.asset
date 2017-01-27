@@ -25,6 +25,18 @@ TagManager:
   - 11
   - 12
   - 0
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - Tutorial
+  - NextButton
+  - BackButton
+  - FinishButton
+  - SetupButton
+  - SaveButton
   layers:
   - Default
   - TransparentFX

@@ -70,12 +70,15 @@ public class HueBridgeManager : MonoBehaviour {
 
     public void InitMainMenu()
     {
-        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
+        // to prevent duplicate or overlapping menus, only change state if menu is not currently opened.
+        if (MenuStateManager.Instance.CurrentState == MenuStateManager.MenuState.Hidden)
+        {
+            MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
+        }     
     }
 
     public void RetrySetup()
     {
-        Debug.Log("was retry Setup called?");
         // notify subscribers the bridge search has been restarted
         if (restartSearchForBridge != null)
         {

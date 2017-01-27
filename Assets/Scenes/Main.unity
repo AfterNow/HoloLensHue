@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 31379412}
   m_Layer: 5
   m_Name: Button
-  m_TagString: Untagged
+  m_TagString: Tutorial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -486,9 +486,10 @@ GameObject:
   - component: {fileID: 211795775}
   - component: {fileID: 211795774}
   - component: {fileID: 211795773}
+  - component: {fileID: 211795776}
   m_Layer: 5
   m_Name: Button
-  m_TagString: Untagged
+  m_TagString: FinishButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -597,6 +598,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 211795771}
+--- !u!65 &211795776
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 211795771}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 192, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &232350504
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,7 +1169,7 @@ GameObject:
   - component: {fileID: 403550011}
   m_Layer: 5
   m_Name: BackButtonBorder
-  m_TagString: Untagged
+  m_TagString: BackButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2247,7 +2260,7 @@ GameObject:
   - component: {fileID: 893471717}
   m_Layer: 5
   m_Name: FinishButtonBorder
-  m_TagString: Untagged
+  m_TagString: FinishButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2693,7 +2706,7 @@ GameObject:
   - component: {fileID: 1057444571}
   m_Layer: 5
   m_Name: NextButtonBorder
-  m_TagString: Untagged
+  m_TagString: NextButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2839,7 +2852,7 @@ GameObject:
   - component: {fileID: 1099077144}
   m_Layer: 5
   m_Name: SaveButtonBorder
-  m_TagString: Untagged
+  m_TagString: SaveButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3515,7 +3528,7 @@ GameObject:
   - component: {fileID: 1389719105}
   m_Layer: 5
   m_Name: TutorialButtonBorder
-  m_TagString: Untagged
+  m_TagString: Tutorial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3930,9 +3943,10 @@ GameObject:
   - component: {fileID: 1707381634}
   - component: {fileID: 1707381633}
   - component: {fileID: 1707381632}
+  - component: {fileID: 1707381635}
   m_Layer: 5
   m_Name: Button
-  m_TagString: Untagged
+  m_TagString: NextButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4041,6 +4055,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1707381630}
+--- !u!65 &1707381635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1707381630}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 110, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1734999705
 GameObject:
   m_ObjectHideFlags: 0
@@ -4300,7 +4326,7 @@ GameObject:
   - component: {fileID: 1817895856}
   m_Layer: 5
   m_Name: Button
-  m_TagString: Untagged
+  m_TagString: SetupButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4433,7 +4459,7 @@ GameObject:
   - component: {fileID: 1828355741}
   m_Layer: 5
   m_Name: SetupButtonBorder
-  m_TagString: Untagged
+  m_TagString: SetupButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4664,9 +4690,10 @@ GameObject:
   - component: {fileID: 1921195978}
   - component: {fileID: 1921195977}
   - component: {fileID: 1921195976}
+  - component: {fileID: 1921195979}
   m_Layer: 5
   m_Name: Button
-  m_TagString: Untagged
+  m_TagString: SaveButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4775,6 +4802,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1921195974}
+--- !u!65 &1921195979
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1921195974}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 230, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1966353347
 GameObject:
   m_ObjectHideFlags: 0
@@ -4910,9 +4949,10 @@ GameObject:
   - component: {fileID: 2003094678}
   - component: {fileID: 2003094677}
   - component: {fileID: 2003094676}
+  - component: {fileID: 2003094679}
   m_Layer: 5
   m_Name: Button
-  m_TagString: Untagged
+  m_TagString: BackButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5021,6 +5061,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2003094674}
+--- !u!65 &2003094679
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2003094674}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 110, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2006105040
 GameObject:
   m_ObjectHideFlags: 0
