@@ -2043,10 +2043,10 @@ MonoBehaviour:
   SmoothingFactor: 0.5
   MinimumHorizontalOverlap: 0.75
   TargetHorizontalOverlap: 1
-  MinimumVerticalOverlap: 0.5
+  MinimumVerticalOverlap: 1
   TargetVerticalOverlap: 1
   HorizontalRayCount: 3
-  VerticalRayCount: 3
+  VerticalRayCount: 5
   MinimumTagalongDistance: 1
   MaintainFixedSize: 1
   DepthUpdateSpeed: 6
