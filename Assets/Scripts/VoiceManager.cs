@@ -76,6 +76,8 @@ public class VoiceManager : MonoBehaviour {
         colorList.Add("Indigo");
         colorList.Add("Violet");
         colorList.Add("White");
+        colorList.Add("Pink");
+        colorList.Add("Purple"); 
     }
 
     public void RegisterPhrases()

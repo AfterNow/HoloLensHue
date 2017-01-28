@@ -350,7 +350,7 @@ public class NotificationManager : Singleton<NotificationManager> {
         StateManager.Instance.CurrentState = StateManager.HueAppState.Ready;
         SoundManager.instance.PlayNotificationPopup(buttonClickedSound);
 
-        hideTutorialItems();
+        HidePanelSubItems();
         panelBorderGO.GetComponent<Image>().enabled = false;
         panelBorderGO.GetComponent<BoxCollider>().enabled = false;
     }
@@ -430,7 +430,7 @@ public class NotificationManager : Singleton<NotificationManager> {
         bridgeInited = false;
     }
 
-    private void hideTutorialItems()
+    public void HidePanelSubItems()
     {
         foreach (Transform child in panelBorderGO.transform)
         {

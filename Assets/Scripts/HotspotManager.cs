@@ -93,9 +93,6 @@ public class HotspotManager : Singleton<HotspotManager> {
         {
             currentMood = new Mood("Yellow");
         }
-        else {
-            currentMood = new Mood("Red");
-        }
         changeAllColorsRequest(currentMood);
     }
 

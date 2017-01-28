@@ -79,14 +79,21 @@ public class HueBridgeManager : MonoBehaviour {
 
     public void RetrySetup()
     {
-        // notify subscribers the bridge search has been restarted
-        if (restartSearchForBridge != null)
+        if (SmartLightManager.Instance != null)
         {
-            restartSearchForBridge();
-        }
+            // we only want to run a setup again if no lights exist to prevent duplicates
+            if (SmartLightManager.lights.Count < 1)
+            {
+                // notify subscribers the bridge search has been restarted
+                if (restartSearchForBridge != null)
+                {
+                    restartSearchForBridge();
+                }
 
-        StateManager.Instance.CurrentState = StateManager.HueAppState.Starting;
-        MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
+                StateManager.Instance.CurrentState = StateManager.HueAppState.Starting;
+                MenuStateManager.Instance.CurrentState = MenuStateManager.MenuState.MainMenu;
+            }
+        }
     }
 
     public void InitHueBridgeManager()
