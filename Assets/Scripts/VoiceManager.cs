@@ -28,6 +28,22 @@ public class VoiceManager : MonoBehaviour {
 
     private List<string> colorList;
 
+    private int wrapperLayerMask = 1 << 15;
+
+    // referencing MenuStates for convenience with Gaze and Speak Commands
+    //private MenuStateManager.MenuState hiddenMenu;
+    private MenuStateManager.MenuState mainMenuRef;
+    private MenuStateManager.MenuState linkButtonRef;
+    private MenuStateManager.MenuState linkSuccessRef;
+    private MenuStateManager.MenuState identifyRef;
+    private MenuStateManager.MenuState repeatRef;
+    private MenuStateManager.MenuState setupFinishedRef;
+    private MenuStateManager.MenuState tt_interactionsRef;
+    private MenuStateManager.MenuState tt_voiceRef;
+    private MenuStateManager.MenuState tt_gestureRef;
+    private MenuStateManager.MenuState tt_hotspotRef;
+    private MenuStateManager.MenuState ttFinishedRef;
+
     // Use this for initialization
     void Start () {
         Debug.Log("VoiceMgr Started");
@@ -44,6 +60,19 @@ public class VoiceManager : MonoBehaviour {
         }
 
         RegisterPhrases();
+
+        // referencing for convenience
+        mainMenuRef = MenuStateManager.MenuState.MainMenu;
+        linkButtonRef = MenuStateManager.MenuState.LinkButton;
+        linkSuccessRef = MenuStateManager.MenuState.LinkSuccess;
+        identifyRef = MenuStateManager.MenuState.Identify;
+        repeatRef = MenuStateManager.MenuState.Repeat;
+        setupFinishedRef = MenuStateManager.MenuState.SetupFinished;
+        tt_interactionsRef = MenuStateManager.MenuState.TT_Interactions;
+        tt_voiceRef = MenuStateManager.MenuState.TT_Voice;
+        tt_gestureRef = MenuStateManager.MenuState.TT_Gesture;
+        tt_hotspotRef = MenuStateManager.MenuState.TT_Hotspot;
+        ttFinishedRef = MenuStateManager.MenuState.TTFinished;
     }
 	
 	// Update is called once per frame
@@ -428,6 +457,7 @@ public class VoiceManager : MonoBehaviour {
             HotspotManager.Instance.HideAllHotspots();
         });
 
+
         /// <summary>
         /// "Gaze it say it" commands
         /// </summary>
@@ -435,65 +465,99 @@ public class VoiceManager : MonoBehaviour {
 
         keywords.Add("Tutorial", () =>
         {
-            var focusedObject = GestureManager.Instance.FocusedObject;
-            if (focusedObject != null)
+            // TODO make a more robust and less brittle solution
+            if (MenuStateManager.Instance.CurrentState == mainMenuRef)
             {
-                if (focusedObject.tag == "Tutorial")
+                RaycastHit hitInfo;
+
+                hitInfo = performRayCastCheck();
+
+                if (hitInfo.collider.name == "MenuWrapper")
                 {
                     NotificationManager.Instance.TutorialAction();
                 }
             }
         });
+
         keywords.Add("Next", () =>
         {
-            var focusedObject = GestureManager.Instance.FocusedObject;
-            if (focusedObject != null)
+            // TODO make a more robust and less brittle solution
+            if (MenuStateManager.Instance.CurrentState == linkSuccessRef || MenuStateManager.Instance.CurrentState == identifyRef
+            || MenuStateManager.Instance.CurrentState == tt_interactionsRef || MenuStateManager.Instance.CurrentState == tt_voiceRef
+            || MenuStateManager.Instance.CurrentState == tt_gestureRef)
             {
-                if (focusedObject.tag == "NextButton")
+                RaycastHit hitInfo;
+
+                hitInfo = performRayCastCheck();
+
+                if (hitInfo.collider.name == "MenuWrapper")
                 {
                     NotificationManager.Instance.NextAction();
                 }
-            }
+            }       
         });
+
         keywords.Add("Back", () =>
         {
-            var focusedObject = GestureManager.Instance.FocusedObject;
-            if (focusedObject != null)
+            // TODO make a more robust and less brittle solution
+            if (MenuStateManager.Instance.CurrentState == identifyRef || MenuStateManager.Instance.CurrentState == repeatRef
+            || MenuStateManager.Instance.CurrentState == tt_voiceRef || MenuStateManager.Instance.CurrentState == tt_gestureRef
+            || MenuStateManager.Instance.CurrentState == tt_hotspotRef)
             {
-                if (focusedObject.tag == "BackButton")
+                RaycastHit hitInfo;
+
+                hitInfo = performRayCastCheck();
+
+                if (hitInfo.collider.name == "MenuWrapper")
                 {
                     NotificationManager.Instance.BackAction();
                 }
+
             }
         });
+
         keywords.Add("Finish Tutorial", () =>
         {
-            var focusedObject = GestureManager.Instance.FocusedObject;
-            if (focusedObject != null)
+            // TODO make a more robust and less brittle solution
+            if (MenuStateManager.Instance.CurrentState == tt_hotspotRef)
             {
-                if (focusedObject.tag == "FinishButton")
+                RaycastHit hitInfo;
+
+                hitInfo = performRayCastCheck();
+
+                if (hitInfo.collider.name == "MenuWrapper")
                 {
                     NotificationManager.Instance.FinishAction();
                 }
             }
         });
+
         keywords.Add("Setup", () =>
         {
-            var focusedObject = GestureManager.Instance.FocusedObject;
-            if (focusedObject != null)
+            // TODO make a more robust and less brittle solution
+            if (MenuStateManager.Instance.CurrentState == mainMenuRef)
             {
-                if (focusedObject.tag == "SetupButton")
+                RaycastHit hitInfo;
+
+                hitInfo = performRayCastCheck();
+
+                if (hitInfo.collider.name == "MenuWrapper")
                 {
                     NotificationManager.Instance.SetupAction();
                 }
             }
         });
+
         keywords.Add("Save Configuration", () =>
         {
-            var focusedObject = GestureManager.Instance.FocusedObject;
-            if (focusedObject != null)
+            // TODO make a more robust and less brittle solution
+            if (MenuStateManager.Instance.CurrentState == repeatRef)
             {
-                if (focusedObject.tag == "SaveButton")
+                RaycastHit hitInfo;
+
+                hitInfo = performRayCastCheck();
+
+                if (hitInfo.collider.name == "MenuWrapper")
                 {
                     NotificationManager.Instance.SaveAction();
                 }
@@ -605,5 +669,16 @@ public class VoiceManager : MonoBehaviour {
                 Debug.Log("No tag containing arrayId was found on this focusedObject.");
             }
         }
+    }
+
+    private RaycastHit performRayCastCheck()
+    {
+        RaycastHit hitInfo;
+        if (Physics.Raycast(transform.position, transform.forward, out hitInfo,
+            5f, wrapperLayerMask))
+        {
+            return hitInfo;
+        }
+        return hitInfo;
     }
 }

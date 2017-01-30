@@ -472,6 +472,16 @@ Prefab:
       propertyPath: subModules.Array.data[2].keyPhrase
       value: <b>Turns all lights <color=#59EF91> +  <i>color</i></color></b>
       objectReference: {fileID: 0}
+    - target: {fileID: 114709290111520672, guid: 1c8ebb7fe66514946967ae430004cf98,
+        type: 2}
+      propertyPath: m_Text
+      value: Hue Lights Voice Commands
+      objectReference: {fileID: 0}
+    - target: {fileID: 114712059799001642, guid: 1c8ebb7fe66514946967ae430004cf98,
+        type: 2}
+      propertyPath: m_Text
+      value: Hue Lights Voice Commands
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c8ebb7fe66514946967ae430004cf98, type: 2}
   m_IsPrefabParent: 0
@@ -609,6 +619,52 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 192, y: 60, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &227197865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 227197866}
+  - component: {fileID: 227197867}
+  m_Layer: 15
+  m_Name: MenuWrapper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &227197866
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 227197865}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 944872109}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!65 &227197867
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 227197865}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 600, y: 600, z: 20}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &232350504
 GameObject:
@@ -2334,6 +2390,7 @@ RectTransform:
   - {fileID: 1099077143}
   - {fileID: 893471716}
   - {fileID: 1666070484}
+  - {fileID: 227197866}
   m_Father: {fileID: 232350505}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
