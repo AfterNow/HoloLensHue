@@ -270,6 +270,25 @@ public class VoiceManager : MonoBehaviour {
         {
             SmartLightManager.Instance.TurnOnAllLights();
         });
+        
+        // sets all available lights' brightness to dim value
+        keywords.Add("Dim All Lights", () =>
+        {
+            SmartLightManager.Instance.DimAllLights();
+        });
+        keywords.Add("Dim All The Lights", () =>
+        {
+            SmartLightManager.Instance.DimAllLights();
+        });
+        // sets all available lights' brightness to full value
+        keywords.Add("Undim All Lights", () =>
+        {
+            SmartLightManager.Instance.UndimAllLights();
+        });
+        keywords.Add("Undim All The Lights", () =>
+        {
+            SmartLightManager.Instance.UndimAllLights();
+        });
 
         foreach (string color in colorList)
         {
@@ -480,6 +499,24 @@ public class VoiceManager : MonoBehaviour {
                 }
             }
         });
+
+        /// <summary>
+        /// Hidden color commands
+        /// </summary>
+        /// 
+
+        // Easter Egg color themes by keyPhrase
+        keywords.Add("Set To Disco", () =>
+        {
+            string[] themeColors = new string[5];
+            themeColors[0] = "Blue";
+            themeColors[1] = "Pink";
+            themeColors[2] = "Red";
+            themeColors[3] = "Yellow";
+            themeColors[4] = "Orange";
+            SmartLightManager.Instance.ColorTheme(themeColors, true);
+        });
+
 
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());

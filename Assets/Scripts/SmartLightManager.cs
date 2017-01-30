@@ -224,6 +224,30 @@ public class SmartLightManager : Singleton<SmartLightManager> {
         }
     }
 
+    public void DimAllLights()
+    {
+        for (int i = 0; i < lights.Count; i++)
+        {
+            State currentState;
+            currentState = lights[i].State;
+            currentState.Bri = 100;
+
+            hueAPI.UpdateLight(lights[i]);
+        }
+    }
+
+    public void UndimAllLights()
+    {
+        for (int i = 0; i < lights.Count; i++)
+        {
+            State currentState;
+            currentState = lights[i].State;
+            currentState.Bri = 254;
+
+            hueAPI.UpdateLight(lights[i]);
+        }
+    }
+
     public void ChangeAllLights(List<SmartLight> sls)
     {
         foreach (SmartLight sl in sls)
@@ -261,6 +285,43 @@ public class SmartLightManager : Singleton<SmartLightManager> {
                 {
                     currentColor++;
                 }
+            }
+        }
+    }
+
+    // fun TEMP Easter Egg colors
+    public void ColorTheme(string[] colors, bool blink)
+    {
+        int numOfColors = colors.Length;
+        int colorIndex = 0;
+
+        for (int i = 0; i < lights.Count; i++)
+        {
+            State currentState;
+           
+            // adjusts all found lights to on, full brightness, and color coded to help simplify setup
+            currentState = lights[i].State;
+            currentState.On = true;
+            currentState.Sat = 254;
+            currentState.Bri = 254;
+            currentState.Hue = ColorService.GetHueByColor(colors[colorIndex]);
+
+            if (blink)
+            {
+                currentState.Alert = "lselect";
+            }
+
+            hueAPI.UpdateLight(lights[i]);
+
+            if ((colorIndex + 1) < colors.Length)
+            {
+                Debug.Log("less than");
+                colorIndex++;
+            }
+            else
+            {
+                Debug.Log("reset");
+                colorIndex = 0;
             }
         }
     }
