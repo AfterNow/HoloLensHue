@@ -315,12 +315,10 @@ public class SmartLightManager : Singleton<SmartLightManager> {
 
             if ((colorIndex + 1) < colors.Length)
             {
-                Debug.Log("less than");
                 colorIndex++;
             }
             else
             {
-                Debug.Log("reset");
                 colorIndex = 0;
             }
         }

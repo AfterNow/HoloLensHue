@@ -40,7 +40,7 @@ PlayerSettings:
   m_SplashScreenLogos: []
   m_SplashScreenBackgroundLandscape: {fileID: 0}
   m_SplashScreenBackgroundPortrait: {fileID: 0}
-  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: afc531c92584aa840ace7ff8a46a83a5,
+  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: dec68632b4e679047b617087c172d341,
     type: 3}
   m_HolographicTrackingLossScreen: {fileID: 2800000, guid: d9f23630f5a114f4d9e22db2e88b6b13,
     type: 3}
