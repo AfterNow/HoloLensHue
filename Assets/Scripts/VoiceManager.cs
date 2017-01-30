@@ -29,6 +29,7 @@ public class VoiceManager : MonoBehaviour {
     private List<string> colorList;
 
     private int wrapperLayerMask = 1 << 15;
+    private RaycastHit hitInfo;
 
     // referencing MenuStates for convenience with Gaze and Speak Commands
     //private MenuStateManager.MenuState hiddenMenu;
@@ -468,11 +469,10 @@ public class VoiceManager : MonoBehaviour {
             // TODO make a more robust and less brittle solution
             if (MenuStateManager.Instance.CurrentState == mainMenuRef)
             {
-                RaycastHit hitInfo;
+                bool hitMenuWrapper;
+                hitMenuWrapper = raycastHitMenuWrapper();
 
-                hitInfo = performRayCastCheck();
-
-                if (hitInfo.collider.name == "MenuWrapper")
+                if (hitMenuWrapper)
                 {
                     NotificationManager.Instance.TutorialAction();
                 }
@@ -486,11 +486,10 @@ public class VoiceManager : MonoBehaviour {
             || MenuStateManager.Instance.CurrentState == tt_interactionsRef || MenuStateManager.Instance.CurrentState == tt_voiceRef
             || MenuStateManager.Instance.CurrentState == tt_gestureRef)
             {
-                RaycastHit hitInfo;
+                bool hitMenuWrapper;
+                hitMenuWrapper = raycastHitMenuWrapper();
 
-                hitInfo = performRayCastCheck();
-
-                if (hitInfo.collider.name == "MenuWrapper")
+                if (hitMenuWrapper)
                 {
                     NotificationManager.Instance.NextAction();
                 }
@@ -504,15 +503,13 @@ public class VoiceManager : MonoBehaviour {
             || MenuStateManager.Instance.CurrentState == tt_voiceRef || MenuStateManager.Instance.CurrentState == tt_gestureRef
             || MenuStateManager.Instance.CurrentState == tt_hotspotRef)
             {
-                RaycastHit hitInfo;
+                bool hitMenuWrapper;
+                hitMenuWrapper = raycastHitMenuWrapper();
 
-                hitInfo = performRayCastCheck();
-
-                if (hitInfo.collider.name == "MenuWrapper")
+                if (hitMenuWrapper)
                 {
                     NotificationManager.Instance.BackAction();
                 }
-
             }
         });
 
@@ -521,11 +518,10 @@ public class VoiceManager : MonoBehaviour {
             // TODO make a more robust and less brittle solution
             if (MenuStateManager.Instance.CurrentState == tt_hotspotRef)
             {
-                RaycastHit hitInfo;
+                bool hitMenuWrapper;
+                hitMenuWrapper = raycastHitMenuWrapper();
 
-                hitInfo = performRayCastCheck();
-
-                if (hitInfo.collider.name == "MenuWrapper")
+                if (hitMenuWrapper)
                 {
                     NotificationManager.Instance.FinishAction();
                 }
@@ -537,11 +533,10 @@ public class VoiceManager : MonoBehaviour {
             // TODO make a more robust and less brittle solution
             if (MenuStateManager.Instance.CurrentState == mainMenuRef)
             {
-                RaycastHit hitInfo;
+                bool hitMenuWrapper;
+                hitMenuWrapper = raycastHitMenuWrapper();
 
-                hitInfo = performRayCastCheck();
-
-                if (hitInfo.collider.name == "MenuWrapper")
+                if (hitMenuWrapper)
                 {
                     NotificationManager.Instance.SetupAction();
                 }
@@ -553,11 +548,10 @@ public class VoiceManager : MonoBehaviour {
             // TODO make a more robust and less brittle solution
             if (MenuStateManager.Instance.CurrentState == repeatRef)
             {
-                RaycastHit hitInfo;
+                bool hitMenuWrapper;
+                hitMenuWrapper = raycastHitMenuWrapper();
 
-                hitInfo = performRayCastCheck();
-
-                if (hitInfo.collider.name == "MenuWrapper")
+                if (hitMenuWrapper)
                 {
                     NotificationManager.Instance.SaveAction();
                 }
@@ -580,7 +574,6 @@ public class VoiceManager : MonoBehaviour {
             themeColors[4] = "Orange";
             SmartLightManager.Instance.ColorTheme(themeColors, true);
         });
-
 
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
@@ -671,14 +664,16 @@ public class VoiceManager : MonoBehaviour {
         }
     }
 
-    private RaycastHit performRayCastCheck()
+    private bool raycastHitMenuWrapper()
     {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo,
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitInfo,
             5f, wrapperLayerMask))
         {
-            return hitInfo;
+            if (hitInfo.collider.name == "MenuWrapper")
+            {
+                return true;
+            }
         }
-        return hitInfo;
+        return false;
     }
 }
